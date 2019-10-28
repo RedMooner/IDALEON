@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DEMO: horizontal-light</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      #transparencyRange {
+        float: right;
+      }
+      #anim {
+        background-color: wheat;
+      }
+      #anim_ {
+        width: 100%;
+        height: 30px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../themes/material-light.css"
+    />
+    <script type="text/javascript" src="./jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="bar"></div>
+    <div class="anim">
+      <div id="nav-body-ctrls">
+        <!-- address -->
+        <input
+          type="range"
+          value="0.95"
+          min="0.1"
+          max="1"
+          step="0.05"
+          id="transparencyRange"
+        />
+      </div>
+      <div id="nav-body-tabs">
+        <!-- tabs -->
+      </div>
+    </div>
+
+    <div id="nav-body-views">
+      <!-- view -->
+    </div>
+    <div class="anim_">asdsd</div>
+
+    <script>
+      $("#bar").hover(
+        function() {
+          $(".anim").slideDown("slow");
+        },
+        function() {}
+      );
+      $(".anim").hover(
+        function() {
+          // $(this).slideUp("slow");
+        },
+        function() {
+          $(".anim").slideUp("slow");
+        }
+      );
+      $(".anim_").hover(
+        function() {
+          $(".anim").slideDown("slow");
+        },
+        function() {}
+      );
+    </script>
+    <script>
+      function zoomIn() {}
+      function zoomOut() {}
+    </script>
+    <script>
+      var bar = document.getElementById("bar");
+      const electronTitlebarWindows = require("electron-titlebar-windows");
+      const { remote } = require("electron");
+      const { ipcRenderer } = require("electron");
+      var zoom = 0;
+      // ipc
+      function zoomIn() {
+        const webview = document.querySelector("webview");
+        let actualZoom = zoom;
+        if (actualZoom == null) {
+          actualZoom = 1;
+        }
+        webview.setZoomFactor(actualZoom + 1);
+        zoom = actualZoom + 1;
+      }
+
+      function zoomOut() {
+        const webview = document.querySelector("webview");
+        let actualZoom = zoom;
+        if (actualZoom == null) {
+          actualZoom = 1;
+        }
+        webview.setZoomFactor(actualZoom - 1);
+        zoom = actualZoom - 1;
+      }
+      ipcRenderer.on("web_view_range", (event, arg) => {
+        const webview = document.querySelector("webview");
+        const { webFrame } = require("electron");
+
+        console.log(arg); // prints "pong"
+        if (arg == "plus") {
+          //  webFrame.setZoomFactor(a++);
+          zoomIn();
+          // var a = webFrame.getZoomLevel();
+        } else {
+          // webFrame.setZoomFactor(a--);
+          zoomOut();
+        }
+      });
+      ipcRenderer.on("drag", (event, arg) => {
+        const { BrowserWindow } = require("electron").remote;
+        var win = BrowserWindow.getFocusedWindow();
+        const webview = document.querySelector("webview");
+        var area = document.getElementById("nav-body-views");
+        //  win.focus();
+        //   var area = document.body;
+        if (arg == "true") {
+          area.setAttribute("style", "-webkit-app-region: drag;");
+          //  win.reload();
+
+          webview.reload();
+        } else {
+          area.setAttribute("style", "-webkit-app-region: no-drag;");
+          //  win.reload();
+
+          webview.reload();
+        }
+      });
+      //
+
+      /** Options */
+
+      let titlebar = new electronTitlebarWindows({
+        darkMode: false,
+        color: "rgb(220, 200, 200)",
+        backgroundColor: "rgb(24,22,23)",
+        draggable: true,
+        fullscreen: false
+      });
+      /**
+       * DOM
+       */
+      titlebar.appendTo(bar);
+      /** Event#close */
+      titlebar.on("close", () => {
+        console.info("close");
+        remote.getCurrentWindow().close();
+      });
+      /** Event#fullscreen */
+      titlebar.on("fullscreen", () => {
+        console.info("fullscreen");
+        remote.getCurrentWindow().setFullScreen(true);
+      });
+      /** Event#minimize */
+      titlebar.on("minimize", () => {
+        console.info("minimize");
+        remote.getCurrentWindow().minimize();
+      });
+      /** Event#maximize */
+      titlebar.on("maximize", () => {
+        console.info("maximize");
+        remote.getCurrentWindow().setFullScreen(false);
+        remote.getCurrentWindow().maximize();
+      });
+      titlebar.on("hover", () => {});
+    </script>
+    <script>
+      /* production */
+      // const enav = new (require('electron-navigation'))();
+
+      /* development */
+      const enav = new (require("../index.js"))();
+
+      // create a new tab to www.google.com
+      enav.newTab(`file:///${__dirname}/mainPage.html`, {
+        icon: "images/site-icon.ico",
+        title: "Local file",
+        close: "false"
+      });
+
+      $("#transparencyRange").change(function() {
+        var opacityValue = $(this).val();
+        changeOpacity(opacityValue);
+      });
+      function changeOpacity(opacity) {
+        $("body").css("opacity", opacity);
+      }
+    </script>
+  </body>
+</html>
