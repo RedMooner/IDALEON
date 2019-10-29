@@ -12,9 +12,7 @@
         display: flex;
         flex-direction: column;
       }
-      #transparencyRange {
-        float: right;
-      }
+
       #anim {
         background-color: wheat;
       }
@@ -22,12 +20,88 @@
         width: 100%;
         height: 30px;
       }
+      .range__slider {
+        position: relative;
+        width: 150px;
+        height: calc(40px - 10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(255, 255, 255);
+        border-radius: 8px;
+      }
+      .range__slider::before,
+      .range__slider::after {
+        position: absolute;
+        color: rgb(2, 33, 99);
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      .range__slider::before {
+        content: attr(data-min);
+        left: 10px;
+      }
+      .range__slider::after {
+        content: attr(data-max);
+        right: 10px;
+      }
+      .range__slider .length__title::after {
+        content: attr(data-length);
+        position: absolute;
+        right: -1px;
+        padding-top: -3px;
+
+        font-variant-numeric: tabular-nums;
+        color: rgb(9, 32, 110);
+      }
+
+      #slider {
+        -webkit-appearance: none;
+        width: calc(100% - (70px));
+        height: 5px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.314);
+        outline: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+      }
+      #slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: blue;
+        cursor: pointer;
+        transition: all 0.15s ease-in-out;
+      }
+      #slider::-webkit-slider-thumb:hover {
+        background: #8605ff;
+        transform: scale(1.2);
+      }
+      #slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        border-radius: 50%;
+        background: blue;
+        cursor: pointer;
+        transition: background 0.15s ease-in-out;
+      }
+      #slider::-moz-range-thumb:hover {
+        background: blue;
+      }
+      .right {
+        float: right;
+        position: relative;
+      }
     </style>
     <link
       rel="stylesheet"
       type="text/css"
       href="../themes/material-light.css"
     />
+    <link rel="stylesheet" type="text/css" href="../themes/w.scss" />
     <script type="text/javascript" src="./jquery.js"></script>
   </head>
 
@@ -36,15 +110,20 @@
     <div class="anim">
       <div id="nav-body-ctrls">
         <!-- address -->
-        <input
-          type="range"
-          value="0.95"
-          min="0.1"
-          max="1"
-          step="0.05"
-          id="transparencyRange"
-        />
+        <div class="right">
+          <div class="length range__slider">
+            <input
+              type="range"
+              value="0.95"
+              min="0.1"
+              max="1"
+              step="0.05"
+              id="slider"
+            />
+          </div>
+        </div>
       </div>
+
       <div id="nav-body-tabs">
         <!-- tabs -->
       </div>
@@ -56,6 +135,7 @@
     <div class="anim_">asdsd</div>
 
     <script>
+      $(window).load(function() {});
       $("#bar").hover(
         function() {
           $(".anim").slideDown("slow");
@@ -192,7 +272,7 @@
         close: "false"
       });
 
-      $("#transparencyRange").change(function() {
+      $("#slider").change(function() {
         var opacityValue = $(this).val();
         changeOpacity(opacityValue);
       });
