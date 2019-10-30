@@ -1,3 +1,24 @@
-audited 737 packages in 6.523s
+
+> iohook@0.6.1 install D:\GitHub\Browser\node_modules\iohook
+> node install.js
+
+Downloading prebuild for platform: iohook-v0.6.1-node-v64-win32-x64
+Downloading prebuild.tar.gz
+[>                                            ] 0.0% (0 B/s)
+[1000D[0K[1A[1000D[0K[1A[1000D[0KDownloading prebuild.tar.gz
+[>                                            ] 0.0% of 30 kB (0 B/s)
+[1000D[0K[1A[1000D[0K[1A[1000D[0KDownloading prebuild.tar.gz
+[=========================>                   ] 58.5% of 30 kB (17.54 kB/s)
+[1000D[0K[1A[1000D[0K[1A[1000D[0KDownloading prebuild.tar.gz
+[============================================>] 100.0% of 30 kB (30 kB/s)
+[1000D[0K[1A[1000D[0K[1A[1000D[0KDownloading prebuild.tar.gz
+[============================================>] 100.0% of 30 kB (30 kB/s)
+[1000D[0K[1A[1000D[0K[1A[1000D[0KDownloading prebuild.tar.gz
+[============================================>] 100.0% of 30 kB (30 kB/s)
+
+> electron@2.0.18 postinstall D:\GitHub\Browser\node_modules\electron
+> node install.js
+
+added 350 packages from 608 contributors and audited 739 packages in 39.31s
 found 2 vulnerabilities (1 low, 1 critical)
   run `npm audit fix` to fix them, or `npm audit` for details

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, Tray, ipcMain } = require("electron");
+﻿const { app, BrowserWindow, Menu, Tray, ipcMain } = require("electron");
 const electronLocalshortcut = require("electron-localshortcut");
 let demo;
 var drag = false;
@@ -31,17 +31,17 @@ app.on("ready", () => {
   });
 });
 function SetTray() {
-  tray = new Tray("img/tray.jpg");
+  tray = new Tray("img/tray.png");
   const contextMenu = Menu.buildFromTemplate([
-    { label: "Exit", role: "quit" },
     {
-      label: "Disable/Enable Skip Mouse Events",
+      label: "Unlock Window",
       click: function() {
         console.log("disable");
         demo.setIgnoreMouseEvents(false);
         demo.webContents.send("disable_skip_tray", "false");
       }
-    }
+    },
+    { label: "Close IDALEON", role: "quit" }
   ]);
   tray.setToolTip("This is my application.");
   tray.setContextMenu(contextMenu);
@@ -73,5 +73,5 @@ function ShowNoty(value_title, value_body) {
   note.show();
 }
 ipcMain.on("noty", (event, arg) => {
-  ShowNoty("Заблокировано!", arg);
+  ShowNoty("Окно заблокировано!", arg);
 });

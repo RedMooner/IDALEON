@@ -185,7 +185,7 @@ function Navigation(options) {
     }
     //NAV.newTab("file:///${__dirname}/mainPage.html");
     NAV.newTab(`file:///${__dirname}/mainPage.html`, {
-      icon: "images/site-icon.ico",
+      icon: "../img/site-icon.png",
       title: "Local file",
       close: "false"
     });
