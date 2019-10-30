@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>DEMO: horizontal-light</title>
+
     <style>
       html,
       body {
@@ -106,11 +107,13 @@
   </head>
 
   <body>
-    <div id="bar"></div>
     <div class="anim">
+      <div id="bar"></div>
+
       <div id="nav-body-ctrls">
         <!-- address -->
         <div class="right">
+          <button onclick="mouse_ignore()">Якорь</button>
           <div class="length range__slider">
             <input
               type="range"
@@ -135,6 +138,22 @@
     <div class="anim_">asdsd</div>
 
     <script>
+      var ignore = false;
+      function mouse_ignore() {
+        const { BrowserWindow } = require("electron").remote;
+        var win = BrowserWindow.getFocusedWindow();
+        if (ignore == true) {
+          win.setIgnoreMouseEvents(false);
+          ignore = false;
+        } else {
+          win.setIgnoreMouseEvents(true);
+          ignore = true;
+          ipcRenderer.send(
+            "noty",
+            "Нажмите на кнопку в трее или комбинацию Ctrl + E "
+          );
+        }
+      }
       $(window).load(function() {});
       $("#bar").hover(
         function() {
@@ -144,7 +163,7 @@
       );
       $(".anim").hover(
         function() {
-          // $(this).slideUp("slow");
+          $(this).slideDown("slow");
         },
         function() {
           $(".anim").slideUp("slow");
@@ -187,6 +206,23 @@
         webview.setZoomFactor(actualZoom - 1);
         zoom = actualZoom - 1;
       }
+      //disable_skip
+      ipcRenderer.on("disable_skip", (event, arg) => {
+        const { BrowserWindow } = require("electron").remote;
+        var win = BrowserWindow.getFocusedWindow();
+        if ((arg = "false")) {
+          console.log("b false");
+          win.setIgnoreMouseEvents(false);
+          ignore = false;
+        } else {
+          console.log("a");
+          win.setIgnoreMouseEvents(true);
+          ignore = true;
+        }
+      });
+      ipcRenderer.on("disable_skip_tray", (event, arg) => {
+        ignore = false;
+      });
       ipcRenderer.on("web_view_range", (event, arg) => {
         const webview = document.querySelector("webview");
         const { webFrame } = require("electron");

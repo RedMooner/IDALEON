@@ -1,0 +1,1 @@
+npm run demo1 > start.log
