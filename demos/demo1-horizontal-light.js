@@ -18,17 +18,6 @@ app.on("ready", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
   });
-  electronLocalshortcut.register(demo, "Ctrl+D", () => {
-    if (drag == false) {
-      demo.webContents.send("drag", "true");
-      drag = true;
-      console.log("Drag" + drag);
-    } else {
-      demo.webContents.send("drag", "false");
-      drag = false;
-      console.log("Drag" + drag);
-    }
-  });
 });
 function SetTray() {
   tray = new Tray("img/tray.png");
@@ -50,7 +39,8 @@ function createBrowser() {
   demo = new BrowserWindow({
     transparent: true,
     frame: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    icon: "img/main.png"
   });
   demo.loadURL(`file:///${__dirname}/demo1-horizontal-light.html`);
   demo.on("close", () => {

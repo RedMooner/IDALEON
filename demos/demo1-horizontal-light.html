@@ -102,11 +102,11 @@
         -ms-transition: all 0.3s ease-in-out;
         -o-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
-        -webkit-transform: translateY(-95%);
-        -moz-transform: translateY(-95%);
-        -ms-transform: translateY(-95%);
-        -o-transform: translateY(-95%);
-        transform: translateY(-95%);
+        -webkit-transform: translateY(-90%);
+        -moz-transform: translateY(-90%);
+        -ms-transform: translateY(-90%);
+        -o-transform: translateY(-90%);
+        transform: translateY(-90%);
       }
       .animate:hover {
         -webkit-transform: translateX(0%);
@@ -140,6 +140,9 @@
             <img src="../img/lock.png" />
           </button>
         </p>
+
+        <button onclick="altop()">Поверх всех окно вкл\вкл</button>
+
         <div class="right">
           <p title="Прозрачность окна">
             <input
@@ -149,6 +152,11 @@
               max="1"
               step="0.05"
               id="slider"
+              style="background: linear-gradient(90deg, rgb(11, 30, 223) 35.7143%, rgba(255, 255, 255, 0.216) 35.8143%);"
+              onchange="
+              
+              "
+            />
             />
           </p>
         </div>
@@ -165,6 +173,21 @@
 
     <script>
       var ignore = false;
+
+      function altop() {
+        const { BrowserWindow } = require("electron").remote;
+        var win = BrowserWindow.getFocusedWindow();
+        var top = win.isAlwaysOnTop();
+        if (top == true) {
+          win.setAlwaysOnTop(false);
+          top = false;
+          alert("не top");
+        } else {
+          win.setAlwaysOnTop(true);
+          top = true;
+          alert("top");
+        }
+      }
       function mouse_ignore() {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
@@ -331,11 +354,26 @@
         title: "Local file",
         close: "false"
       });
-
+      function applyFill() {
+        var slider = document.getElementById("slider");
+        const sliderProps = {
+          fill: "#0B1EDF",
+          background: "rgba(255, 255, 255, 0.214)"
+        };
+        const percentage =
+          (100 * (slider.value - slider.min)) / (slider.max - slider.min);
+        const bg = `linear-gradient(90deg, ${
+          sliderProps.fill
+        } ${percentage}%, ${sliderProps.background} ${percentage + 0.1}%)`;
+        slider.style.background = bg;
+      }
       $("#slider").change(function() {
         var opacityValue = $(this).val();
         changeOpacity(opacityValue);
+
+        applyFill();
       });
+
       function changeOpacity(opacity) {
         $("#nav-body-views").css("opacity", opacity);
       }
