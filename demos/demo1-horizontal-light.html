@@ -101,7 +101,7 @@
         -moz-transition: all 0.3s ease-in-out;
         -ms-transition: all 0.3s ease-in-out;
         -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.42s ease-in-out;
         -webkit-transform: translateY(-90%);
         -moz-transform: translateY(-90%);
         -ms-transform: translateY(-90%);
@@ -140,10 +140,10 @@
             <img src="../img/lock.png" />
           </button>
         </p>
-
-        <button onclick="altop()">Поверх всех окно вкл\вкл</button>
-
+	<p title="Поверх всех окон">
+        <button onclick="altop()"> <img src="../img/layer.png"/></button>
         <div class="right">
+         </p>
           <p title="Прозрачность окна">
             <input
               type="range"
@@ -156,7 +156,6 @@
               onchange="
               
               "
-            />
             />
           </p>
         </div>
