@@ -56,10 +56,10 @@
         color: rgb(9, 32, 110);
       }
 
-      #slider {
+		#slider {
         -webkit-appearance: none;
-        width: calc(100% - (70px));
-        height: 5px;
+        width: calc(100% - (2px));
+        height: 30px;
         border-radius: 5px;
         background: rgba(0, 0, 0, 0.314);
         outline: none;
@@ -112,22 +112,21 @@
 
       <div id="nav-body-ctrls">
         <!-- address -->
-        <div class="right">
-          <button onclick="mouse_ignore()">Якорь</button>
-          <div class="length range__slider">
-            <input
+	<p title="Заблокировать окно"><button onclick="mouse_ignore()"><img src="../img/lock.png"></button></p>
+		<div class="right">
+            <p title="Прозрачность окна"><input
               type="range"
-              value="0.95"
-              min="0.1"
+              value="1"
+              min="0.05"
               max="1"
               step="0.05"
               id="slider"
-            />
-          </div>
+            /></p>
         </div>
       </div>
 
       <div id="nav-body-tabs">
+      		
         <!-- tabs -->
       </div>
     </div>
@@ -150,7 +149,7 @@
           ignore = true;
           ipcRenderer.send(
             "noty",
-            "Нажмите на кнопку в трее или комбинацию Ctrl + E "
+            "Unlock: CTRL + E / and tray"
           );
         }
       }
@@ -304,7 +303,7 @@
 
       // create a new tab to www.google.com
       enav.newTab(`file:///${__dirname}/mainPage.html`, {
-        icon: "images/site-icon.ico",
+        icon: "../img/site-icon.png",
         title: "Local file",
         close: "false"
       });
