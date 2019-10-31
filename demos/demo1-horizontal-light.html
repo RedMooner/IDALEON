@@ -56,7 +56,7 @@
         color: rgb(9, 32, 110);
       }
 
-		#slider {
+      #slider {
         -webkit-appearance: none;
         width: calc(100% - (2px));
         height: 30px;
@@ -96,6 +96,29 @@
         float: right;
         position: relative;
       }
+      .animate {
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        -webkit-transform: translateY(-95%);
+        -moz-transform: translateY(-95%);
+        -ms-transform: translateY(-95%);
+        -o-transform: translateY(-95%);
+        transform: translateY(-95%);
+      }
+      .animate:hover {
+        -webkit-transform: translateX(0%);
+        -moz-transform: translateX(0%);
+        -ms-transform: translateX(0%);
+        -o-transform: translateX(0%);
+        transform: translateX(0%);
+      }
+      #nav-body-views {
+        width: 100%;
+        height: 100%;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -107,26 +130,31 @@
   </head>
 
   <body>
-    <div class="anim">
+    <div class="animate">
       <div id="bar"></div>
 
       <div id="nav-body-ctrls">
         <!-- address -->
-	<p title="Заблокировать окно"><button onclick="mouse_ignore()"><img src="../img/lock.png"></button></p>
-		<div class="right">
-            <p title="Прозрачность окна"><input
+        <p title="Заблокировать окно">
+          <button onclick="mouse_ignore()">
+            <img src="../img/lock.png" />
+          </button>
+        </p>
+        <div class="right">
+          <p title="Прозрачность окна">
+            <input
               type="range"
               value="1"
               min="0.05"
               max="1"
               step="0.05"
               id="slider"
-            /></p>
+            />
+          </p>
         </div>
       </div>
 
       <div id="nav-body-tabs">
-      		
         <!-- tabs -->
       </div>
     </div>
@@ -134,7 +162,6 @@
     <div id="nav-body-views">
       <!-- view -->
     </div>
-    <div class="anim_">asdsd</div>
 
     <script>
       var ignore = false;
@@ -147,10 +174,7 @@
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
-          ipcRenderer.send(
-            "noty",
-            "Unlock: CTRL + E / and tray"
-          );
+          ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
         }
       }
       $(window).load(function() {});
@@ -313,7 +337,7 @@
         changeOpacity(opacityValue);
       });
       function changeOpacity(opacity) {
-        $("body").css("opacity", opacity);
+        $("#nav-body-views").css("opacity", opacity);
       }
     </script>
   </body>
