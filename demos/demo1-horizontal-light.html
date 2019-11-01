@@ -89,6 +89,7 @@
       .right {
         float: right;
       }
+
       .animate {
         z-index: 2;
         position: absolute;
@@ -156,7 +157,6 @@
         <p title="Поверх всех окон">
           <button onclick="altop()"><img src="../img/layer.png" /></button>
         </p>
-
         <p title="Прозрачность окна">
           <input
             type="range"
@@ -211,10 +211,12 @@
         if (ignore == true) {
           win.setIgnoreMouseEvents(false);
           ignore = false;
+          ipcRenderer.send("ignore", false);
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
           ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
+          ipcRenderer.send("ignore", true);
         }
       }
       $(window).load(function() {});
@@ -247,6 +249,10 @@
         zoom = actualZoom - 1;
       }
       //disable_skip
+      ipcRenderer.on("change_opacity", (event, arg) => {
+        changeOpacity(arg);
+        change_input_value(arg);
+      });
       ipcRenderer.on("disable_skip", (event, arg) => {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
@@ -359,6 +365,9 @@
 
       function changeOpacity(opacity) {
         $("#nav-body-views").css("opacity", opacity);
+      }
+      function change_input_value(value) {
+        document.getElementById("slider").value = value;
       }
     </script>
   </body>

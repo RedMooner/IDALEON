@@ -1,30 +1,78 @@
 ﻿const { app, BrowserWindow, Menu, Tray, ipcMain } = require("electron");
 const electronLocalshortcut = require("electron-localshortcut");
 let demo;
-var drag = false;
+var ignore = false;
 const Notification = require("@wuild/electron-notification");
 app.on("ready", () => {
   createBrowser();
   SetTray();
+  // для прозрачности
+  electronLocalshortcut.register(demo, "Ctrl+0", () => {
+    demo.webContents.send("change_opacity", 1);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+1", () => {
+    demo.webContents.send("change_opacity", 0.1);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+2", () => {
+    demo.webContents.send("change_opacity", 0.2);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+3", () => {
+    demo.webContents.send("change_opacity", 0.3);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+4", () => {
+    demo.webContents.send("change_opacity", 0.4);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+5", () => {
+    demo.webContents.send("change_opacity", 0.5);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+6", () => {
+    demo.webContents.send("change_opacity", 0.6);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+7", () => {
+    demo.webContents.send("change_opacity", 0.7);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+8", () => {
+    demo.webContents.send("change_opacity", 0.8);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+9", () => {
+    demo.webContents.send("change_opacity", 0.9);
+  });
+  // для общих настроек
   electronLocalshortcut.register(demo, "Alt+=", () => {
     console.log("You pressed alt & + ++++");
     demo.webContents.send("web_view_range", "plus");
   });
   electronLocalshortcut.register(demo, "Ctrl+E", () => {
-    console.log("disable_skip");
-    demo.setIgnoreMouseEvents(true);
-    ShowNoty("Окно заблокировано!", "Ctrl D или трей");
+    if (ignore == false) {
+      console.log("disable_skip");
+      demo.setIgnoreMouseEvents(true);
+      ShowNoty("Окно заблокировано!", "Ctrl D или трей");
+      ignore = true;
+    } else {
+      console.log("disable_skip");
+      demo.webContents.send("disable_skip", "false");
+      demo.setIgnoreMouseEvents(false);
+      ignore = false;
+    }
   });
   electronLocalshortcut.register(demo, "Ctrl+D", () => {
-    console.log("disable_skip");
-    demo.webContents.send("disable_skip", "false");
-    demo.setIgnoreMouseEvents(false);
+    var top = demo.isAlwaysOnTop();
+    if (top == true) {
+      demo.setAlwaysOnTop(false);
+      top = false;
+      //  alert("не top");
+    } else {
+      demo.setAlwaysOnTop(true);
+      top = true;
+      // alert("top");
+    }
   });
   electronLocalshortcut.register(demo, "Alt+-", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
   });
 });
+
 function SetTray() {
   tray = new Tray("img/tray.png");
   const contextMenu = Menu.buildFromTemplate([
@@ -70,4 +118,8 @@ function ShowNoty(value_title, value_body) {
 }
 ipcMain.on("noty", (event, arg) => {
   ShowNoty("Окно заблокировано!", arg);
+});
+ipcMain.on("ignore", (event, arg) => {
+  ignore = arg;
+  console.log(arg);
 });
