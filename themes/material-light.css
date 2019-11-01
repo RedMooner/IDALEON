@@ -9,6 +9,7 @@
   font-family: arial;
 }
 #nav-body-views {
+  background-color: #ffffff;
   flex: 1;
 }
 .nav-icons {
