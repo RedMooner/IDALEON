@@ -99,6 +99,15 @@
         position: relative;
       }
       .animate {
+        -webkit-user-select: none;
+-moz-user-select: none;
+        -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         -ms-transition: all 0.3s ease-in-out;
@@ -132,8 +141,9 @@
   </head>
 
   <body>
+     
     <div class="animate">
-      <div id="bar"></div>
+        <div id="bar"></div>
 
       <div id="nav-body-ctrls">
         <!-- address -->
@@ -173,8 +183,14 @@
     </div>
 
     <script>
+    
       var ignore = false;
-
+      var el = document.getElementsByClassName("animate");
+      el.onmousedown = function (e) {
+    if (window.event.stopPropagation) window.event.stopPropagation();
+    window.event.cancelBubble = true;
+    e.cancelBubble = true;
+}
       function altop() {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
