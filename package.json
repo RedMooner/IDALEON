@@ -44,6 +44,7 @@
     "custom-electron-titlebar": "^3.1.0",
     "electron-context-menu": "^0.9.1",
     "electron-localshortcut": "^3.1.0",
+    "electron-titlebar": "0.0.3",
     "electron-titlebar-windows": "^3.0.0",
     "iohook": "^0.6.1",
     "jquery": "^3.3.1",
