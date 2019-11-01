@@ -12,6 +12,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        
       }
 
       #anim {
@@ -21,77 +22,78 @@
         width: 100%;
         height: 30px;
       }
-      .range__slider {
-        position: relative;
-        width: 150px;
-        height: calc(40px - 10px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgb(255, 255, 255);
-        border-radius: 8px;
-      }
-      .range__slider::before,
-      .range__slider::after {
-        position: absolute;
-        color: rgb(2, 33, 99);
-        font-size: 0.9rem;
-        font-weight: bold;
-      }
-      .range__slider::before {
-        content: attr(data-min);
-        left: 10px;
-      }
-      .range__slider::after {
-        content: attr(data-max);
-        right: 10px;
-      }
-      .range__slider .length__title::after {
-        content: attr(data-length);
-        position: absolute;
-        right: -1px;
-        padding-top: -3px;
+      input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 0; /* iOS */
+}
 
-        font-variant-numeric: tabular-nums;
-        color: rgb(9, 32, 110);
-      }
+::-webkit-slider-runnable-track {
+    background: #ddd;
+}
 
-      #slider {
-        -webkit-appearance: none;
-        width: calc(100% - (2px));
-        height: 30px;
-        border-radius: 5px;
-        background: rgba(0, 0, 0, 0.314);
-        outline: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-      }
-      #slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: blue;
-        cursor: pointer;
-        transition: all 0.15s ease-in-out;
-      }
-      #slider::-webkit-slider-thumb:hover {
-        background: #8605ff;
-        transform: scale(1.2);
-      }
-      #slider::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        border: 0;
-        border-radius: 50%;
-        background: blue;
-        cursor: pointer;
-        transition: background 0.15s ease-in-out;
-      }
-      #slider::-moz-range-thumb:hover {
-        background: blue;
-      }
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    border: 2px solid #999; /* 1 */
+}
+
+::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+}
+
+::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    box-sizing: border-box;
+}
+
+::-ms-fill-lower { 
+    background: dodgerblue;
+}
+
+::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+    display: none; 
+}
+
+::-ms-ticks-before { 
+    display: none; 
+}
+
+::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip { 
+    display: none;
+}
       .right {
         float: right;
         position: relative;
@@ -257,11 +259,11 @@
         var win = BrowserWindow.getFocusedWindow();
         if ((arg = "false")) {
           console.log("b false");
-          win.setIgnoreMouseEvents(false);
+      
           ignore = false;
         } else {
           console.log("a");
-          win.setIgnoreMouseEvents(true);
+    
           ignore = true;
         }
       });

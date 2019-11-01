@@ -12,7 +12,13 @@ app.on("ready", () => {
   });
   electronLocalshortcut.register(demo, "Ctrl+E", () => {
     console.log("disable_skip");
+    demo.setIgnoreMouseEvents(true);
+    ShowNoty("Окно заблокировано!", "Ctrl D или трей");
+  });
+  electronLocalshortcut.register(demo, "Ctrl+D", () => {
+    console.log("disable_skip");
     demo.webContents.send("disable_skip", "false");
+    demo.setIgnoreMouseEvents(false);
   });
   electronLocalshortcut.register(demo, "Alt+-", () => {
     console.log("You pressed alt & ------");
