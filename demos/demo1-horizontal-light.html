@@ -165,6 +165,7 @@
             max="1"
             step="0.05"
             id="slider"
+            oninput="onChange()"
           />
         </p>
       </div>
@@ -347,10 +348,14 @@
         close: "false"
       });
 
-      $("#slider").change(function() {
-        var opacityValue = $(this).val();
+      function onChange() {
+        var opacityValue = $("#slider").val();
         changeOpacity(opacityValue);
-      });
+      }
+      // $("#slider").change(function() {
+      //  var opacityValue = $(this).val();
+      //  changeOpacity(opacityValue);
+      // });
 
       function changeOpacity(opacity) {
         $("#nav-body-views").css("opacity", opacity);
