@@ -12,7 +12,6 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        
       }
 
       #anim {
@@ -22,93 +21,93 @@
         width: 100%;
         height: 30px;
       }
-      input[type="range"] { 
-    margin: auto;
-    -webkit-appearance: none;
-    position: relative;
-    overflow: hidden;
-    height: 40px;
-    width: 200px;
-    cursor: pointer;
-    border-radius: 0; /* iOS */
-}
+      input[type="range"] {
+        margin: auto;
+        -webkit-appearance: none;
+        position: relative;
+        overflow: hidden;
+        height: 40px;
+        width: 200px;
+        cursor: pointer;
+        border-radius: 0; /* iOS */
+      }
 
-::-webkit-slider-runnable-track {
-    background: #ddd;
-}
+      ::-webkit-slider-runnable-track {
+        background: #ddd;
+      }
 
-/*
+      /*
  * 1. Set to 0 width and remove border for a slider without a thumb
  */
-::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px; /* 1 */
-    height: 40px;
-    background: #fff;
-    box-shadow: -100vw 0 0 100vw dodgerblue;
-    border: 2px solid #999; /* 1 */
-}
+      ::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px; /* 1 */
+        height: 40px;
+        background: #fff;
+        box-shadow: -100vw 0 0 100vw dodgerblue;
+        border: 2px solid #999; /* 1 */
+      }
 
-::-moz-range-track {
-    height: 40px;
-    background: #ddd;
-}
+      ::-moz-range-track {
+        height: 40px;
+        background: #ddd;
+      }
 
-::-moz-range-thumb {
-    background: #fff;
-    height: 40px;
-    width: 20px;
-    border: 3px solid #999;
-    border-radius: 0 !important;
-    box-shadow: -100vw 0 0 100vw dodgerblue;
-    box-sizing: border-box;
-}
+      ::-moz-range-thumb {
+        background: #fff;
+        height: 40px;
+        width: 20px;
+        border: 3px solid #999;
+        border-radius: 0 !important;
+        box-shadow: -100vw 0 0 100vw dodgerblue;
+        box-sizing: border-box;
+      }
 
-::-ms-fill-lower { 
-    background: dodgerblue;
-}
+      ::-ms-fill-lower {
+        background: dodgerblue;
+      }
 
-::-ms-thumb { 
-    background: #fff;
-    border: 2px solid #999;
-    height: 40px;
-    width: 20px;
-    box-sizing: border-box;
-}
+      ::-ms-thumb {
+        background: #fff;
+        border: 2px solid #999;
+        height: 40px;
+        width: 20px;
+        box-sizing: border-box;
+      }
 
-::-ms-ticks-after { 
-    display: none; 
-}
+      ::-ms-ticks-after {
+        display: none;
+      }
 
-::-ms-ticks-before { 
-    display: none; 
-}
+      ::-ms-ticks-before {
+        display: none;
+      }
 
-::-ms-track { 
-    background: #ddd;
-    color: transparent;
-    height: 40px;
-    border: none;
-}
+      ::-ms-track {
+        background: #ddd;
+        color: transparent;
+        height: 40px;
+        border: none;
+      }
 
-::-ms-tooltip { 
-    display: none;
-}
+      ::-ms-tooltip {
+        display: none;
+      }
       .right {
         float: right;
-        position: relative;
       }
       .animate {
+        z-index: 2;
         position: absolute;
         width: 100%;
         -webkit-user-select: none;
--moz-user-select: none;
+        -moz-user-select: none;
         -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently
+        -webkit-user-select: none; /* Chrome/Safari/Opera */
+        -khtml-user-select: none; /* Konqueror */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
                                   not supported by any browser */
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
@@ -129,13 +128,12 @@
         transform: translateX(0%);
       }
       #nav-body-views {
-    
+        z-index: 1;
       }
-      #flag{
+      #flag {
         width: 100%;
-        height: 15px;
+        height: 20px;
         background-color: red;
-   border-radius: 10px; 
       }
     </style>
     <link
@@ -148,9 +146,8 @@
   </head>
 
   <body>
-  
     <div class="animate">
-        <div id="bar"></div>
+      <div id="bar"></div>
 
       <div id="nav-body-ctrls">
         <!-- address -->
@@ -159,26 +156,17 @@
             <img src="../img/lock.png" />
           </button>
         </p>
-	<p title="Поверх всех окон">
-        <button onclick="altop()"> <img src="../img/layer.png"/></button>
-        <div class="right">
-         </p>
-          <p title="Прозрачность окна">
-            <input
-              type="range"
-              value="1"
-              min="0.05"
-              max="1"
-              step="0.05"
-              id="slider"
-              style="background: linear-gradient(90deg, rgb(11, 30, 223) 35.7143%, rgba(255, 255, 255, 0.216) 35.8143%);"
-              onchange="
-              
-              "
-            />
-          </p>
-        </div>
-   
+        <p title="Поверх всех окон"></p>
+        <p title="Прозрачность окна">
+          <input
+            type="range"
+            value="1"
+            min="0.05"
+            max="1"
+            step="0.05"
+            id="slider"
+          />
+        </p>
       </div>
 
       <div id="nav-body-tabs">
@@ -192,14 +180,13 @@
     </div>
 
     <script>
-
       var ignore = false;
       var el = document.getElementsByClassName("animate");
-      el.onmousedown = function (e) {
-    if (window.event.stopPropagation) window.event.stopPropagation();
-    window.event.cancelBubble = true;
-    e.cancelBubble = true;
-}
+      el.onmousedown = function(e) {
+        if (window.event.stopPropagation) window.event.stopPropagation();
+        window.event.cancelBubble = true;
+        e.cancelBubble = true;
+      };
       function altop() {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
@@ -227,33 +214,9 @@
         }
       }
       $(window).load(function() {});
-      $("#bar").hover(
-        function() {
-          $(".anim").slideDown("slow");
-        },
-        function() {}
-      );
-      $(".anim").hover(
-        function() {
-          $(this).slideDown("slow");
-        },
-        function() {
-          $(".anim").slideUp("slow");
-        }
-      );
-      $(".anim_").hover(
-        function() {
-          $(".anim").slideDown("slow");
-        },
-        function() {}
-      );
     </script>
+    <script></script>
     <script>
-      function zoomIn() {}
-      function zoomOut() {}
-    </script>
-    <script>
-    
       var bar = document.getElementById("bar");
       const electronTitlebarWindows = require("electron-titlebar-windows");
       const { remote } = require("electron");
@@ -285,11 +248,11 @@
         var win = BrowserWindow.getFocusedWindow();
         if ((arg = "false")) {
           console.log("b false");
-      
+
           ignore = false;
         } else {
           console.log("a");
-    
+
           ignore = true;
         }
       });
@@ -332,7 +295,7 @@
       //
 
       /** Options */
-   
+
       let titlebar = new electronTitlebarWindows({
         darkMode: false,
         color: "rgb(220, 200, 200)",
@@ -365,7 +328,6 @@
         remote.getCurrentWindow().setFullScreen(false);
         remote.getCurrentWindow().maximize();
       });
-      titlebar.on("hover", () => {});
     </script>
     <script>
       /* production */
@@ -381,24 +343,10 @@
         title: "Local file",
         close: "false"
       });
-      function applyFill() {
-        var slider = document.getElementById("slider");
-        const sliderProps = {
-          fill: "#0B1EDF",
-          background: "rgba(255, 255, 255, 0.214)"
-        };
-        const percentage =
-          (100 * (slider.value - slider.min)) / (slider.max - slider.min);
-        const bg = `linear-gradient(90deg, ${
-          sliderProps.fill
-        } ${percentage}%, ${sliderProps.background} ${percentage + 0.1}%)`;
-        slider.style.background = bg;
-      }
+
       $("#slider").change(function() {
         var opacityValue = $(this).val();
         changeOpacity(opacityValue);
-
-        applyFill();
       });
 
       function changeOpacity(opacity) {
