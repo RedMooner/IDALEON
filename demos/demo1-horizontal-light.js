@@ -7,35 +7,33 @@ app.on("ready", () => {
   createBrowser();
   SetTray();
   // для прозрачности
-  electronLocalshortcut.register(demo, "Ctrl+0", () => {
-    demo.webContents.send("change_opacity", 1);
-  });
+
   electronLocalshortcut.register(demo, "Ctrl+1", () => {
-    demo.webContents.send("change_opacity", 0.1);
-  });
-  electronLocalshortcut.register(demo, "Ctrl+2", () => {
     demo.webContents.send("change_opacity", 0.2);
   });
-  electronLocalshortcut.register(demo, "Ctrl+3", () => {
+  electronLocalshortcut.register(demo, "Ctrl+2", () => {
     demo.webContents.send("change_opacity", 0.3);
   });
-  electronLocalshortcut.register(demo, "Ctrl+4", () => {
+  electronLocalshortcut.register(demo, "Ctrl+3", () => {
     demo.webContents.send("change_opacity", 0.4);
   });
-  electronLocalshortcut.register(demo, "Ctrl+5", () => {
+  electronLocalshortcut.register(demo, "Ctrl+4", () => {
     demo.webContents.send("change_opacity", 0.5);
   });
-  electronLocalshortcut.register(demo, "Ctrl+6", () => {
+  electronLocalshortcut.register(demo, "Ctrl+5", () => {
     demo.webContents.send("change_opacity", 0.6);
   });
-  electronLocalshortcut.register(demo, "Ctrl+7", () => {
+  electronLocalshortcut.register(demo, "Ctrl+6", () => {
     demo.webContents.send("change_opacity", 0.7);
   });
-  electronLocalshortcut.register(demo, "Ctrl+8", () => {
+  electronLocalshortcut.register(demo, "Ctrl+7", () => {
     demo.webContents.send("change_opacity", 0.8);
   });
-  electronLocalshortcut.register(demo, "Ctrl+9", () => {
+  electronLocalshortcut.register(demo, "Ctrl+8", () => {
     demo.webContents.send("change_opacity", 0.9);
+  });
+  electronLocalshortcut.register(demo, "Ctrl+9", () => {
+    demo.webContents.send("change_opacity", 1);
   });
   // для общих настроек
   electronLocalshortcut.register(demo, "Alt+=", () => {
