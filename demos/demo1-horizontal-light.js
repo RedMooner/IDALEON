@@ -1,4 +1,11 @@
-﻿const { app, BrowserWindow, Menu, Tray, ipcMain } = require("electron");
+﻿const {
+  app,
+  BrowserWindow,
+  Menu,
+  Tray,
+  ipcMain,
+  globalShortcut
+} = require("electron");
 const electronLocalshortcut = require("electron-localshortcut");
 let demo;
 var ignore = false;
@@ -8,39 +15,39 @@ app.on("ready", () => {
   SetTray();
   // для прозрачности
 
-  electronLocalshortcut.register(demo, "Ctrl+1", () => {
+  globalShortcut.register("CommandOrControl+1", () => {
     demo.webContents.send("change_opacity", 0.2);
   });
-  electronLocalshortcut.register(demo, "Ctrl+2", () => {
+  globalShortcut.register("CommandOrControl+2", () => {
     demo.webContents.send("change_opacity", 0.3);
   });
-  electronLocalshortcut.register(demo, "Ctrl+3", () => {
+  globalShortcut.register("CommandOrControl+3", () => {
     demo.webContents.send("change_opacity", 0.4);
   });
-  electronLocalshortcut.register(demo, "Ctrl+4", () => {
+  globalShortcut.register("CommandOrControl+4", () => {
     demo.webContents.send("change_opacity", 0.5);
   });
-  electronLocalshortcut.register(demo, "Ctrl+5", () => {
+  globalShortcut.register("CommandOrControl+5", () => {
     demo.webContents.send("change_opacity", 0.6);
   });
-  electronLocalshortcut.register(demo, "Ctrl+6", () => {
+  globalShortcut.register("CommandOrControl+6", () => {
     demo.webContents.send("change_opacity", 0.7);
   });
-  electronLocalshortcut.register(demo, "Ctrl+7", () => {
+  globalShortcut.register("CommandOrControl+7", () => {
     demo.webContents.send("change_opacity", 0.8);
   });
-  electronLocalshortcut.register(demo, "Ctrl+8", () => {
+  globalShortcut.register("CommandOrControl+8", () => {
     demo.webContents.send("change_opacity", 0.9);
   });
-  electronLocalshortcut.register(demo, "Ctrl+9", () => {
+  globalShortcut.register("CommandOrControl+9", () => {
     demo.webContents.send("change_opacity", 1);
   });
   // для общих настроек
-  electronLocalshortcut.register(demo, "Alt+=", () => {
+  globalShortcut.register("Alt+=", () => {
     console.log("You pressed alt & + ++++");
     demo.webContents.send("web_view_range", "plus");
   });
-  electronLocalshortcut.register(demo, "Ctrl+E", () => {
+  globalShortcut.register("CommandOrControl+E", () => {
     if (ignore == false) {
       console.log("disable_skip");
       demo.setIgnoreMouseEvents(true);
@@ -56,7 +63,7 @@ app.on("ready", () => {
     }
     change_icon();
   });
-  electronLocalshortcut.register(demo, "Ctrl+D", () => {
+  globalShortcut.register("CommandOrControl+D", () => {
     var top = demo.isAlwaysOnTop();
     if (top == true) {
       demo.setAlwaysOnTop(false);
@@ -71,7 +78,7 @@ app.on("ready", () => {
     }
     change_icon();
   });
-  electronLocalshortcut.register(demo, "Alt+-", () => {
+  globalShortcut.register("Alt+-", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
   });
