@@ -46,11 +46,13 @@ app.on("ready", () => {
       demo.setIgnoreMouseEvents(true);
       ShowNoty("Окно заблокировано!", "Ctrl D или трей");
       ignore = true;
+      demo.webContents.send("add_class", "transition");
     } else {
       console.log("disable_skip");
       demo.webContents.send("disable_skip", "false");
       demo.setIgnoreMouseEvents(false);
       ignore = false;
+      demo.webContents.send("remove_class", "transition");
     }
   });
   electronLocalshortcut.register(demo, "Ctrl+D", () => {
@@ -80,6 +82,7 @@ function SetTray() {
         console.log("disable");
         demo.setIgnoreMouseEvents(false);
         demo.webContents.send("disable_skip_tray", "false");
+        demo.webContents.send("remove_class", "transition");
       }
     },
     { label: "Close IDALEON", role: "quit" }

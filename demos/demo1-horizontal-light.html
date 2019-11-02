@@ -138,6 +138,19 @@
         z-index: 3;
         border-radius: 10px;
       }
+      .transition {
+        transition: none;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.42s ease-in-out;
+        -webkit-transform: translateY(-90%);
+        -moz-transform: translateY(-90%);
+        -ms-transform: translateY(-90%);
+        -o-transform: translateY(-90%);
+        transform: translateY(-90%);
+      }
     </style>
     <link
       rel="stylesheet"
@@ -214,11 +227,13 @@
           win.setIgnoreMouseEvents(false);
           ignore = false;
           ipcRenderer.send("ignore", false);
+          $(".animate").removeClass("transition");
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
           ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
           ipcRenderer.send("ignore", true);
+          $(".animate").addClass("transition");
         }
       }
       $(window).load(function() {});
@@ -254,6 +269,12 @@
       ipcRenderer.on("change_opacity", (event, arg) => {
         changeOpacity(arg);
         change_input_value(arg);
+      });
+      ipcRenderer.on("remove_class", (event, arg) => {
+        $(".animate").removeClass("transition");
+      });
+      ipcRenderer.on("add_class", (event, arg) => {
+        $(".animate").addClass("transition");
       });
       ipcRenderer.on("disable_skip", (event, arg) => {
         const { BrowserWindow } = require("electron").remote;
