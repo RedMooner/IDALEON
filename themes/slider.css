@@ -9,7 +9,7 @@ input[type="range"] {
 }
 
 ::-webkit-slider-runnable-track {
-  background: #ddd;
+  background: #222021;
 }
 
 /*
@@ -17,11 +17,11 @@ input[type="range"] {
    */
 ::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px; /* 1 */
+  width: 0px; /* 1 */
   height: 40px;
   background: #fff;
-  box-shadow: -100vw 0 0 100vw dodgerblue;
-  border: 2px solid #999; /* 1 */
+  box-shadow: -100vw 0 0 100vw #444444;
+
 }
 
 ::-moz-range-track {

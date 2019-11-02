@@ -152,7 +152,7 @@ function ShowNoty(value_title, value_body) {
   }, 5000);
 }
 ipcMain.on("noty", (event, arg) => {
-  ShowNoty("Окно заблокировано!", arg);
+  ShowNoty("Lock window!", arg);
 });
 ipcMain.on("ignore", (event, arg) => {
   ignore = arg;
