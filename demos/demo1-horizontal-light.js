@@ -54,18 +54,22 @@ app.on("ready", () => {
       ignore = false;
       demo.webContents.send("remove_class", "transition");
     }
+    change_icon();
   });
   electronLocalshortcut.register(demo, "Ctrl+D", () => {
     var top = demo.isAlwaysOnTop();
     if (top == true) {
       demo.setAlwaysOnTop(false);
       top = false;
+
       //  alert("не top");
     } else {
       demo.setAlwaysOnTop(true);
       top = true;
+
       // alert("top");
     }
+    change_icon();
   });
   electronLocalshortcut.register(demo, "Alt+-", () => {
     console.log("You pressed alt & ------");
@@ -83,6 +87,8 @@ function SetTray() {
         demo.setIgnoreMouseEvents(false);
         demo.webContents.send("disable_skip_tray", "false");
         demo.webContents.send("remove_class", "transition");
+        ignore = false;
+        change_icon();
       }
     },
     {
@@ -92,12 +98,15 @@ function SetTray() {
         if (top == true) {
           demo.setAlwaysOnTop(false);
           top = false;
+
           //  alert("не top");
         } else {
           demo.setAlwaysOnTop(true);
           top = true;
+
           // alert("top");
         }
+        change_icon();
       }
     },
     { label: "Close IDALEON", role: "quit" }
@@ -142,3 +151,24 @@ ipcMain.on("ignore", (event, arg) => {
   ignore = arg;
   console.log(arg);
 });
+ipcMain.on("change_icon", (event, arg) => {
+  change_icon();
+});
+function change_icon() {
+  var top = demo.isAlwaysOnTop();
+  console.log("ignore=" + ignore + "___" + "top=" + top);
+  if (ignore == true && top == true) {
+    demo.setIcon("img/icon_4.png");
+  } else {
+    if (ignore == false && top == false) {
+      demo.setIcon("img/main.png");
+    } else {
+      if (ignore == true) {
+        demo.setIcon("img/icon_3.png");
+      }
+      if (top == true) {
+        demo.setIcon("img/icon_2.png");
+      }
+    }
+  }
+}
