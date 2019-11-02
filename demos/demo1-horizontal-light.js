@@ -113,6 +113,9 @@ function ShowNoty(value_title, value_body) {
   });
 
   note.show();
+  setTimeout(() => {
+    note.close();
+  }, 5000);
 }
 ipcMain.on("noty", (event, arg) => {
   ShowNoty("Окно заблокировано!", arg);
