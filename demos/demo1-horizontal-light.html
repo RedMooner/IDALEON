@@ -11,119 +11,8 @@
         width: 100%;
         height: 100%;
         display: flex;
-
         border-radius: 4px;
-
         flex-direction: column;
-      }
-
-      input[type="range"] {
-        -webkit-appearance: none;
-
-        overflow: hidden;
-        height: 30px;
-        width: 200px;
-        cursor: pointer;
-        border-radius: 0; /* iOS */
-      }
-
-      ::-webkit-slider-runnable-track {
-        background: #ddd;
-      }
-
-      /*
-       * 1. Set to 0 width and remove border for a slider without a thumb
-       */
-      ::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 20px; /* 1 */
-        height: 40px;
-        background: #fff;
-        box-shadow: -100vw 0 0 100vw dodgerblue;
-        border: 2px solid #999; /* 1 */
-      }
-
-      ::-moz-range-track {
-        height: 40px;
-        background: #ddd;
-      }
-
-      ::-moz-range-thumb {
-        background: #fff;
-        height: 40px;
-        width: 20px;
-        border: 3px solid #999;
-        border-radius: 0 !important;
-        box-shadow: -100vw 0 0 100vw dodgerblue;
-        box-sizing: border-box;
-      }
-
-      ::-ms-fill-lower {
-        background: dodgerblue;
-      }
-
-      ::-ms-thumb {
-        background: #fff;
-        border: 2px solid #999;
-        height: 40px;
-        width: 20px;
-        box-sizing: border-box;
-      }
-
-      ::-ms-ticks-after {
-        display: none;
-      }
-
-      ::-ms-ticks-before {
-        display: none;
-      }
-
-      ::-ms-track {
-        background: #ddd;
-        color: transparent;
-        height: 40px;
-        border: none;
-      }
-
-      ::-ms-tooltip {
-        display: none;
-      }
-      .right {
-        float: right;
-      }
-
-      .animate {
-        z-index: 2;
-        position: absolute;
-        width: 100%;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Chrome/Safari/Opera */
-        -khtml-user-select: none; /* Konqueror */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                        not supported by any browser */
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.42s ease-in-out;
-        -webkit-transform: translateY(-90%);
-        -moz-transform: translateY(-90%);
-        -ms-transform: translateY(-90%);
-        -o-transform: translateY(-90%);
-        transform: translateY(-90%);
-        transition-delay: 250ms;
-      }
-      .animate:hover {
-        transition-delay: 0ms;
-        -webkit-transform: translateX(0%);
-        -moz-transform: translateX(0%);
-        -ms-transform: translateX(0%);
-        -o-transform: translateX(0%);
-        transform: translateX(0%);
       }
       #nav-body-views {
         z-index: 1;
@@ -138,25 +27,13 @@
         z-index: 3;
         border-radius: 10px;
       }
-      .transition {
-        transition: none;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.42s ease-in-out;
-        -webkit-transform: translateY(-90%);
-        -moz-transform: translateY(-90%);
-        -ms-transform: translateY(-90%);
-        -o-transform: translateY(-90%);
-        transform: translateY(-90%);
-      }
     </style>
     <link
       rel="stylesheet"
       type="text/css"
       href="../themes/material-light.css"
     />
+    <link rel="stylesheet" type="text/css" href="../themes/slider.css" />
     <link rel="stylesheet" type="text/css" href="../themes/w.scss" />
     <script type="text/javascript" src="./jquery.js"></script>
   </head>
@@ -234,6 +111,7 @@
           ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
           ipcRenderer.send("ignore", true);
           $(".animate").addClass("transition");
+          win.setIcon("img/lock.png");
         }
       }
       $(window).load(function() {});

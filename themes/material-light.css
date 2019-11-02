@@ -1,10 +1,10 @@
 #nav-body-ctrls {
-  background-color: #2D2B2C;
+  background-color: #2d2b2c;
   padding: 20px;
   font-family: arial;
 }
 #nav-body-tabs {
-  background-color: #2D2B2C;
+  background-color: #2d2b2c;
   height: 36px;
   font-family: arial;
 }
@@ -75,4 +75,50 @@
 }
 .nav-tabs-close:hover {
   fill: #dc143c;
+}
+.animate {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.42s ease-in-out;
+  -webkit-transform: translateY(-90%);
+  -moz-transform: translateY(-90%);
+  -ms-transform: translateY(-90%);
+  -o-transform: translateY(-90%);
+  transform: translateY(-90%);
+  transition-delay: 250ms;
+}
+.animate:hover {
+  transition-delay: 0ms;
+  -webkit-transform: translateX(0%);
+  -moz-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  -o-transform: translateX(0%);
+  transform: translateX(0%);
+}
+.transition {
+  transition: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.42s ease-in-out;
+  -webkit-transform: translateY(-90%);
+  -moz-transform: translateY(-90%);
+  -ms-transform: translateY(-90%);
+  -o-transform: translateY(-90%);
+  transform: translateY(-90%);
 }
