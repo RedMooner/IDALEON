@@ -97,7 +97,7 @@ function Navigation(options) {
   }
   if (options.showUrlBar) {
     $("#nav-body-ctrls").append(
-      '<input id="nav-ctrls-url" type="text" title="Enter an address or search term"/>'
+      '<input id="nav-ctrls-url" type="text" title="Enter an address or search term"    />'
     );
     $("#nav-body-ctrls").append(
       '<p title="Window transparency (CTRL + 1-9)"><input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> </p>'

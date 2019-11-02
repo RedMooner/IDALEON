@@ -85,6 +85,21 @@ function SetTray() {
         demo.webContents.send("remove_class", "transition");
       }
     },
+    {
+      label: "Over all windows",
+      click: function() {
+        var top = demo.isAlwaysOnTop();
+        if (top == true) {
+          demo.setAlwaysOnTop(false);
+          top = false;
+          //  alert("не top");
+        } else {
+          demo.setAlwaysOnTop(true);
+          top = true;
+          // alert("top");
+        }
+      }
+    },
     { label: "Close IDALEON", role: "quit" }
   ]);
   tray.setToolTip("This is my application.");
