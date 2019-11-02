@@ -112,7 +112,14 @@
         }
         ipcRenderer.send("change_icon");
       }
-      $(window).load(function() {});
+      $(window).load(function() {
+        const enav = new (require("../index.js"))();
+        enav.newTab(`file:///${__dirname}/mainPage.html`, {
+          icon: "images/site-icon.ico",
+          title: "Local file",
+          close: "false"
+        });
+      });
     </script>
     <script></script>
     <script>
@@ -243,8 +250,6 @@
       // const enav = new (require('electron-navigation'))();
 
       /* development */
-
-      const enav = new (require("../index.js"))();
 
       // create a new tab to www.google.com
 
