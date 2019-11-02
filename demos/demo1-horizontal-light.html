@@ -115,8 +115,10 @@
         -ms-transform: translateY(-90%);
         -o-transform: translateY(-90%);
         transform: translateY(-90%);
+        transition-delay: 250ms;
       }
       .animate:hover {
+        transition-delay: 0ms;
         -webkit-transform: translateX(0%);
         -moz-transform: translateX(0%);
         -ms-transform: translateX(0%);
@@ -134,6 +136,7 @@
       }
       #bar {
         z-index: 3;
+        border-radius: 10px;
       }
     </style>
     <link
