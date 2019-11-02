@@ -1,5 +1,5 @@
 {
-  "name": "electron-navigation",
+  "name": "IDALEON",
   "version": "1.5.9",
   "description": "Adds a navigation interface to electron that allows you to browse the internet or view local html files with tabs and webviews.",
   "main": "index.js",
@@ -36,7 +36,7 @@
     "website",
     "webview"
   ],
-  "author": "Jeremy England",
+  "author": "IDALGAME",
   "license": "MIT",
   "dependencies": {
     "@wuild/electron-notification": "^1.0.3",
