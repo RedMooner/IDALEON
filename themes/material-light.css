@@ -93,7 +93,7 @@
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
-  transition: all 0.42s ease-in-out;
+  transition: all 0.4s ease-in-out;
   -webkit-transform: translateY(-90%);
   -moz-transform: translateY(-90%);
   -ms-transform: translateY(-90%);
@@ -117,4 +117,5 @@
   -ms-transform: translateY(-90%);
   -o-transform: translateY(-90%);
   transform: translateY(-90%);
+  display: none;
 }
