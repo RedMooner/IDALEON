@@ -75,13 +75,17 @@
         if (top == true) {
           win.setAlwaysOnTop(false);
           top = false;
+
           //  alert("не top");
         } else {
           win.setAlwaysOnTop(true);
           top = true;
+
           // alert("top");
         }
+        ipcRenderer.send("change_icon");
       }
+      //change_icon
       function mouse_ignore() {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
@@ -96,8 +100,8 @@
           ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
           ipcRenderer.send("ignore", true);
           $(".animate").addClass("transition");
-          win.setIcon("img/lock.png");
         }
+        ipcRenderer.send("change_icon");
       }
       $(window).load(function() {});
     </script>
