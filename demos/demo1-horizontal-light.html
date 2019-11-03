@@ -43,7 +43,7 @@
       href="../themes/material-light.css"
     />
     <link rel="stylesheet" type="text/css" href="../themes/slider.css" />
-    <link rel="stylesheet" type="text/css" href="../themes/w.scss" />
+
     <script type="text/javascript" src="./jquery.js"></script>
   </head>
 
@@ -128,6 +128,16 @@
       const { ipcRenderer } = require("electron");
       var zoom = 0;
       // ipc
+      function onZoomChange() {
+        var Value = $("#zoom_slider").val();
+        console.log(Value);
+        change(Value);
+      }
+      function change(value) {
+        const webview = document.querySelector("webview");
+        webview.setZoomFactor(value);
+        zoom = value;
+      }
       function zoomIn() {
         const webview = document.querySelector("webview");
         let actualZoom = zoom;

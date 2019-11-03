@@ -65,7 +65,7 @@
   color: #606060;
 }
 .nav-tabs-title:hover {
-  color: #AAA;
+  color: #aaa;
 }
 .nav-tabs-close {
   width: 20px;
@@ -104,14 +104,14 @@
 }
 .animate:hover {
   transition-delay: 0ms;
-  -webkit-transform: translateX(0%);
-  -moz-transform: translateX(0%);
-  -ms-transform: translateX(0%);
-  -o-transform: translateX(0%);
-  transform: translateX(0%);
+  -webkit-transform: translateY(0%);
+  -moz-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  -o-transform: translateY(0%);
+  transform: translateY(0%);
   -webkit-app-region: drag;
-    transition-delay: 250ms;
-      transition: all 0.2s ease-in-out;
+  transition-delay: 250ms;
+  transition: all 0.2s ease-in-out;
 }
 .transition {
   transition: none;

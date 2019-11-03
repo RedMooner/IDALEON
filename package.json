@@ -2,13 +2,11 @@
   "name": "IDALEON",
   "version": "1.5.9",
   "description": "Adds a navigation interface to electron that allows you to browse the internet or view local html files with tabs and webviews.",
-  "main": "index.js",
+  "main": "./demos/demo1-horizontal-light.js",
   "scripts": {
     "demo1": "node_modules\\electron\\dist\\electron.exe demos\\demo1-horizontal-light.js",
-    "demo2": "node_modules\\electron\\dist\\electron.exe demos\\demo2-vertical-dark.js",
-    "demo3": "node_modules\\electron\\dist\\electron.exe demos\\demo3-chrome-like.js",
-    "demo4": "node_modules\\electron\\dist\\electron.exe demos\\demo4-parent-child.js",
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -52,5 +50,17 @@
   },
   "devDependencies": {
     "electron": "^2.0.2"
+  },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "extraResources": [],
+    "win": {
+      "extraResources": [
+        "./img/*.*"
+      ]
+    }
   }
 }
