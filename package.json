@@ -58,9 +58,7 @@
     },
     "extraResources": [],
     "win": {
-      "extraResources": [
-        "./img/*.*"
-      ]
+      "extraResources": []
     }
   }
 }
