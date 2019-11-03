@@ -53,6 +53,7 @@
   },
   "build": {
     "appId": "your.id",
+    "icon": "./img/main.png",
     "mac": {
       "category": "your.app.category.type"
     },

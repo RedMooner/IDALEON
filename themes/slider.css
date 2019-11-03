@@ -6,6 +6,7 @@ input[type="range"] {
   width: 200px;
   cursor: pointer;
   border-radius: 0; /* iOS */
+  outline: none;
 }
 
 ::-webkit-slider-runnable-track {
@@ -21,7 +22,6 @@ input[type="range"] {
   height: 40px;
   background: #fff;
   box-shadow: -100vw 0 0 100vw #444444;
-
 }
 
 ::-moz-range-track {
@@ -71,4 +71,9 @@ input[type="range"] {
 }
 .right {
   float: right;
+}
+#s {
+  position: relative;
+  top: 1;
+  padding-left: 90px;
 }
