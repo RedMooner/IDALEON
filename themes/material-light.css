@@ -100,6 +100,7 @@
   -o-transform: translateY(-90%);
   transform: translateY(-96%);
   transition-delay: 250ms;
+  -webkit-app-region: no-drag;
 }
 .animate:hover {
   transition-delay: 0ms;
@@ -108,7 +109,7 @@
   -ms-transform: translateY(0%);
   -o-transform: translateY(0%);
   transform: translateY(0%);
-
+  -webkit-app-region: drag;
   transition-delay: 250ms;
   transition: all 0.2s ease-in-out;
 }
@@ -121,12 +122,4 @@
   -o-transform: translateY(-90%);
   transform: translateY(-90%);
   display: none;
-}
-.animate:hover #drag {
-  position: absolute;
-  height: 32px;
-  width: 100%;
-  top: 0;
-  left: 0;
-  -webkit-app-region: drag;
 }
