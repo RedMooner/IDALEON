@@ -85,7 +85,7 @@ app.on("ready", () => {
 });
 
 function SetTray() {
-  tray = new Tray("img/tray.png");
+  tray = new Tray("img/tray.png"); //
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Unlock Window",
