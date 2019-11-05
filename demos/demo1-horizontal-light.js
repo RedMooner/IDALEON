@@ -10,6 +10,7 @@ const electronLocalshortcut = require("electron-localshortcut");
 let demo;
 var ignore = false;
 const Notification = require("@wuild/electron-notification");
+
 app.on("ready", () => {
   createBrowser();
   SetTray();
@@ -58,6 +59,7 @@ app.on("ready", () => {
       console.log("disable_skip");
       demo.webContents.send("disable_skip", "false");
       demo.setIgnoreMouseEvents(false);
+      ShowNoty("Окно разблокировано!", "Ctrl D или трей");
       ignore = false;
       demo.webContents.send("remove_class", "transition");
     }
@@ -68,12 +70,12 @@ app.on("ready", () => {
     if (top == true) {
       demo.setAlwaysOnTop(false);
       top = false;
-
+      ShowNoty("Окно разблокировано!", "Окно не поверх всех");
       //  alert("не top");
     } else {
       demo.setAlwaysOnTop(true);
       top = true;
-
+      ShowNoty("Окно разблокировано!", "Окно  поверх всех");
       // alert("top");
     }
     change_icon();
@@ -83,7 +85,9 @@ app.on("ready", () => {
     demo.webContents.send("web_view_range", "minus");
   });
 });
-
+app.on("window-all-closed", () => {
+  app.hide();
+});
 function SetTray() {
   tray = new Tray("img/tray.png"); //
   const contextMenu = Menu.buildFromTemplate([
@@ -95,6 +99,7 @@ function SetTray() {
         demo.webContents.send("disable_skip_tray", "false");
         demo.webContents.send("remove_class", "transition");
         ignore = false;
+        ShowNoty("Окно разблокировано!", "Ctrl D или трей");
         change_icon();
       }
     },
@@ -105,15 +110,21 @@ function SetTray() {
         if (top == true) {
           demo.setAlwaysOnTop(false);
           top = false;
-
+          ShowNoty("Окно разблокировано!", "Окно не поверх всех");
           //  alert("не top");
         } else {
           demo.setAlwaysOnTop(true);
           top = true;
-
+          ShowNoty("Окно разблокировано!", "Окно  поверх всех");
           // alert("top");
         }
         change_icon();
+      }
+    },
+    {
+      label: "Open",
+      click: function() {
+        demo.show();
       }
     },
     { label: "Close IDALEON", role: "quit" }
@@ -153,6 +164,9 @@ function ShowNoty(value_title, value_body) {
 }
 ipcMain.on("noty", (event, arg) => {
   ShowNoty("Lock window!", arg);
+});
+ipcMain.on("noty-top", (event, arg) => {
+  ShowNoty("ON TOP!", arg);
 });
 ipcMain.on("ignore", (event, arg) => {
   ignore = arg;

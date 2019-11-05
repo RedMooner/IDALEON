@@ -83,12 +83,12 @@
         if (top == true) {
           win.setAlwaysOnTop(false);
           top = false;
-
+          ipcRenderer.send("noty-top", "Окно не поверх всех!");
           //  alert("не top");
         } else {
           win.setAlwaysOnTop(true);
           top = true;
-
+          ipcRenderer.send("noty-top", "Поверх всех!");
           // alert("top");
         }
         ipcRenderer.send("change_icon");
@@ -102,6 +102,7 @@
           ignore = false;
           ipcRenderer.send("ignore", false);
           $(".animate").removeClass("transition");
+          ipcRenderer.send("noty", "Окно разблокированно");
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
@@ -235,7 +236,7 @@
       /** Event#close */
       titlebar.on("close", () => {
         console.info("close");
-        remote.getCurrentWindow().close();
+        remote.getCurrentWindow().hide();
       });
       /** Event#fullscreen */
       titlebar.on("fullscreen", () => {
