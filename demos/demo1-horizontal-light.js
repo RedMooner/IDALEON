@@ -90,11 +90,15 @@ app.on("window-all-closed", () => {
 });
 function SetTray() {
   tray = new Tray("img/tray.png"); //
+  tray.on("click", function(){
+      demo.show();
+  });
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Unlock Window",
       click: function() {
         console.log("disable");
+    
         demo.setIgnoreMouseEvents(false);
         demo.webContents.send("disable_skip_tray", "false");
         demo.webContents.send("remove_class", "transition");

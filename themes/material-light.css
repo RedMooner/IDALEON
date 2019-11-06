@@ -113,7 +113,7 @@ background: #aaa; /* Safari */
   -o-transform: translateY(0%);
   transform: translateY(0%);
   -webkit-app-region: drag;
-  transition-delay: 250ms;
+  transition-delay: 0ms;
   transition: all 0.2s ease-in-out;
 }
 .transition {
