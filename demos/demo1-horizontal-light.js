@@ -46,7 +46,7 @@ app.on("ready", () => {
   // для общих настроек
   globalShortcut.register("CommandOrControl+i", () => {
   
-      
+    
     
   demo.webContents.openDevTools({ mode: 'detach' });
 
