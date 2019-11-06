@@ -67,11 +67,11 @@
 
     <script>
       //TEST
-    $("body").mouseenter(function(){
+    $("#nav-body-views").mouseenter(function(){
       $("#nav-body-views").css("opacity", 0.1);
     
-      $("#nav-body-views").css("opacity", 1);
-      document.getElementById("slider").value = 1;
+      $("#nav-body-views").css("opacity", document.getElementById("slider").value);
+      document.getElementById("slider").value = document.getElementById("slider").value;
     });
     //TEST
       $(document).bind("drop dragover", function(e) {
