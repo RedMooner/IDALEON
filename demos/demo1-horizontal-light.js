@@ -44,6 +44,13 @@ app.on("ready", () => {
     demo.webContents.send("change_opacity", 1);
   });
   // для общих настроек
+  globalShortcut.register("CommandOrControl+i", () => {
+  
+      
+    
+  demo.webContents.openDevTools({ mode: 'detach' });
+
+  });
   globalShortcut.register("Alt+=", () => {
     console.log("You pressed alt & + ++++");
     demo.webContents.send("web_view_range", "plus");
@@ -88,6 +95,7 @@ app.on("ready", () => {
 app.on("window-all-closed", () => {
   app.hide();
 });
+
 function SetTray() {
   tray = new Tray("img/tray.png"); //
   tray.on("click", function(){
