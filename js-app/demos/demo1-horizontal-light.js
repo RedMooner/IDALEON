@@ -1,0 +1,245 @@
+﻿const {
+  app,
+  BrowserWindow,
+  Menu,
+  Tray,
+  ipcMain,
+  globalShortcut
+} = require("electron");
+const child_process = require("child_process");
+const Path = require("path");
+const fs = require("fs");
+const electronLocalshortcut = require("electron-localshortcut");
+const translation = require("./src/language/translate");
+let demo;
+var ignore = false;
+var lang_data;
+
+// перевод
+var exit_tray;
+//
+const Notification = require("@wuild/electron-notification");
+
+app.on("ready", () => {
+  createBrowser();
+  SetTray();
+  // для прозрачности
+
+  globalShortcut.register("CommandOrControl+1", () => {
+    demo.webContents.send("change_opacity", 0.2);
+  });
+  globalShortcut.register("CommandOrControl+2", () => {
+    demo.webContents.send("change_opacity", 0.3);
+  });
+  globalShortcut.register("CommandOrControl+3", () => {
+    demo.webContents.send("change_opacity", 0.4);
+  });
+  globalShortcut.register("CommandOrControl+4", () => {
+    demo.webContents.send("change_opacity", 0.5);
+  });
+  globalShortcut.register("CommandOrControl+5", () => {
+    demo.webContents.send("change_opacity", 0.6);
+  });
+  globalShortcut.register("CommandOrControl+6", () => {
+    demo.webContents.send("change_opacity", 0.7);
+  });
+  globalShortcut.register("CommandOrControl+7", () => {
+    demo.webContents.send("change_opacity", 0.8);
+  });
+  globalShortcut.register("CommandOrControl+8", () => {
+    demo.webContents.send("change_opacity", 0.9);
+  });
+  globalShortcut.register("CommandOrControl+9", () => {
+    demo.webContents.send("change_opacity", 1);
+  });
+  // для общих настроек
+  globalShortcut.register("CommandOrControl+i", () => {
+  
+    
+    
+  demo.webContents.openDevTools({ mode: 'detach' });
+
+  });
+  globalShortcut.register("Alt+=", () => {
+    console.log("You pressed alt & + ++++");
+    demo.webContents.send("web_view_range", "plus");
+  });
+  globalShortcut.register("CommandOrControl+E", () => {
+    if (ignore == false) {
+      console.log("disable_skip");
+      demo.setIgnoreMouseEvents(true);
+      ShowNoty("Окно заблокировано!", "Ctrl D или трей");
+      ignore = true;
+      demo.webContents.send("add_class", "transition");
+    } else {
+      console.log("disable_skip");
+      demo.webContents.send("disable_skip", "false");
+      demo.setIgnoreMouseEvents(false);
+      ShowNoty("Окно разблокировано!", "Ctrl D или трей");
+      ignore = false;
+      demo.webContents.send("remove_class", "transition");
+    }
+    change_icon();
+  });
+  globalShortcut.register("CommandOrControl+D", () => {
+    var top = demo.isAlwaysOnTop();
+    if (top == true) {
+      demo.setAlwaysOnTop(false);
+      top = false;
+      ShowNoty("Окно разблокировано!", "Окно не поверх всех");
+      //  alert("не top");
+    } else {
+      demo.setAlwaysOnTop(true);
+      top = true;
+      ShowNoty("Окно разблокировано!", "Окно  поверх всех");
+      // alert("top");
+    }
+    change_icon();
+  });
+  globalShortcut.register("Alt+-", () => {
+    console.log("You pressed alt & ------");
+    demo.webContents.send("web_view_range", "minus");
+  });
+});
+app.on("window-all-closed", () => {
+  app.hide();
+});
+
+function SetTray() {
+  tray = new Tray("img/tray.png"); //
+  tray.on("click", function(){
+      demo.show();
+  });
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Unlock Window",
+      click: function() {
+        console.log("disable");
+    
+        demo.setIgnoreMouseEvents(false);
+        demo.webContents.send("disable_skip_tray", "false");
+        demo.webContents.send("remove_class", "transition");
+        ignore = false;
+        ShowNoty("Окно разблокировано!", "Ctrl D или трей");
+        change_icon();
+      }
+    },
+    {
+      label: "Over all windows",
+      click: function() {
+        var top = demo.isAlwaysOnTop();
+        if (top == true) {
+          demo.setAlwaysOnTop(false);
+          top = false;
+          ShowNoty("Окно разблокировано!", "Окно не поверх всех");
+          //  alert("не top");
+        } else {
+          demo.setAlwaysOnTop(true);
+          top = true;
+          ShowNoty("Окно разблокировано!", "Окно  поверх всех");
+          // alert("top");
+        }
+        change_icon();
+      }
+    },
+    {
+      label: "Open",
+      click: function() {
+        demo.show();
+      }
+    },
+    { label: "Close IDALEON", role: "quit" }
+  ]);
+  tray.setToolTip("This is my application.");
+  tray.setContextMenu(contextMenu);
+}
+function createBrowser() {
+  demo = new BrowserWindow({
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    icon: "img/main.png"
+  });
+  demo.loadURL(`file:///${__dirname}/demo1-horizontal-light.html`);
+  demo.on("close", () => {
+    demo = null;
+  });
+  let path = require("path");
+let relreadpath = "\\native\\language\\Reader.exe";
+let basereadpath = path.dirname(__dirname);
+let filereadpath = basereadpath + relreadpath;
+
+if (!fs.existsSync(filereadpath)) {
+  filereadpath = __dirname + relreadpath;
+}
+
+let child_reader = child_process.spawn(filereadpath, []);
+child_reader.stdout.on("data", function(data) {
+  if (data != "err") {
+    lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
+    a = JSON.parse(lang_data);
+    console.log(a);
+    console.log("READER");
+    exit_tray= translation.translate_str(
+      "exit",
+      JSON.parse(lang_data)
+    );
+    console.log(exit_tray);
+    demo.webContents.send("lang_data_event", lang_data);
+  } 
+});
+}
+function ShowNoty(value_title, value_body) {
+  let note = new Notification({
+    theme: "dark",
+    title: value_title,
+    sound: "absolute path to audio file",
+    body: value_body,
+    position: "bottom-right"
+  });
+
+  note.on("close", function() {
+    console.log("Notification has been closed");
+  });
+
+  note.show();
+  setTimeout(() => {
+    note.close();
+  }, 5000);
+}
+ipcMain.on("noty", (event, arg) => {
+  ShowNoty(exit_tray, arg);
+});
+ipcMain.on("noty-top", (event, arg) => {
+  ShowNoty("ON TOP!", arg);
+});
+ipcMain.on("ignore", (event, arg) => {
+  ignore = arg;
+  console.log(arg);
+});
+ipcMain.on("change_icon", (event, arg) => {
+  change_icon();
+});
+function change_icon() {
+  var top = demo.isAlwaysOnTop();
+  console.log("ignore=" + ignore + "___" + "top=" + top);
+  if (ignore == true && top == true) {
+    demo.setIcon("img/icon_4.png");
+  } else {
+    if (ignore == false && top == false) {
+      demo.setIcon("img/main.png");
+    } else {
+      if (ignore == true) {
+        demo.setIcon("img/icon_3.png");
+      }
+      if (top == true) {
+        demo.setIcon("img/icon_2.png");
+      }
+    }
+  }
+}
+// локализация
+
+
+// отпрвавление
+

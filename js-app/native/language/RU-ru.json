@@ -1,0 +1,12 @@
+{
+  "exit": "Выход" ,
+  "open" : "Открыть",
+  "over_top" : "Поверх всех окнон",
+  "lock" : "Заблокировать",
+
+  "noty_title_lock_true" : "Окно заблокировано",
+  "noty_title_lock_false" : "Окно разблокировано",
+  "noty_title_top_true" : "Окно поверех всех",
+  "noty_title_top_false" : "Окно не поверх всех"
+
+}
