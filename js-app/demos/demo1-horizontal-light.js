@@ -22,7 +22,6 @@ var noty_title_lock_true = "Idaleon was locked!";
 var noty_title_lock_false = "Idaleon was unlocked!";
 var noty_title_top_true = "Idaleon over on windows!";
 var noty_title_top_false = "Idaleon did't over on windows";
-
 var noty_info = "Info message";
 //
 const Notification = require("@wuild/electron-notification");
