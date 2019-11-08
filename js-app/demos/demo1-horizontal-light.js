@@ -16,11 +16,51 @@ var ignore = false;
 var lang_data;
 
 // перевод
-var exit_tray;
+var exit_tray = "quit IDALEON";
+var open = "Open IDALEON";
+var noty_title_lock_true = "Idaleon was locked!";
+var noty_title_lock_false = "Idaleon was unlocked!";
+var noty_title_top_true = "Idaleon over on windows!";
+var noty_title_top_false = "Idaleon did't over on windows";
+
+var noty_info = "Info message";
 //
 const Notification = require("@wuild/electron-notification");
 
 app.on("ready", () => {
+  let path = require("path");
+  let relreadpath = "\\native\\language\\Reader.exe";
+  let basereadpath = path.dirname(__dirname);
+  let filereadpath = basereadpath + relreadpath;
+  
+  if (!fs.existsSync(filereadpath)) {
+    filereadpath = __dirname + relreadpath;
+  }
+  
+  let child_reader = child_process.spawn(filereadpath, []);
+  child_reader.stdout.on("data", function(data) {
+    if (data != "err") {
+      lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
+      a = JSON.parse(lang_data);
+     exit_tray = translation.translate_str("exit" , JSON.parse(lang_data));
+     open = translation.translate_str("open" , JSON.parse(lang_data));
+      // присаваеваем перевод текстам уведомлений
+      noty_title_lock_false=translation.translate_str("noty_title_lock_false", JSON.parse(lang_data));
+      demo.webContents.send("noty_title_lock_false", noty_title_lock_false); 
+      noty_title_lock_true=translation.translate_str("noty_title_lock_true", JSON.parse(lang_data));
+      demo.webContents.send("noty_title_lock_true",  noty_title_lock_true); 
+      noty_title_top_true = translation.translate_str("noty_title_top_true", JSON.parse(lang_data));
+      demo.webContents.send("noty_title_top_true",  noty_title_top_true); 
+      noty_title_top_false = translation.translate_str("noty_title_top_false", JSON.parse(lang_data));
+      demo.webContents.send("noty_title_top_false",    noty_title_top_false ); 
+     
+      noty_info = translation.translate_str("noty_info", JSON.parse(lang_data));
+      demo.webContents.send("noty_info",    noty_info ); 
+      demo.webContents.send("lang_data_event", lang_data); 
+    } else{
+
+    }
+  });
   createBrowser();
   SetTray();
   // для прозрачности
@@ -68,14 +108,14 @@ app.on("ready", () => {
     if (ignore == false) {
       console.log("disable_skip");
       demo.setIgnoreMouseEvents(true);
-      ShowNoty("Окно заблокировано!", "Ctrl D или трей");
+      ShowNoty(noty_info,noty_title_lock_true);
       ignore = true;
       demo.webContents.send("add_class", "transition");
     } else {
       console.log("disable_skip");
       demo.webContents.send("disable_skip", "false");
       demo.setIgnoreMouseEvents(false);
-      ShowNoty("Окно разблокировано!", "Ctrl D или трей");
+      ShowNoty(noty_info, noty_title_lock_false);
       ignore = false;
       demo.webContents.send("remove_class", "transition");
     }
@@ -86,12 +126,12 @@ app.on("ready", () => {
     if (top == true) {
       demo.setAlwaysOnTop(false);
       top = false;
-      ShowNoty("Окно разблокировано!", "Окно не поверх всех");
+      ShowNoty(noty_info, noty_title_top_false);
       //  alert("не top");
     } else {
       demo.setAlwaysOnTop(true);
       top = true;
-      ShowNoty("Окно разблокировано!", "Окно  поверх всех");
+      ShowNoty(noty_info, noty_title_top_true);
       // alert("top");
     }
     change_icon();
@@ -120,7 +160,7 @@ function SetTray() {
         demo.webContents.send("disable_skip_tray", "false");
         demo.webContents.send("remove_class", "transition");
         ignore = false;
-        ShowNoty("Окно разблокировано!", "Ctrl D или трей");
+        ShowNoty(noty_info, noty_title_lock_false);
         change_icon();
       }
     },
@@ -131,24 +171,24 @@ function SetTray() {
         if (top == true) {
           demo.setAlwaysOnTop(false);
           top = false;
-          ShowNoty("Окно разблокировано!", "Окно не поверх всех");
+          ShowNoty(noty_info, noty_title_top_false);
           //  alert("не top");
         } else {
           demo.setAlwaysOnTop(true);
           top = true;
-          ShowNoty("Окно разблокировано!", "Окно  поверх всех");
+          ShowNoty(noty_info, noty_title_top_true);
           // alert("top");
         }
         change_icon();
       }
     },
     {
-      label: "Open",
+      label: open,
       click: function() {
         demo.show();
       }
     },
-    { label: "Close IDALEON", role: "quit" }
+    { label: exit_tray, role: "quit" }
   ]);
   tray.setToolTip("This is my application.");
   tray.setContextMenu(contextMenu);
@@ -164,30 +204,7 @@ function createBrowser() {
   demo.on("close", () => {
     demo = null;
   });
-  let path = require("path");
-let relreadpath = "\\native\\language\\Reader.exe";
-let basereadpath = path.dirname(__dirname);
-let filereadpath = basereadpath + relreadpath;
 
-if (!fs.existsSync(filereadpath)) {
-  filereadpath = __dirname + relreadpath;
-}
-
-let child_reader = child_process.spawn(filereadpath, []);
-child_reader.stdout.on("data", function(data) {
-  if (data != "err") {
-    lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
-    a = JSON.parse(lang_data);
-    console.log(a);
-    console.log("READER");
-    exit_tray= translation.translate_str(
-      "exit",
-      JSON.parse(lang_data)
-    );
-    console.log(exit_tray);
-    demo.webContents.send("lang_data_event", lang_data);
-  } 
-});
 }
 function ShowNoty(value_title, value_body) {
   let note = new Notification({
@@ -207,11 +224,17 @@ function ShowNoty(value_title, value_body) {
     note.close();
   }, 5000);
 }
-ipcMain.on("noty", (event, arg) => {
-  ShowNoty(exit_tray, arg);
+ipcMain.on("show_noty_lock_false", (event, arg) => {
+  ShowNoty(noty_info, noty_title_lock_false);
 });
-ipcMain.on("noty-top", (event, arg) => {
-  ShowNoty("ON TOP!", arg);
+ipcMain.on("show_noty_lock_true", (event, arg) => {
+  ShowNoty(noty_info, noty_title_lock_true);
+});
+ipcMain.on("show_noty_top_true", (event, arg) => {
+  ShowNoty(noty_info, noty_title_top_true);
+});
+ipcMain.on("show_noty_top_false", (event, arg) => {
+  ShowNoty(noty_info, noty_title_top_false);
 });
 ipcMain.on("ignore", (event, arg) => {
   ignore = arg;

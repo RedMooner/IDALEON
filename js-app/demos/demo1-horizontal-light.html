@@ -91,12 +91,12 @@
         if (top == true) {
           win.setAlwaysOnTop(false);
           top = false;
-          ipcRenderer.send("noty-top", "Окно не поверх всех!");
+          ipcRenderer.send("show_noty_top_false");
           //  alert("не top");
         } else {
           win.setAlwaysOnTop(true);
           top = true;
-          ipcRenderer.send("noty-top", "Поверх всех!");
+          ipcRenderer.send("show_noty_top_true" );
           // alert("top");
         }
         ipcRenderer.send("change_icon");
@@ -110,11 +110,11 @@
           ignore = false;
           ipcRenderer.send("ignore", false);
           $(".animate").removeClass("transition");
-          ipcRenderer.send("noty", "Окно разблокированно");
+          ipcRenderer.send("show_noty_lock_false");
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
-          ipcRenderer.send("noty", "Unlock: CTRL + E / and tray");
+          ipcRenderer.send("show_noty_lock_true");
           ipcRenderer.send("ignore", true);
           $(".animate").addClass("transition");
         }
