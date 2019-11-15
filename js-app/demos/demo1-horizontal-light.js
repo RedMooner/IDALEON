@@ -11,6 +11,7 @@ const Path = require("path");
 const fs = require("fs");
 const electronLocalshortcut = require("electron-localshortcut");
 const translation = require("./src/language/translate");
+const trayWindow = require("./src/tray/tray");
 let demo;
 var ignore = false;
 var lang_data;
@@ -61,7 +62,25 @@ app.on("ready", () => {
     }
   });
   createBrowser();
-  SetTray();
+  //SetTray();
+  let trayWIN = new BrowserWindow({
+    width: 340,
+    height: 380,
+
+  
+frame:false,
+    alwaysOnTop: true,
+    transparent: true,
+    skipTaskbar: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
+  trayWIN.loadURL(`file:///${__dirname}/src/tray/tray.html`);
+  trayWindow.setOptions({
+    trayIconPath: Path.join("img/icon_2.png"),
+    window: trayWIN
+  });
   // для прозрачности
 
   globalShortcut.register("CommandOrControl+1", () => {
