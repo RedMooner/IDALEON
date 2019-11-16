@@ -270,7 +270,10 @@
       /* development */
 
       // create a new tab to www.google.com
-
+ipcRenderer.on("opacity" , (event , args) => {
+  changeOpacity(args);
+  change_input_value(args);
+});
       function onChange() {
         var opacityValue = $("#slider").val();
         changeOpacity(opacityValue);
