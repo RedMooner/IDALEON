@@ -100,32 +100,53 @@
     <div id="container">
       <div id="left-wrapper">
          
-         <button id="lock_btn"  onclick="lock()" style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
+         <button id="lock_btn"  onclick="lock()" style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> 
+          <img
           style="width:13px; height:13px;"
           style="width:15px; height:15px;"
-          src="../../../img/lock.png">UnlockWindow</button>
+          src="../../../img/lock.png">
+        </button>
        </div>
        <div>
-        <button id="oever_btn" onclick="over()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
+        <button id="over_btn" onclick="over()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
           style="width:13px; height:13px;"
           style="width:15px; height:15px;"
           src="../../../img/layer.png"
-      />Over All Windows</button>
+      /></button>
       </div>
       <div>
-        <button id="exit_btn" onclick="exit()">Exit Idaleon</button>
+        <button id="exit_btn" onclick="exit()"></button>
       </div>
       <div>
           <p style="position: relative;" title="Window transparency (CTRL + 1-9)">&nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> </p>
       </div>
     </div>
     <script>
+        const translation = require("../language/translate.js");
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
       const BrowserWindow = require("electron").remote.BrowserWindow;
-    const exit_btn = document.getElementById("exit_btn");
+  
    var win = BrowserWindow.getAllWindows();
+   var exit_btn = document.getElementById("exit_btn");
+   var over_btn = document.getElementById("over_btn");
+   var lock_btn = document.getElementById("lock_btn");
+   ipcRenderer.on("lang_data_event", (event, data) => {
+     
+        if (data != "err") {
+          data = JSON.parse(data);
+          exit_btn.insertAdjacentHTML("beforeend", translation.translate_str("exit", data)); 
+          over_btn.insertAdjacentHTML("beforeend", translation.translate_str("over_top", data)); 
+          lock_btn.insertAdjacentHTML("beforeend", translation.translate_str("lock", data)); 
+     console.log(data);
+        } else {
+          console.log("w");//UnlockWindow
+          lock_btn.insertAdjacentHTML("beforeend", "UnlockWindow"); 
+          exit_btn.insertAdjacentHTML("beforeend", "Exit Idaleon"); 
+          over_btn.insertAdjacentHTML("beforeend", "Over all windows"); 
 
+        }
+      });
     function onChange() {
         var opacityValue = $("#slider").val();
         changeOpacity(opacityValue);
@@ -149,6 +170,7 @@
     function over(){
       ipcRenderer.send("Over" , "true");
     }
-  
+    ipcRenderer.send("tray_start", "true");
+
     </script>
   </body>

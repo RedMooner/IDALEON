@@ -24,6 +24,7 @@ var noty_title_lock_false = "Idaleon was unlocked!";
 var noty_title_top_true = "Idaleon over on windows!";
 var noty_title_top_false = "Idaleon did't over on windows";
 var noty_info = "Info message";
+let trayWIN;
 //
 const Notification = require("@wuild/electron-notification");
 
@@ -57,13 +58,14 @@ app.on("ready", () => {
       noty_info = translation.translate_str("noty_info", JSON.parse(lang_data));
       demo.webContents.send("noty_info",    noty_info ); 
       demo.webContents.send("lang_data_event", lang_data); 
+     
     } else{
 
     }
   });
   createBrowser();
   //SetTray();
-  let trayWIN = new BrowserWindow({
+   trayWIN = new BrowserWindow({
     width: 340,
     height: 380,
 
@@ -72,6 +74,7 @@ frame:false,
     alwaysOnTop: true,
     transparent: true,
     skipTaskbar: true,
+    resizable:false,
     webPreferences: {
       nodeIntegration: true
     }
@@ -81,6 +84,7 @@ frame:false,
     trayIconPath: Path.join("img/icon_2.png"),
     window: trayWIN
   });
+  
   // для прозрачности
 
   globalShortcut.register("CommandOrControl+1", () => {
@@ -304,6 +308,9 @@ ipcMain.on("exit_ida", (event, arg) => {
 });
 ipcMain.on("lock", (event, arg) => {
   Unlock();
+});
+ipcMain.on("tray_start", (event, arg) => {
+  trayWIN.webContents.send("lang_data_event", lang_data);
 });
 ipcMain.on("Over", (event, arg) => {
  OverAll();
