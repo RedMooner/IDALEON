@@ -299,7 +299,12 @@ ipcMain.on("Over", (event, arg) => {
 ipcMain.on("open", (event, arg) => {
   demo.show();
  });
-
+ ipcMain.on("tray-window-clicked", (e, a) => {
+  console.log("clicked the tray icon");
+  //console.log(e.window)
+  //console.log(e.tray)
+  demo.focus();
+});
 function change_icon() {
   var top = demo.isAlwaysOnTop();
   console.log("ignore=" + ignore + "___" + "top=" + top);
