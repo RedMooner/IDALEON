@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>Electron-Tray-Window Example</title>
   </head>
+  <link rel="stylesheet" type="text/css" href="./slider.css" />
+  <script type="text/javascript" src="./jquery.js"></script>
   <style>
     body {
       overflow: hidden;
@@ -109,11 +111,29 @@
       <div>
         <button id="exit_btn" onclick="exit()">Exit Idaleon</button>
       </div>
+      <div>
+          <p style="position: relative;" title="Window transparency (CTRL + 1-9)">&nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> </p>
+      </div>
     </div>
     <script>
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
     const exit_btn = document.getElementById("exit_btn");
+    function onChange() {
+        var opacityValue = $("#slider").val();
+        changeOpacity(opacityValue);
+      }
+      // $("#slider").change(function() {
+      //  var opacityValue = $(this).val();
+      //  changeOpacity(opacityValue);
+      // });
+
+      function changeOpacity(opacity) {
+          alert(opacity);
+      }
+      function change_input_value(value) {
+        document.getElementById("slider").value = value;
+      }
     function exit(){
       ipcRenderer.send("exit_ida" , "true");
     }
