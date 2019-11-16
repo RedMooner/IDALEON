@@ -97,17 +97,34 @@
   <body>
     <div id="container">
       <div id="left-wrapper">
-        <div class="small-box"></div>
-        <div class="small-box"></div>
-        <div class="small-box"></div>
-        <div class="small-box"></div>
+          <div>
+              <button id="exit_btn" onclick="open()" >Open Idaleon</button>
+            </div>
+       <div>
+         <button id="lock_btn"  onclick="lock()">UnlockWindow</button>
+       </div>
+       <div>
+        <button id="oever_btn" onclick="over()">Ovel All Windows</button>
       </div>
-      <div id="big-box" class="interactive">ELECTRON</div>
-      <div id="wide-box" class="interactive">TRAY</div>
-      <div id="center-wrapper">
-        <div class="small-box"></div>
-        <div class="small-box"></div>
+      <div>
+        <button id="exit_btn" onclick="exit()">Exit Idaleon</button>
       </div>
-      <div id="huge-box" class="interactive">WINDOWS</div>
     </div>
+    <script>
+      const { remote } = require("electron");
+      const { ipcRenderer } = require("electron");
+    const exit_btn = document.getElementById("exit_btn");
+    function exit(){
+      ipcRenderer.send("exit_ida" , "true");
+    }
+    function lock(){
+      ipcRenderer.send("lock" , "true");
+    }
+    function over(){
+      ipcRenderer.send("Over" , "true");
+    }
+    function open(){
+      ipcRenderer.send("open" , "true");
+    }
+    </script>
   </body>

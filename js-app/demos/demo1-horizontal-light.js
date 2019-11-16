@@ -211,6 +211,32 @@ function SetTray() {
   tray.setToolTip("This is my application.");
   tray.setContextMenu(contextMenu);
 }
+function OverAll(){
+  var top = demo.isAlwaysOnTop();
+  if (top == true) {
+    demo.setAlwaysOnTop(false);
+    top = false;
+    ShowNoty(noty_info, noty_title_top_false);
+    //  alert("не top");
+  } else {
+    demo.setAlwaysOnTop(true);
+    top = true;
+    ShowNoty(noty_info, noty_title_top_true);
+    // alert("top");
+  }
+  change_icon();
+
+}
+function Unlock(){
+  console.log("disable");
+    
+  demo.setIgnoreMouseEvents(false);
+  demo.webContents.send("disable_skip_tray", "false");
+  demo.webContents.send("remove_class", "transition");
+  ignore = false;
+  ShowNoty(noty_info, noty_title_lock_false);
+  change_icon();
+}
 function createBrowser() {
   demo = new BrowserWindow({
     transparent: true,
@@ -261,6 +287,19 @@ ipcMain.on("ignore", (event, arg) => {
 ipcMain.on("change_icon", (event, arg) => {
   change_icon();
 });
+ipcMain.on("exit_ida", (event, arg) => {
+  app.exit();
+});
+ipcMain.on("lock", (event, arg) => {
+  Unlock();
+});
+ipcMain.on("Over", (event, arg) => {
+ OverAll();
+});
+ipcMain.on("open", (event, arg) => {
+  demo.show();
+ });
+
 function change_icon() {
   var top = demo.isAlwaysOnTop();
   console.log("ignore=" + ignore + "___" + "top=" + top);
