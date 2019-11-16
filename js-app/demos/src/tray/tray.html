@@ -99,14 +99,18 @@
   <body>
     <div id="container">
       <div id="left-wrapper">
-          <div>
-              <button id="exit_btn" onclick="open()" >Open Idaleon</button>
-            </div>
-       <div>
-         <button id="lock_btn"  onclick="lock()">UnlockWindow</button>
+         
+         <button id="lock_btn"  onclick="lock()" style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
+          style="width:13px; height:13px;"
+          style="width:15px; height:15px;"
+          src="../../../img/lock.png">UnlockWindow</button>
        </div>
        <div>
-        <button id="oever_btn" onclick="over()">Ovel All Windows</button>
+        <button id="oever_btn" onclick="over()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
+          style="width:13px; height:13px;"
+          style="width:15px; height:15px;"
+          src="../../../img/layer.png"
+      />Over All Windows</button>
       </div>
       <div>
         <button id="exit_btn" onclick="exit()">Exit Idaleon</button>
@@ -145,8 +149,6 @@
     function over(){
       ipcRenderer.send("Over" , "true");
     }
-    function open(){
-      ipcRenderer.send("open" , "true");
-    }
+  
     </script>
   </body>

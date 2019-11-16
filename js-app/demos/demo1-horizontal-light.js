@@ -228,14 +228,26 @@ function OverAll(){
 
 }
 function Unlock(){
-  console.log("disable");
+  if(ignore == true){
+    console.log("disable");
     
-  demo.setIgnoreMouseEvents(false);
-  demo.webContents.send("disable_skip_tray", "false");
-  demo.webContents.send("remove_class", "transition");
-  ignore = false;
-  ShowNoty(noty_info, noty_title_lock_false);
-  change_icon();
+    demo.setIgnoreMouseEvents(false);
+    demo.webContents.send("disable_skip_tray", "false");
+    demo.webContents.send("remove_class", "transition");
+    ignore = false;
+    ShowNoty(noty_info, noty_title_lock_false);
+    change_icon();
+  }else{
+    console.log("disable");
+    
+    demo.setIgnoreMouseEvents(true);
+    demo.webContents.send("disable_skip_tray", "true");
+    demo.webContents.send("add_class", "transition");
+    ignore = true;
+    ShowNoty(noty_info, noty_title_lock_true);
+    change_icon();
+  }
+
 }
 function createBrowser() {
   demo = new BrowserWindow({
