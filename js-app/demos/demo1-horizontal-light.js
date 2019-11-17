@@ -60,7 +60,7 @@ app.on("ready", () => {
       demo.webContents.send("lang_data_event", lang_data); 
      
     } else{
-
+    lang_data="err";
     }
   });
   createBrowser();
@@ -169,9 +169,7 @@ app.on("window-all-closed", () => {
 
 function SetTray() {
   tray = new Tray("img/tray.png"); //
-  tray.on("click", function(){
-      demo.show();
-  });
+  
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Unlock Window",
@@ -322,6 +320,7 @@ ipcMain.on("open", (event, arg) => {
   console.log("clicked the tray icon");
   //console.log(e.window)
   //console.log(e.tray)
+  
   demo.focus();
 });
 function change_icon() {

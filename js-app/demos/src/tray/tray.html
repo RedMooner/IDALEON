@@ -115,20 +115,22 @@
       /></button>
       </div>
       <div>
-        <button id="exit_btn" onclick="exit()"></button>
+        <button id="exit_btn" onclick="exit()" title="exit"></button>
       </div>
       <div>
           <p style="position: relative;" title="Window transparency (CTRL + 1-9)">&nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> </p>
       </div>
     </div>
     <script>
+    
+
         const translation = require("../language/translate.js");
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
       const BrowserWindow = require("electron").remote.BrowserWindow;
   
    var win = BrowserWindow.getAllWindows();
-   var exit_btn = document.getElementById("exit_btn");
+ 
    var over_btn = document.getElementById("over_btn");
    var lock_btn = document.getElementById("lock_btn");
    ipcRenderer.on("lang_data_event", (event, data) => {
