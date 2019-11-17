@@ -1,27 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Start</title>
-    <script type="text/javascript" src="./jquery.js"></script>
-    <style></style>
-  </head>
-  <body style="background-color: #2D2B2C; overflow:hidden;">
-  
-  
-  <div style=" width: 500px; height: 100px; background: #008B45; position: absolute; bottom: 40%;  left:45%; right: 45%;"></div>
-  
-    <img
-      style="width:55%; opacity: 0.055; position: absolute; bottom: 0;  margin:-3.5%; pointer-events: none;"
-      src="../img/logo-start.png"
-    />
+<html style="height: 100%;" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Start</title>
+  <script type="text/javascript" src="./jquery.js"></script>
+  <style>
+    body{
+      background-color: #2D2B2C; overflow:hidden;display: flex; height: 100%;
+    }
+    .logo-bg{
+      height: 55vh; background: #008B45; width: 55vw; margin: auto;
+    }
+    .logo-img{
+      width:55%; opacity: 0.055; none; position: absolute; bottom: 0;  margin:-3%; pointer-events: none; margin-left: -220px
+    }
 
-    <script>
-      $(function() {
-        $(".box").draggable();
-      });
-    </script>
-  </body>
+  </style>
+</head>
+<body>  
+  <div class="logo-bg">
+    <img  class="logo-img" src="../img/logo-start.png">
+  </div>
+</body>
 </html>
