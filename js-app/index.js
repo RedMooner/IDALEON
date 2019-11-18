@@ -100,7 +100,7 @@ function Navigation(options) {
       '<input id="nav-ctrls-url" type="text" title="Enter an address or search term"    />'
     );
     $("#nav-body-ctrls").append(
-      '<p style="position: relative;" title="Window transparency (CTRL + 1-9)">&nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> </p>  '
+      '<p style="position: relative;" title="Window transparency (CTRL + 1-9)"> &nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> <label id="slider-label" for="slider"><img id="eye" src="../img/lock.png"/> </label></p>'  
     );
   }
   if (options.showAddTabButton) {
