@@ -65,6 +65,7 @@ app.on("ready", () => {
   });
   createBrowser();
   //SetTray();
+  tray = new Tray("img/tray.png"); //
    trayWIN = new BrowserWindow({
     width: 340,
     height: 380,
@@ -81,9 +82,15 @@ frame:false,
   });
   trayWIN.loadURL(`file:///${__dirname}/src/tray/tray.html`);
   trayWindow.setOptions({
-    trayIconPath: Path.join("img/icon_2.png"),
-    window: trayWIN
+   
+    window: trayWIN,
+    tray: tray,
   });
+  tray.on("click" , function(){
+      demo.show();
+  }
+
+  );
   
   // для прозрачности
 
@@ -321,7 +328,7 @@ ipcMain.on("open", (event, arg) => {
   //console.log(e.window)
   //console.log(e.tray)
   
-  demo.focus();
+ // demo.focus();
 });
 function change_icon() {
   var top = demo.isAlwaysOnTop();
