@@ -57,13 +57,14 @@ app.on("ready", () => {
      
       noty_info = translation.translate_str("noty_info", JSON.parse(lang_data));
       demo.webContents.send("noty_info",    noty_info ); 
-      demo.webContents.send("lang_data_event", lang_data); 
-     
+      
     } else{
     lang_data="err";
     }
   });
   createBrowser();
+  demo.webContents.send("lang_data_event", lang_data); 
+     
   //SetTray();
   tray = new Tray("img/tray.png"); //
    trayWIN = new BrowserWindow({
@@ -330,20 +331,29 @@ ipcMain.on("open", (event, arg) => {
   
  // demo.focus();
 });
+ipcMain.on("demo_load" , (e,a) =>{
+  demo.webContents.send("lang_data_event", lang_data); 
+});
 function change_icon() {
   var top = demo.isAlwaysOnTop();
   console.log("ignore=" + ignore + "___" + "top=" + top);
   if (ignore == true && top == true) {
     demo.setIcon("img/icon_4.png");
+    demo.webContents.send("lock", true);
+    demo.webContents.send("over_top", true);
   } else {
     if (ignore == false && top == false) {
       demo.setIcon("img/main.png");
+      demo.webContents.send("lock", false);
+      demo.webContents.send("over_top", false);
     } else {
       if (ignore == true) {
         demo.setIcon("img/icon_3.png");
+        demo.webContents.send("lock", true);
       }
       if (top == true) {
         demo.setIcon("img/icon_2.png");
+        demo.webContents.send("over_top", true);
       }
     }
   }

@@ -1,6 +1,6 @@
 <div class="titlebar">
     <div class="titlebar-controls">
-        <div class="titlebar-default" title="Zoom (CTRL + / - / 0)">
+        <div id="zoom_btn" class="titlebar-default" title="Zoom (CTRL + / - / 0)">
             <button
                 style="background-color: rgba(255, 255, 255, 0); padding: 5px 7px; border: 0px solid;"
                 onclick="zoom_slider()"
@@ -9,12 +9,13 @@
             </button>
             <input  style="display: none; position: absolute;" id="zoom_slider" type="range" min="1" max="5" oninput="onZoomChange()">  </input>
         </div>
-        <div class="titlebar-default" title="Over Windows (CTRL + D)">
+        <div id ="over_btn" class="titlebar-default" title="Over Windows (CTRL + D)">
             <button
                 style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"
                 onclick="altop()"
             >
                 <img
+                id="over_img"
                     style="width:13px; height:13px;"
                     style="width:15px; height:15px;"
                     src="../img/layer.png"
@@ -26,7 +27,7 @@
                 style="background-color: rgba(255, 255, 255, 0); padding: 5px 7px; border: 0px solid;"
                 onclick="mouse_ignore()"
             >
-                <img style="width:13px; height:13px;" src="../img/lock.png" />
+                <img id="lock_img" style="width:13px; height:13px;" src="../img/lock.png" />
             </button>
         </div>
         <div class="titlebar-minimize">

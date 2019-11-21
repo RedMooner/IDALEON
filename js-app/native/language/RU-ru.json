@@ -3,7 +3,7 @@
   "open" : "Открыть",
   "over_top" : "Поверх всех окнон",
   "lock" : "Заблокировать",
-
+"zoom" : "Мастшаб",
   "noty_title_lock_true" : "Окно заблокировано",
   "noty_title_lock_false" : "Окно разблокировано",
   "noty_title_top_true" : "Окно поверех всех",

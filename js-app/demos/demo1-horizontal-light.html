@@ -67,6 +67,7 @@
 
     <script>
       //TEST
+     
     $("#nav-body-views").mouseenter(function(){
       $("#nav-body-views").css("opacity", 0.1);
     
@@ -121,14 +122,15 @@
         ipcRenderer.send("change_icon");
       }
       $(window).load(function() {
+
         const enav = new (require("../index.js"))();
         enav.newTab(`file:///${__dirname}/mainPage.html`, {
           icon: "../img/site-icon.png",
           title: "Local file",
           close: "false"
         });
-        var a = document.getElementById("lock_btn");
-        a.title="РУС";
+      ipcRenderer.send("demo_load");
+    
       });
     </script>
     <script></script>
@@ -137,8 +139,25 @@
       const electronTitlebarWindows = require("./electron-titlebar-windows/lib/titlebar.js");
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
+      const translation = require("./src/language/translate");
       var zoom = 0;
       // ipc
+      ipcRenderer.on("lang_data_event", (event, data) => {
+      var lock_btn = document.getElementById("lock_btn");
+      var over_btn = document.getElementById("over_btn");
+      var zoom_btn = document.getElementById("zoom_btn");
+        if (data != "err") {
+          data = JSON.parse(data);
+          lock_btn.title =  translation.translate_str("lock", data); 
+          over_btn.title = translation.translate_str("over_top", data); 
+          zoom_btn.title = translation.translate_str("zoom", data); 
+     console.log(data);
+        } else {
+          lock_btn.title =  "Lock Window";
+          over_btn.title  ="Over Windows (CTRL + D)";
+          zoom_btn.title = "Zoom";
+        }
+        });
       function onZoomChange() {
         var Value = $("#zoom_slider").val();
         console.log(Value);
@@ -169,6 +188,27 @@
         zoom = actualZoom - 1;
       }
       //disable_skip
+      ipcRenderer.on("lock" , (event,data) =>{
+        var lock_img = document.getElementById("lock_img");
+        if(data == true){
+        
+      lock_img.src = "../img/unlock.png";
+        }else{
+          lock_img.src = "../img/lock.png";
+        }
+       
+      });
+      ipcRenderer.on("over_top" , (event,data) =>{
+        var over_img = document.getElementById("over_img");
+        if(data == true){
+        
+     
+      over_img.src = "../img/layer.png";
+        }else{
+          over_img.src = "../img/layer_off.png";
+        }
+       
+      });
       ipcRenderer.on("change_opacity", (event, arg) => {
         changeOpacity(arg);
         change_input_value(arg);
