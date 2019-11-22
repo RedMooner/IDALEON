@@ -139,8 +139,6 @@
       const electronTitlebarWindows = require("./electron-titlebar-windows/lib/titlebar.js");
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
-      const BrowserWindow = require("electron").remote.BrowserWindow;
-     
       const translation = require("./src/language/translate");
       var zoom = 0;
       // ipc
@@ -329,8 +327,6 @@ ipcRenderer.on("opacity" , (event , args) => {
 
       function changeOpacity(opacity) {
         $("#nav-body-views").css("opacity", opacity);
-        var Windows = BrowserWindow.getAllWindows();
-        Windows[1].webContents.send("opacity", opacity);
       }
       function change_input_value(value) {
         document.getElementById("slider").value = value;

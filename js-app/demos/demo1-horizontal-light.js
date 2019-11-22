@@ -272,7 +272,7 @@ function createBrowser() {
   });
 
 }
-function ShowNoty(value_title, value_body ) {
+function ShowNoty(value_title, value_body) {
   let note = new Notification({
     theme: "dark",
     title: value_title,
@@ -298,11 +298,9 @@ ipcMain.on("show_noty_lock_true", (event, arg) => {
 });
 ipcMain.on("show_noty_top_true", (event, arg) => {
   ShowNoty(noty_info, noty_title_top_true);
-top = true;
 });
 ipcMain.on("show_noty_top_false", (event, arg) => {
   ShowNoty(noty_info, noty_title_top_false);
-  top = false;
 });
 ipcMain.on("ignore", (event, arg) => {
   ignore = arg;
