@@ -122,7 +122,7 @@
           &nbsp;&nbsp;&nbsp;
           <input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> 
           <label id="slider-label" for="slider">
-            <img id="eye" src="../../../img/Transparency.png"/>
+            <img id="eye" src="../../../img/layer.png"/>
           </label>
           </p>
       </div>
@@ -139,10 +139,6 @@
  
    var over_btn = document.getElementById("over_btn");
    var lock_btn = document.getElementById("lock_btn");
-   ipcRenderer.on("opacity" , (event, data) => {
-     console.log(data);
-     document.getElementById("slider").value = data;
-   });
    ipcRenderer.on("lang_data_event", (event, data) => {
      
         if (data != "err") {
