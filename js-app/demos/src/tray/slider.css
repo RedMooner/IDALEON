@@ -105,12 +105,12 @@ input[type='range']::-webkit-slider-runnable-track {
 }
 
 input[type='range']::-webkit-slider-thumb {
-  width: 2px;
+  width: 0px;
   -webkit-appearance: none;
   height: 30px;
   cursor: ew-resize;
   background: yellow;
-  box-shadow: -80px 0 0 80px gray;
+  box-shadow: -80px 0 0 80px #131316;
 }
 
 input[type="range"]::-moz-range-progress {
@@ -118,6 +118,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 input[type="range"]::-moz-range-track {
+ 
   background-color: transparent;
 }
 
