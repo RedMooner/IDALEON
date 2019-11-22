@@ -278,7 +278,8 @@ function ShowNoty(value_title, value_body) {
     title: value_title,
     sound: "absolute path to audio file",
     body: value_body,
-    position: "bottom-right"
+    position: "bottom-right",
+    icon:"../img/icon_4.png"
   });
 
   note.on("close", function() {
@@ -341,19 +342,32 @@ function change_icon() {
     demo.setIcon("img/icon_4.png");
     demo.webContents.send("lock", true);
     demo.webContents.send("over_top", true);
+    trayWIN.webContents.send("lock" , true);
+    trayWIN.webContents.send("over_top" , true);
   } else {
+    if(ignore == false){
+      demo.webContents.send("lock", false);
+      trayWIN.webContents.send("lock" ,  false);
+    }
+    if(top==false){
+      trayWIN.webContents.send("over_top" , false);
+    }
     if (ignore == false && top == false) {
       demo.setIcon("img/main.png");
       demo.webContents.send("lock", false);
       demo.webContents.send("over_top", false);
+      trayWIN.webContents.send("lock" , false);
+      trayWIN.webContents.send("over_top" , false);
     } else {
       if (ignore == true) {
         demo.setIcon("img/icon_3.png");
         demo.webContents.send("lock", true);
+        trayWIN.webContents.send("lock" , true);
       }
       if (top == true) {
         demo.setIcon("img/icon_2.png");
         demo.webContents.send("over_top", true);
+        trayWIN.webContents.send("over_top" , true);
       }
     }
   }

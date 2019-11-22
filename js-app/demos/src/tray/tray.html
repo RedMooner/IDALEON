@@ -102,6 +102,7 @@
          
          <button id="lock_btn"  onclick="lock()" style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> 
           <img
+          id="lock_img"
           style="width:13px; height:13px;"
           style="width:15px; height:15px;"
           src="../../../img/lock.png">
@@ -109,7 +110,7 @@
        </div>
        <div>
         <button id="over_btn" onclick="over()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
-          style="width:13px; height:13px;"
+          id="over_img"
           style="width:15px; height:15px;"
           src="../../../img/layer.png"
       /></button>
@@ -139,6 +140,30 @@
  
    var over_btn = document.getElementById("over_btn");
    var lock_btn = document.getElementById("lock_btn");
+   var lock_text = "LockWindow";
+   var unlock_text = "Unlock Window";
+   ipcRenderer.on("lock" , (event,data) =>{
+        var lock_img = document.getElementById("lock_img");
+        if(data == true){
+        
+      lock_img.src = "../../../img/unlock.png";
+    
+        }else{
+          lock_img.src = "../../../img/lock.png";
+        }
+       
+      });
+      ipcRenderer.on("over_top" , (event,data) =>{
+        var over_img = document.getElementById("over_img");
+        if(data == true){
+        
+      over_img.src = "../../../img/layer.png";
+    
+        }else{
+          over_img.src = "../../../img/layer_off.png";
+        }
+       
+      });
    ipcRenderer.on("lang_data_event", (event, data) => {
      
         if (data != "err") {
@@ -146,6 +171,7 @@
           exit_btn.insertAdjacentHTML("beforeend", translation.translate_str("exit", data)); 
           over_btn.insertAdjacentHTML("beforeend", translation.translate_str("over_top", data)); 
           lock_btn.insertAdjacentHTML("beforeend", translation.translate_str("lock", data)); 
+        
      console.log(data);
         } else {
           console.log("w");//UnlockWindow
