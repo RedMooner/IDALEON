@@ -103,6 +103,13 @@
         ipcRenderer.send("change_icon");
       }
       //change_icon
+      function hotkey(){
+        if(hotkey_value == true){
+ipcRenderer.send("hotkey" , true)
+        }else{
+          ipcRenderer.send("hotkey" , false)
+        }
+      }
       function mouse_ignore() {
         const { BrowserWindow } = require("electron").remote;
         var win = BrowserWindow.getFocusedWindow();
@@ -135,6 +142,7 @@
     </script>
     <script></script>
     <script>
+      var  hotkey_value = true;
       var bar = document.getElementById("bar");
       const electronTitlebarWindows = require("./electron-titlebar-windows/lib/titlebar.js");
       const { remote } = require("electron");
@@ -163,6 +171,7 @@
         console.log(Value);
         change(Value);
       }
+    
       function change(value) {
         const webview = document.querySelector("webview");
         webview.setZoomFactor(value);
@@ -177,7 +186,7 @@
         webview.setZoomFactor(actualZoom + 1);
         zoom = actualZoom + 1;
       }
-
+      
       function zoomOut() {
         const webview = document.querySelector("webview");
         let actualZoom = zoom;
@@ -188,6 +197,16 @@
         zoom = actualZoom - 1;
       }
       //disable_skip
+      ipcRenderer.on("hotkey" , (event,data) =>{
+          var hb_img = document.getElementById("hotkey_img");
+          if(data == true){
+            hb_img.src = "../img/on_hotkey.png";
+            hotkey_value = true;
+          }else{
+            hb_img.src = "../img/off_hotkey.png";
+            hotkey_value = false;
+          }
+      });
       ipcRenderer.on("lock" , (event,data) =>{
         var lock_img = document.getElementById("lock_img");
         if(data == true){

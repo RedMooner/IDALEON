@@ -24,6 +24,8 @@ var noty_title_lock_true = "Idaleon was locked!";
 var noty_title_lock_false = "Idaleon was unlocked!";
 var noty_title_top_true = "Idaleon over on windows!";
 var noty_title_top_false = "Idaleon did't over on windows";
+var noty_title_sc_true = "ShortCuts enabled";
+var noty_title_sc_false = "ShortCuts dinabled";
 var noty_info = "Info message";
 let trayWIN;
 //
@@ -213,6 +215,10 @@ frame:false,
     }
     change_icon();
   });
+  globalShortcut.register("CommandOrControl+Space", ()=>{
+    disable_sc();
+    console.log("O");
+    });
   globalShortcut.register("Alt+-", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
@@ -288,10 +294,22 @@ function disable_sc(){
 if(short_cuts == true){
 short_cuts = false;
 console.log("false");
-globalShortcut.unregisterAll()
+globalShortcut.unregisterAll();
+
+ShowNoty(noty_info,noty_title_sc_false);
+
+demo.webContents.send("hotkey" , false);
+
 }else{
+  globalShortcut.unregisterAll();
   short_cuts = true;
+  ShowNoty(noty_info,noty_title_sc_true);
+  demo.webContents.send("hotkey" , true);
 console.log("true");
+globalShortcut.register("CommandOrControl+Space", ()=>{
+  disable_sc();
+  console.log("O");
+  });
 globalShortcut.register("CommandOrControl+1", () => {
   demo.webContents.send("change_opacity", 0.2);
 });
@@ -348,6 +366,7 @@ globalShortcut.register("CommandOrControl+E", () => {
   }
   change_icon();
 });
+
 globalShortcut.register("CommandOrControl+D", () => {
   var top = demo.isAlwaysOnTop();
   if (top == true) {
@@ -363,6 +382,7 @@ globalShortcut.register("CommandOrControl+D", () => {
   }
   change_icon();
 });
+
 globalShortcut.register("Alt+-", () => {
   console.log("You pressed alt & ------");
   demo.webContents.send("web_view_range", "minus");
@@ -470,6 +490,14 @@ ipcMain.on("open", (event, arg) => {
 });
 ipcMain.on("demo_load" , (e,a) =>{
   demo.webContents.send("lang_data_event", lang_data); 
+});
+ipcMain.on("hotkey" , (e,a) => {
+if(a==true){
+  short_cuts = true;
+}else{
+  short_cuts= false;
+}
+disable_sc();
 });
 function change_icon() {
   var top = demo.isAlwaysOnTop();
