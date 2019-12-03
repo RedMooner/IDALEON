@@ -116,6 +116,13 @@
       /></button>
       </div>
       <div>
+        <button id="disable_sc" onclick="disable_sc()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> Заблокировать сочетания <img
+          id="over_im"
+          style="width:15px; height:15px;"
+          src="../../../img/layer.png"
+      /></button>
+      </div>
+      <div>
         <button id="exit_btn" onclick="exit()" title="exit"></button>
       </div>
       <div>
@@ -203,6 +210,10 @@
     }
     function over(){
       ipcRenderer.send("Over" , "true");
+    }
+    function disable_sc(){
+      ipcRenderer.send("disable_sc" , "true");
+ 
     }
     ipcRenderer.send("tray_start", "true");
 
