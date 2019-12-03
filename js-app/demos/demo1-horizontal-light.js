@@ -29,16 +29,57 @@ let trayWIN;
 //
 const Notification = require("@wuild/electron-notification");
 
+
+var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+  // Someone tried to run a second instance, we should focus our window.
+  if (demo) {
+    if (demo.isMinimized()) myWindow.restore();
+    demo.focus();
+  }
+});
+
+if (shouldQuit) {
+  app.quit();
+  return;
+}
+
 app.on("ready", () => {
+
   let path = require("path");
+
+  let relreadpath_c = "\\native\\Checker\\ProcessChecker.exe";
+  let basereadpath_c = path.dirname(__dirname);
+  let filereadpath_c = basereadpath_c + relreadpath_c;
+  
+  if (!fs.existsSync(filereadpath_c)) {
+    filereadpath_c = path.dirname(basereadpath_c)+ relreadpath_c;
+    console.log(filereadpath_c);
+    }
+
+    let child_reader_c = child_process.spawn(filereadpath_c, []);
+    child_reader_c.stdout.on("data", function(data) {
+if(data == "true"){
+//app.exit();
+Debug_Text("sdsdsdsdsdsd");
+}else{
+console.log("KO");
+}
+ });
+
+
+
+
+  //
   let relreadpath = "\\native\\language\\Reader.exe";
   let basereadpath = path.dirname(__dirname);
   let filereadpath = basereadpath + relreadpath;
   
   if (!fs.existsSync(filereadpath)) {
-    filereadpath = __dirname + relreadpath;
-  }
-  
+    filereadpath = path.dirname(basereadpath)+ relreadpath;
+    console.log(filereadpath);
+    }
+  console.log(filereadpath);
+ 
   let child_reader = child_process.spawn(filereadpath, []);
   child_reader.stdout.on("data", function(data) {
     if (data != "err") {
@@ -131,6 +172,11 @@ frame:false,
   demo.webContents.openDevTools({ mode: 'detach' });
 
   });
+  function Debug_Text(value){
+    fs.writeFile("file.tmp", value, function(err){
+      if(err)throw err;
+    })
+    }
   globalShortcut.register("Alt+=", () => {
     console.log("You pressed alt & + ++++");
     demo.webContents.send("web_view_range", "plus");
@@ -466,4 +512,3 @@ function change_icon() {
 
 
 // отпрвавление
-

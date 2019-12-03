@@ -60,7 +60,16 @@
     },
     "extraResources": [],
     "win": {
-      "extraResources": []
+      "extraResources": [
+        "native/language/*.dll",
+        "native/language/*.exe",
+        "native/Checker//*.dll",
+        "native/Checker/*.exe",
+        "native/*.dll",
+        "native/*.exe",
+        "native/*.app.bat",
+        "!./exclude-me.dll"
+      ]
     }
   }
 }

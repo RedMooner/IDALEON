@@ -1,0 +1,6 @@
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\bin\Debug\ProcessChecker.exe.config
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\bin\Debug\ProcessChecker.exe
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\bin\Debug\ProcessChecker.pdb
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\obj\Debug\ProcessChecker.csprojAssemblyReference.cache
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\obj\Debug\ProcessChecker.exe
+C:\Users\motyr\source\repos\ProcessChecker\ProcessChecker\obj\Debug\ProcessChecker.pdb
