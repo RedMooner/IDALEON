@@ -14,15 +14,18 @@
         border-radius: 4px;
         flex-direction: column;
       }
+
       #nav-body-views {
         z-index: 1;
       }
+
       #flag {
         width: 100%;
         height: 9px;
         background-color: rgb(23, 23, 23);
         z-index: 4;
       }
+
       #bar {
         z-index: 3;
         -webkit-app-region: drag;
@@ -30,9 +33,11 @@
 
       .animate {
       }
+
       #nav-body-ctrls {
         -webkit-app-region: no-drag;
       }
+
       #nav-body-tabs {
         -webkit-app-region: no-drag;
       }
@@ -67,14 +72,19 @@
 
     <script>
       //TEST
-     
-    $("#nav-body-views").mouseenter(function(){
-      $("#nav-body-views").css("opacity", 0.1);
-    
-      $("#nav-body-views").css("opacity", document.getElementById("slider").value);
-      document.getElementById("slider").value = document.getElementById("slider").value;
-    });
-    //TEST
+
+      $("#nav-body-views").mouseenter(function() {
+        $("#nav-body-views").css("opacity", 0.1);
+
+        $("#nav-body-views").css(
+          "opacity",
+          document.getElementById("slider").value
+        );
+        document.getElementById("slider").value = document.getElementById(
+          "slider"
+        ).value;
+      });
+      //TEST
       $(document).bind("drop dragover", function(e) {
         e.preventDefault();
       });
@@ -97,17 +107,17 @@
         } else {
           win.setAlwaysOnTop(true);
           top = true;
-          ipcRenderer.send("show_noty_top_true" );
+          ipcRenderer.send("show_noty_top_true");
           // alert("top");
         }
         ipcRenderer.send("change_icon");
       }
       //change_icon
-      function hotkey(){
-        if(hotkey_value == true){
-ipcRenderer.send("hotkey" , true)
-        }else{
-          ipcRenderer.send("hotkey" , false)
+      function hotkey() {
+        if (hotkey_value == true) {
+          ipcRenderer.send("hotkey", true);
+        } else {
+          ipcRenderer.send("hotkey", false);
         }
       }
       function mouse_ignore() {
@@ -129,20 +139,18 @@ ipcRenderer.send("hotkey" , true)
         ipcRenderer.send("change_icon");
       }
       $(window).load(function() {
-
         const enav = new (require("../index.js"))();
         enav.newTab(`file:///${__dirname}/mainPage.html`, {
           icon: "../img/site-icon.png",
           title: "Local file",
           close: "false"
         });
-      ipcRenderer.send("demo_load");
-    
+        ipcRenderer.send("demo_load");
       });
     </script>
     <script></script>
     <script>
-      var  hotkey_value = true;
+      var hotkey_value = true;
       var bar = document.getElementById("bar");
       const electronTitlebarWindows = require("./electron-titlebar-windows/lib/titlebar.js");
       const { remote } = require("electron");
@@ -151,27 +159,27 @@ ipcRenderer.send("hotkey" , true)
       var zoom = 0;
       // ipc
       ipcRenderer.on("lang_data_event", (event, data) => {
-      var lock_btn = document.getElementById("lock_btn");
-      var over_btn = document.getElementById("over_btn");
-      var zoom_btn = document.getElementById("zoom_btn");
+        var lock_btn = document.getElementById("lock_btn");
+        var over_btn = document.getElementById("over_btn");
+        var zoom_btn = document.getElementById("zoom_btn");
         if (data != "err") {
           data = JSON.parse(data);
-          lock_btn.title =  translation.translate_str("lock", data); 
-          over_btn.title = translation.translate_str("over_top", data); 
-          zoom_btn.title = translation.translate_str("zoom", data); 
-     console.log(data);
+          lock_btn.title = translation.translate_str("lock", data);
+          over_btn.title = translation.translate_str("over_top", data);
+          zoom_btn.title = translation.translate_str("zoom", data);
+          console.log(data);
         } else {
-          lock_btn.title =  "Lock Window";
-          over_btn.title  ="Over Windows (CTRL + D)";
+          lock_btn.title = "Lock Window";
+          over_btn.title = "Over Windows (CTRL + D)";
           zoom_btn.title = "Zoom";
         }
-        });
+      });
       function onZoomChange() {
         var Value = $("#zoom_slider").val();
         console.log(Value);
         change(Value);
       }
-    
+
       function change(value) {
         const webview = document.querySelector("webview");
         webview.setZoomFactor(value);
@@ -186,7 +194,7 @@ ipcRenderer.send("hotkey" , true)
         webview.setZoomFactor(actualZoom + 1);
         zoom = actualZoom + 1;
       }
-      
+
       function zoomOut() {
         const webview = document.querySelector("webview");
         let actualZoom = zoom;
@@ -197,36 +205,31 @@ ipcRenderer.send("hotkey" , true)
         zoom = actualZoom - 1;
       }
       //disable_skip
-      ipcRenderer.on("hotkey" , (event,data) =>{
-          var hb_img = document.getElementById("hotkey_img");
-          if(data == true){
-            hb_img.src = "../img/on_hotkey.png";
-            hotkey_value = true;
-          }else{
-            hb_img.src = "../img/off_hotkey.png";
-            hotkey_value = false;
-          }
+      ipcRenderer.on("hotkey", (event, data) => {
+        var hb_img = document.getElementById("hotkey_img");
+        if (data == true) {
+          hb_img.src = "../img/on_hotkey.png";
+          hotkey_value = true;
+        } else {
+          hb_img.src = "../img/off_hotkey.png";
+          hotkey_value = false;
+        }
       });
-      ipcRenderer.on("lock" , (event,data) =>{
+      ipcRenderer.on("lock", (event, data) => {
         var lock_img = document.getElementById("lock_img");
-        if(data == true){
-        
-      lock_img.src = "../img/unlock.png";
-        }else{
+        if (data == true) {
+          lock_img.src = "../img/unlock.png";
+        } else {
           lock_img.src = "../img/lock.png";
         }
-       
       });
-      ipcRenderer.on("over_top" , (event,data) =>{
+      ipcRenderer.on("over_top", (event, data) => {
         var over_img = document.getElementById("over_img");
-        if(data == true){
-        
-     
-      over_img.src = "../img/layer.png";
-        }else{
+        if (data == true) {
+          over_img.src = "../img/layer.png";
+        } else {
           over_img.src = "../img/layer_off.png";
         }
-       
       });
       ipcRenderer.on("change_opacity", (event, arg) => {
         changeOpacity(arg);
@@ -331,13 +334,13 @@ ipcRenderer.send("hotkey" , true)
       /* development */
 
       // create a new tab to www.google.com
-ipcRenderer.on("opacity" , (event , args) => {
-  changeOpacity(args);
-  change_input_value(args);
-});
-ipcRenderer.on("debug" , (event,args)=>{
-alert(args);
-});
+      ipcRenderer.on("opacity", (event, args) => {
+        changeOpacity(args);
+        change_input_value(args);
+      });
+      ipcRenderer.on("debug", (event, args) => {
+        alert(args);
+      });
       function onChange() {
         var opacityValue = $("#slider").val();
         changeOpacity(opacityValue);

@@ -31,8 +31,10 @@ let trayWIN;
 //
 const Notification = require("@wuild/electron-notification");
 
-
-var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+var shouldQuit = app.makeSingleInstance(function (
+  commandLine,
+  workingDirectory
+) {
   // Someone tried to run a second instance, we should focus our window.
   if (demo) {
     if (demo.isMinimized()) myWindow.restore();
@@ -46,97 +48,100 @@ if (shouldQuit) {
 }
 
 app.on("ready", () => {
-
   let path = require("path");
 
   let relreadpath_c = "\\native\\Checker\\ProcessChecker.exe";
   let basereadpath_c = path.dirname(__dirname);
   let filereadpath_c = basereadpath_c + relreadpath_c;
-  
+
   if (!fs.existsSync(filereadpath_c)) {
-    filereadpath_c = path.dirname(basereadpath_c)+ relreadpath_c;
+    filereadpath_c = path.dirname(basereadpath_c) + relreadpath_c;
     console.log(filereadpath_c);
+  }
+
+  let child_reader_c = child_process.spawn(filereadpath_c, []);
+  child_reader_c.stdout.on("data", function (data) {
+    if (data == "true") {
+      //app.exit();
+      Debug_Text("sdsdsdsdsdsd");
+    } else {
+      console.log("KO");
     }
-
-    let child_reader_c = child_process.spawn(filereadpath_c, []);
-    child_reader_c.stdout.on("data", function(data) {
-if(data == "true"){
-//app.exit();
-Debug_Text("sdsdsdsdsdsd");
-}else{
-console.log("KO");
-}
- });
-
-
-
+  });
 
   //
   let relreadpath = "\\native\\language\\Reader.exe";
   let basereadpath = path.dirname(__dirname);
   let filereadpath = basereadpath + relreadpath;
-  
+
   if (!fs.existsSync(filereadpath)) {
-    filereadpath = path.dirname(basereadpath)+ relreadpath;
+    filereadpath = path.dirname(basereadpath) + relreadpath;
     console.log(filereadpath);
-    }
+  }
   console.log(filereadpath);
- 
+
   let child_reader = child_process.spawn(filereadpath, []);
-  child_reader.stdout.on("data", function(data) {
+  child_reader.stdout.on("data", function (data) {
     if (data != "err") {
       lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
       a = JSON.parse(lang_data);
-     exit_tray = translation.translate_str("exit" , JSON.parse(lang_data));
-     open = translation.translate_str("open" , JSON.parse(lang_data));
+      exit_tray = translation.translate_str("exit", JSON.parse(lang_data));
+      open = translation.translate_str("open", JSON.parse(lang_data));
       // присаваеваем перевод текстам уведомлений
-      noty_title_lock_false=translation.translate_str("noty_title_lock_false", JSON.parse(lang_data));
-      demo.webContents.send("noty_title_lock_false", noty_title_lock_false); 
-      noty_title_lock_true=translation.translate_str("noty_title_lock_true", JSON.parse(lang_data));
-      demo.webContents.send("noty_title_lock_true",  noty_title_lock_true); 
-      noty_title_top_true = translation.translate_str("noty_title_top_true", JSON.parse(lang_data));
-      demo.webContents.send("noty_title_top_true",  noty_title_top_true); 
-      noty_title_top_false = translation.translate_str("noty_title_top_false", JSON.parse(lang_data));
-      demo.webContents.send("noty_title_top_false",    noty_title_top_false ); 
-     
+      noty_title_lock_false = translation.translate_str(
+        "noty_title_lock_false",
+        JSON.parse(lang_data)
+      );
+      demo.webContents.send("noty_title_lock_false", noty_title_lock_false);
+      noty_title_lock_true = translation.translate_str(
+        "noty_title_lock_true",
+        JSON.parse(lang_data)
+      );
+      demo.webContents.send("noty_title_lock_true", noty_title_lock_true);
+      noty_title_top_true = translation.translate_str(
+        "noty_title_top_true",
+        JSON.parse(lang_data)
+      );
+      demo.webContents.send("noty_title_top_true", noty_title_top_true);
+      noty_title_top_false = translation.translate_str(
+        "noty_title_top_false",
+        JSON.parse(lang_data)
+      );
+      demo.webContents.send("noty_title_top_false", noty_title_top_false);
+
       noty_info = translation.translate_str("noty_info", JSON.parse(lang_data));
-      demo.webContents.send("noty_info",    noty_info ); 
-      
-    } else{
-    lang_data="err";
+      demo.webContents.send("noty_info", noty_info);
+    } else {
+      lang_data = "err";
     }
   });
   createBrowser();
-  demo.webContents.send("lang_data_event", lang_data); 
-     
+  demo.webContents.send("lang_data_event", lang_data);
+
   //SetTray();
   tray = new Tray("img/tray.png"); //
-   trayWIN = new BrowserWindow({
+  trayWIN = new BrowserWindow({
     width: 340,
     height: 380,
 
-  
-frame:false,
+    frame: false,
     alwaysOnTop: true,
     transparent: true,
     skipTaskbar: true,
-    resizable:false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   });
   trayWIN.loadURL(`file:///${__dirname}/src/tray/tray.html`);
   trayWindow.setOptions({
-   
     window: trayWIN,
-    tray: tray,
+    tray: tray
   });
-  tray.on("click" , function(){
-      demo.show();
-  }
+  tray.on("click", function () {
+    demo.show();
+  });
 
-  );
-  
   // для прозрачности
 
   globalShortcut.register("CommandOrControl+1", () => {
@@ -168,17 +173,13 @@ frame:false,
   });
   // для общих настроек
   globalShortcut.register("CommandOrControl+i", () => {
-  
-    
-    
-  demo.webContents.openDevTools({ mode: 'detach' });
-
+    demo.webContents.openDevTools({ mode: "detach" });
   });
-  function Debug_Text(value){
-    fs.writeFile("file.tmp", value, function(err){
-      if(err)throw err;
-    })
-    }
+  function Debug_Text(value) {
+    fs.writeFile("file.tmp", value, function (err) {
+      if (err) throw err;
+    });
+  }
   globalShortcut.register("Alt+=", () => {
     console.log("You pressed alt & + ++++");
     demo.webContents.send("web_view_range", "plus");
@@ -187,7 +188,7 @@ frame:false,
     if (ignore == false) {
       console.log("disable_skip");
       demo.setIgnoreMouseEvents(true);
-      ShowNoty(noty_info,noty_title_lock_true);
+      ShowNoty(noty_info, noty_title_lock_true);
       ignore = true;
       demo.webContents.send("add_class", "transition");
     } else {
@@ -215,10 +216,10 @@ frame:false,
     }
     change_icon();
   });
-  globalShortcut.register("CommandOrControl+Space", ()=>{
+  globalShortcut.register("CommandOrControl+Space", () => {
     disable_sc();
     console.log("O");
-    });
+  });
   globalShortcut.register("Alt+-", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
@@ -230,13 +231,13 @@ app.on("window-all-closed", () => {
 
 function SetTray() {
   tray = new Tray("img/tray.png"); //
-  
+
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Unlock Window",
-      click: function() {
+      click: function () {
         console.log("disable");
-    
+
         demo.setIgnoreMouseEvents(false);
         demo.webContents.send("disable_skip_tray", "false");
         demo.webContents.send("remove_class", "transition");
@@ -247,7 +248,7 @@ function SetTray() {
     },
     {
       label: "Over all windows",
-      click: function() {
+      click: function () {
         var top = demo.isAlwaysOnTop();
         if (top == true) {
           demo.setAlwaysOnTop(false);
@@ -265,7 +266,7 @@ function SetTray() {
     },
     {
       label: open,
-      click: function() {
+      click: function () {
         demo.show();
       }
     },
@@ -274,7 +275,7 @@ function SetTray() {
   tray.setToolTip("This is my application.");
   tray.setContextMenu(contextMenu);
 }
-function OverAll(){
+function OverAll() {
   var top = demo.isAlwaysOnTop();
   if (top == true) {
     demo.setAlwaysOnTop(false);
@@ -288,121 +289,116 @@ function OverAll(){
     // alert("top");
   }
   change_icon();
-
 }
-function disable_sc(){
-if(short_cuts == true){
-short_cuts = false;
-console.log("false");
-globalShortcut.unregisterAll();
+function disable_sc() {
+  if (short_cuts == true) {
+    short_cuts = false;
+    console.log("false");
+    globalShortcut.unregisterAll();
 
-ShowNoty(noty_info,noty_title_sc_false);
+    ShowNoty(noty_info, noty_title_sc_false);
 
-demo.webContents.send("hotkey" , false);
-
-}else{
-  globalShortcut.unregisterAll();
-  short_cuts = true;
-  ShowNoty(noty_info,noty_title_sc_true);
-  demo.webContents.send("hotkey" , true);
-console.log("true");
-globalShortcut.register("CommandOrControl+Space", ()=>{
-  disable_sc();
-  console.log("O");
-  });
-globalShortcut.register("CommandOrControl+1", () => {
-  demo.webContents.send("change_opacity", 0.2);
-});
-globalShortcut.register("CommandOrControl+2", () => {
-  demo.webContents.send("change_opacity", 0.3);
-});
-globalShortcut.register("CommandOrControl+3", () => {
-  demo.webContents.send("change_opacity", 0.4);
-});
-globalShortcut.register("CommandOrControl+4", () => {
-  demo.webContents.send("change_opacity", 0.5);
-});
-globalShortcut.register("CommandOrControl+5", () => {
-  demo.webContents.send("change_opacity", 0.6);
-});
-globalShortcut.register("CommandOrControl+6", () => {
-  demo.webContents.send("change_opacity", 0.7);
-});
-globalShortcut.register("CommandOrControl+7", () => {
-  demo.webContents.send("change_opacity", 0.8);
-});
-globalShortcut.register("CommandOrControl+8", () => {
-  demo.webContents.send("change_opacity", 0.9);
-});
-globalShortcut.register("CommandOrControl+9", () => {
-  demo.webContents.send("change_opacity", 1);
-});
-// для общих настроек
-globalShortcut.register("CommandOrControl+i", () => {
-
-  
-  
-demo.webContents.openDevTools({ mode: 'detach' });
-
-});
-globalShortcut.register("Alt+=", () => {
-  console.log("You pressed alt & + ++++");
-  demo.webContents.send("web_view_range", "plus");
-});
-globalShortcut.register("CommandOrControl+E", () => {
-  if (ignore == false) {
-    console.log("disable_skip");
-    demo.setIgnoreMouseEvents(true);
-    ShowNoty(noty_info,noty_title_lock_true);
-    ignore = true;
-    demo.webContents.send("add_class", "transition");
+    demo.webContents.send("hotkey", false);
+    trayWIN.webContents.send("sc_tray", false);
   } else {
-    console.log("disable_skip");
-    demo.webContents.send("disable_skip", "false");
-    demo.setIgnoreMouseEvents(false);
-    ShowNoty(noty_info, noty_title_lock_false);
-    ignore = false;
-    demo.webContents.send("remove_class", "transition");
+    trayWIN.webContents.send("sc_tray", true);
+    globalShortcut.unregisterAll();
+    short_cuts = true;
+    ShowNoty(noty_info, noty_title_sc_true);
+    demo.webContents.send("hotkey", true);
+    console.log("true");
+    globalShortcut.register("CommandOrControl+Space", () => {
+      disable_sc();
+      console.log("O");
+    });
+    globalShortcut.register("CommandOrControl+1", () => {
+      demo.webContents.send("change_opacity", 0.2);
+    });
+    globalShortcut.register("CommandOrControl+2", () => {
+      demo.webContents.send("change_opacity", 0.3);
+    });
+    globalShortcut.register("CommandOrControl+3", () => {
+      demo.webContents.send("change_opacity", 0.4);
+    });
+    globalShortcut.register("CommandOrControl+4", () => {
+      demo.webContents.send("change_opacity", 0.5);
+    });
+    globalShortcut.register("CommandOrControl+5", () => {
+      demo.webContents.send("change_opacity", 0.6);
+    });
+    globalShortcut.register("CommandOrControl+6", () => {
+      demo.webContents.send("change_opacity", 0.7);
+    });
+    globalShortcut.register("CommandOrControl+7", () => {
+      demo.webContents.send("change_opacity", 0.8);
+    });
+    globalShortcut.register("CommandOrControl+8", () => {
+      demo.webContents.send("change_opacity", 0.9);
+    });
+    globalShortcut.register("CommandOrControl+9", () => {
+      demo.webContents.send("change_opacity", 1);
+    });
+    // для общих настроек
+    globalShortcut.register("CommandOrControl+i", () => {
+      demo.webContents.openDevTools({ mode: "detach" });
+    });
+    globalShortcut.register("Alt+=", () => {
+      console.log("You pressed alt & + ++++");
+      demo.webContents.send("web_view_range", "plus");
+    });
+    globalShortcut.register("CommandOrControl+E", () => {
+      if (ignore == false) {
+        console.log("disable_skip");
+        demo.setIgnoreMouseEvents(true);
+        ShowNoty(noty_info, noty_title_lock_true);
+        ignore = true;
+        demo.webContents.send("add_class", "transition");
+      } else {
+        console.log("disable_skip");
+        demo.webContents.send("disable_skip", "false");
+        demo.setIgnoreMouseEvents(false);
+        ShowNoty(noty_info, noty_title_lock_false);
+        ignore = false;
+        demo.webContents.send("remove_class", "transition");
+      }
+      change_icon();
+    });
+
+    globalShortcut.register("CommandOrControl+D", () => {
+      var top = demo.isAlwaysOnTop();
+      if (top == true) {
+        demo.setAlwaysOnTop(false);
+        top = false;
+        ShowNoty(noty_info, noty_title_top_false);
+        //  alert("не top");
+      } else {
+        demo.setAlwaysOnTop(true);
+        top = true;
+        ShowNoty(noty_info, noty_title_top_true);
+        // alert("top");
+      }
+      change_icon();
+    });
+
+    globalShortcut.register("Alt+-", () => {
+      console.log("You pressed alt & ------");
+      demo.webContents.send("web_view_range", "minus");
+    });
   }
-  change_icon();
-});
-
-globalShortcut.register("CommandOrControl+D", () => {
-  var top = demo.isAlwaysOnTop();
-  if (top == true) {
-    demo.setAlwaysOnTop(false);
-    top = false;
-    ShowNoty(noty_info, noty_title_top_false);
-    //  alert("не top");
-  } else {
-    demo.setAlwaysOnTop(true);
-    top = true;
-    ShowNoty(noty_info, noty_title_top_true);
-    // alert("top");
-  }
-  change_icon();
-});
-
-globalShortcut.register("Alt+-", () => {
-  console.log("You pressed alt & ------");
-  demo.webContents.send("web_view_range", "minus");
-});
-
 }
-}
-function Unlock(){
-  if(ignore == true){
+function Unlock() {
+  if (ignore == true) {
     console.log("disable");
-    
+
     demo.setIgnoreMouseEvents(false);
     demo.webContents.send("disable_skip_tray", "false");
     demo.webContents.send("remove_class", "transition");
     ignore = false;
     ShowNoty(noty_info, noty_title_lock_false);
     change_icon();
-  }else{
+  } else {
     console.log("disable");
-    
+
     demo.setIgnoreMouseEvents(true);
     demo.webContents.send("disable_skip_tray", "true");
     demo.webContents.send("add_class", "transition");
@@ -410,7 +406,6 @@ function Unlock(){
     ShowNoty(noty_info, noty_title_lock_true);
     change_icon();
   }
-
 }
 function createBrowser() {
   demo = new BrowserWindow({
@@ -423,7 +418,6 @@ function createBrowser() {
   demo.on("close", () => {
     demo = null;
   });
-
 }
 function ShowNoty(value_title, value_body) {
   let note = new Notification({
@@ -432,10 +426,10 @@ function ShowNoty(value_title, value_body) {
     sound: "absolute path to audio file",
     body: value_body,
     position: "bottom-right",
-    icon:"../img/icon_4.png"
+    icon: "../img/icon_4.png"
   });
 
-  note.on("close", function() {
+  note.on("close", function () {
     console.log("Notification has been closed");
   });
 
@@ -460,8 +454,8 @@ ipcMain.on("ignore", (event, arg) => {
   ignore = arg;
   console.log(arg);
 });
-ipcMain.on("disable_sc" , (event ,args) =>{
-disable_sc();
+ipcMain.on("disable_sc", (event, args) => {
+  disable_sc();
 });
 ipcMain.on("change_icon", (event, arg) => {
   change_icon();
@@ -476,28 +470,28 @@ ipcMain.on("tray_start", (event, arg) => {
   trayWIN.webContents.send("lang_data_event", lang_data);
 });
 ipcMain.on("Over", (event, arg) => {
- OverAll();
+  OverAll();
 });
 ipcMain.on("open", (event, arg) => {
   demo.show();
- });
- ipcMain.on("tray-window-clicked", (e, a) => {
+});
+ipcMain.on("tray-window-clicked", (e, a) => {
   console.log("clicked the tray icon");
   //console.log(e.window)
   //console.log(e.tray)
-  
- // demo.focus();
+
+  // demo.focus();
 });
-ipcMain.on("demo_load" , (e,a) =>{
-  demo.webContents.send("lang_data_event", lang_data); 
+ipcMain.on("demo_load", (e, a) => {
+  demo.webContents.send("lang_data_event", lang_data);
 });
-ipcMain.on("hotkey" , (e,a) => {
-if(a==true){
-  short_cuts = true;
-}else{
-  short_cuts= false;
-}
-disable_sc();
+ipcMain.on("hotkey", (e, a) => {
+  if (a == true) {
+    short_cuts = true;
+  } else {
+    short_cuts = false;
+  }
+  disable_sc();
 });
 function change_icon() {
   var top = demo.isAlwaysOnTop();
@@ -506,37 +500,36 @@ function change_icon() {
     demo.setIcon("img/icon_4.png");
     demo.webContents.send("lock", true);
     demo.webContents.send("over_top", true);
-    trayWIN.webContents.send("lock" , true);
-    trayWIN.webContents.send("over_top" , true);
+    trayWIN.webContents.send("lock", true);
+    trayWIN.webContents.send("over_top", true);
   } else {
-    if(ignore == false){
+    if (ignore == false) {
       demo.webContents.send("lock", false);
-      trayWIN.webContents.send("lock" ,  false);
+      trayWIN.webContents.send("lock", false);
     }
-    if(top==false){
-      trayWIN.webContents.send("over_top" , false);
+    if (top == false) {
+      trayWIN.webContents.send("over_top", false);
     }
     if (ignore == false && top == false) {
       demo.setIcon("img/main.png");
       demo.webContents.send("lock", false);
       demo.webContents.send("over_top", false);
-      trayWIN.webContents.send("lock" , false);
-      trayWIN.webContents.send("over_top" , false);
+      trayWIN.webContents.send("lock", false);
+      trayWIN.webContents.send("over_top", false);
     } else {
       if (ignore == true) {
         demo.setIcon("img/icon_3.png");
         demo.webContents.send("lock", true);
-        trayWIN.webContents.send("lock" , true);
+        trayWIN.webContents.send("lock", true);
       }
       if (top == true) {
         demo.setIcon("img/icon_2.png");
         demo.webContents.send("over_top", true);
-        trayWIN.webContents.send("over_top" , true);
+        trayWIN.webContents.send("over_top", true);
       }
     }
   }
 }
 // локализация
-
 
 // отпрвавление

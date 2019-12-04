@@ -77,22 +77,22 @@ function Navigation(options) {
   if (options.showBackButton) {
     $("#nav-body-ctrls").append(
       '<i id="nav-ctrls-back" class="nav-icons disabled" title="Go back">' +
-        this.SVG_BACK +
-        "</i>"
+      this.SVG_BACK +
+      "</i>"
     );
   }
   if (options.showForwardButton) {
     $("#nav-body-ctrls").append(
       '<i id="nav-ctrls-forward" class="nav-icons disabled" title="Go forward">' +
-        this.SVG_FORWARD +
-        "</i>"
+      this.SVG_FORWARD +
+      "</i>"
     );
   }
   if (options.showReloadButton) {
     $("#nav-body-ctrls").append(
       '<i id="nav-ctrls-reload" class="nav-icons disabled" title="Reload page">' +
-        this.SVG_RELOAD +
-        "</i>"
+      this.SVG_RELOAD +
+      "</i>"
     );
   }
   if (options.showUrlBar) {
@@ -100,14 +100,14 @@ function Navigation(options) {
       '<input id="nav-ctrls-url" type="text" title="Enter an address or search term"    />'
     );
     $("#nav-body-ctrls").append(
-      '<p style="position: relative;" title="Window transparency (CTRL + 1-9)"> &nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> <label id="slider-label" for="slider"><img id="eye" src="../img/Transparency.png"/> </label></p>'  
+      '<p style="position: relative;" title="Window transparency (CTRL + 1-9)"> &nbsp;&nbsp;&nbsp;<input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> <label id="slider-label" for="slider"><img id="eye" src="../img/Transparency.png"/> </label></p>'
     );
   }
   if (options.showAddTabButton) {
     $("#nav-body-tabs").append(
       '<i id="nav-tabs-add" class="nav-icons" title="Add new tab">' +
-        this.SVG_ADD +
-        "</i>"
+      this.SVG_ADD +
+      "</i>"
     );
   }
   /**
@@ -129,7 +129,7 @@ function Navigation(options) {
   // switch active view and tab on click
   //
   $("#nav-body-tabs")
-    .on("click", ".nav-tabs-tab", function() {
+    .on("click", ".nav-tabs-tab", function () {
       $(".nav-tabs-tab, .nav-views-view").removeClass("active");
 
       var sessionID = $(this).data("session");
@@ -138,7 +138,7 @@ function Navigation(options) {
         .addClass("active");
 
       var session = $('.nav-views-view[data-session="' + sessionID + '"]')[0];
-      (NAV.changeTabCallback || (() => {}))(session);
+      (NAV.changeTabCallback || (() => { }))(session);
       NAV._updateUrl(session.getURL());
       NAV._updateCtrls();
 
@@ -146,7 +146,7 @@ function Navigation(options) {
       // close tab and view
       //
     })
-    .on("click", ".nav-tabs-close", function() {
+    .on("click", ".nav-tabs-close", function () {
       var sessionID = $(this)
         .parent(".nav-tabs-tab")
         .data("session");
@@ -157,10 +157,10 @@ function Navigation(options) {
       if (session.hasClass("active")) {
         if (session.next(".nav-tabs-tab").length) {
           session.next().addClass("active");
-          (NAV.changeTabCallback || (() => {}))(session.next()[1]);
+          (NAV.changeTabCallback || (() => { }))(session.next()[1]);
         } else {
           session.prev().addClass("active");
-          (NAV.changeTabCallback || (() => {}))(session.prev()[1]);
+          (NAV.changeTabCallback || (() => { }))(session.prev()[1]);
         }
       }
       session.remove();
@@ -171,7 +171,7 @@ function Navigation(options) {
   //
   // add a tab, default to google.com
   //
-  $("#nav-body-tabs").on("click", "#nav-tabs-add", function() {
+  $("#nav-body-tabs").on("click", "#nav-tabs-add", function () {
     let params;
     if (typeof options.newTabParams === "function") {
       params = options.newTabParams();
@@ -196,19 +196,19 @@ function Navigation(options) {
   //
   // go back
   //
-  $("#nav-body-ctrls").on("click", "#nav-ctrls-back", function() {
+  $("#nav-body-ctrls").on("click", "#nav-ctrls-back", function () {
     NAV.back();
   });
   //
   // go forward
   //
-  $("#nav-body-ctrls").on("click", "#nav-ctrls-forward", function() {
+  $("#nav-body-ctrls").on("click", "#nav-ctrls-forward", function () {
     NAV.forward();
   });
   //
   // reload page
   //
-  $("#nav-body-ctrls").on("click", "#nav-ctrls-reload", function() {
+  $("#nav-body-ctrls").on("click", "#nav-ctrls-reload", function () {
     if ($(this).find("#nav-ready").length) {
       NAV.reload();
     } else {
@@ -218,9 +218,9 @@ function Navigation(options) {
   //
   // highlight address input text on first select
   //
-  $("#nav-ctrls-url").on("focus", function(e) {
+  $("#nav-ctrls-url").on("focus", function (e) {
     $(this)
-      .one("mouseup", function() {
+      .one("mouseup", function () {
         $(this).select();
         return false;
       })
@@ -229,7 +229,7 @@ function Navigation(options) {
   //
   // load or search address on enter / shift+enter
   //
-  $("#nav-ctrls-url").keyup(function(e) {
+  $("#nav-ctrls-url").keyup(function (e) {
     if (e.keyCode == 13) {
       if (e.shiftKey) {
         NAV.newTab(this.value, {
@@ -254,7 +254,7 @@ function Navigation(options) {
   //
   // update controls like back, forward, etc...
   //
-  this._updateCtrls = function() {
+  this._updateCtrls = function () {
     webview = $(".nav-views-view.active")[0];
     if (!webview) {
       $("#nav-ctrls-back").addClass("disabled");
@@ -288,7 +288,7 @@ function Navigation(options) {
   //
   // start loading animations
   //
-  this._loading = function(tab) {
+  this._loading = function (tab) {
     tab = tab || null;
 
     if (tab == null) {
@@ -303,7 +303,7 @@ function Navigation(options) {
   //
   // stop loading animations
   //
-  this._stopLoading = function(tab) {
+  this._stopLoading = function (tab) {
     tab = tab || null;
 
     if (tab == null) {
@@ -316,7 +316,7 @@ function Navigation(options) {
   //
   // auto add http protocol to url input or do a search
   //
-  this._purifyUrl = function(url) {
+  this._purifyUrl = function (url) {
     if (
       urlRegex({
         strict: false,
@@ -334,7 +334,7 @@ function Navigation(options) {
   //
   // set the color of the tab based on the favicon
   //
-  this._setTabColor = function(url, currtab) {
+  this._setTabColor = function (url, currtab) {
     const getHexColor = new Color(url, {
       amount: 1,
       format: "hex"
@@ -346,11 +346,11 @@ function Navigation(options) {
   //
   // add event listeners to current webview
   //
-  this._addEvents = function(sessionID, options) {
+  this._addEvents = function (sessionID, options) {
     let currtab = $('.nav-tabs-tab[data-session="' + sessionID + '"]');
     let webview = $('.nav-views-view[data-session="' + sessionID + '"]');
 
-    webview.on("dom-ready", function() {
+    webview.on("dom-ready", function () {
       if (options.contextMenu) {
         contextMenu({
           window: webview[0],
@@ -365,19 +365,19 @@ function Navigation(options) {
         });
       }
     });
-    webview.on("page-title-updated", function() {
+    webview.on("page-title-updated", function () {
       if (options.title == "default") {
         currtab.find(".nav-tabs-title").text(webview[0].getTitle());
         currtab.find(".nav-tabs-title").attr("title", webview[0].getTitle());
       }
     });
-    webview.on("did-start-loading", function() {
+    webview.on("did-start-loading", function () {
       NAV._loading(currtab);
     });
-    webview.on("did-stop-loading", function() {
+    webview.on("did-stop-loading", function () {
       NAV._stopLoading(currtab);
     });
-    webview.on("enter-html-full-screen", function() {
+    webview.on("enter-html-full-screen", function () {
       $(".nav-views-view.active")
         .siblings()
         .not("script")
@@ -388,7 +388,7 @@ function Navigation(options) {
         .siblings()
         .hide();
     });
-    webview.on("leave-html-full-screen", function() {
+    webview.on("leave-html-full-screen", function () {
       $(".nav-views-view.active")
         .siblings()
         .not("script")
@@ -399,7 +399,7 @@ function Navigation(options) {
         .not("script")
         .show();
     });
-    webview.on("load-commit", function() {
+    webview.on("load-commit", function () {
       NAV._updateCtrls();
     });
     webview[0].addEventListener("did-navigate", res => {
@@ -437,23 +437,23 @@ function Navigation(options) {
       ) {
         this.executeJavaScript(
           "document.body.innerHTML=" +
-            '<div style="background-color:whitesmoke;padding:40px;margin:20px;font-family:consolas;">' +
-            "<h2 align=center>Oops, this page failed to load correctly.</h2>" +
-            "<p align=center><i>ERROR [ " +
-            res.errorCode +
-            ", " +
-            res.errorDescription +
-            " ]</i></p>" +
-            "<br/><hr/>" +
-            "<h4>Try this</h4>" +
-            '<li type=circle>Check your spelling - <b>"' +
-            res.validatedURL +
-            '".</b></li><br/>' +
-            '<li type=circle><a href="javascript:location.reload();">Refresh</a> the page.</li><br/>' +
-            '<li type=circle>Perform a <a href=javascript:location.href="https://www.google.com/search?q=' +
-            res.validatedURL +
-            '">search</a> instead.</li><br/>' +
-            "</div>"
+          '<div style="background-color:whitesmoke;padding:40px;margin:20px;font-family:consolas;">' +
+          "<h2 align=center>Oops, this page failed to load correctly.</h2>" +
+          "<p align=center><i>ERROR [ " +
+          res.errorCode +
+          ", " +
+          res.errorDescription +
+          " ]</i></p>" +
+          "<br/><hr/>" +
+          "<h4>Try this</h4>" +
+          '<li type=circle>Check your spelling - <b>"' +
+          res.validatedURL +
+          '".</b></li><br/>' +
+          '<li type=circle><a href="javascript:location.reload();">Refresh</a> the page.</li><br/>' +
+          '<li type=circle>Perform a <a href=javascript:location.href="https://www.google.com/search?q=' +
+          res.validatedURL +
+          '">search</a> instead.</li><br/>' +
+          "</div>"
         );
       }
     });
@@ -462,7 +462,7 @@ function Navigation(options) {
   //
   // update #nav-ctrls-url to given url or active tab's url
   //
-  this._updateUrl = function(url) {
+  this._updateUrl = function (url) {
     url = url || null;
     urlInput = $("#nav-ctrls-url");
     if (url == null) {
@@ -477,7 +477,7 @@ function Navigation(options) {
       urlInput.prop("value", url);
       urlInput.data("last", url);
     } else {
-      urlInput.on("blur", function() {
+      urlInput.on("blur", function () {
         // if url not edited
         if (urlInput.val() == urlInput.data("last")) {
           urlInput.prop("value", url);
@@ -494,7 +494,7 @@ function Navigation(options) {
 //
 // create a new tab and view with an url and optional id
 //
-Navigation.prototype.newTab = function(url, options) {
+Navigation.prototype.newTab = function (url, options) {
   var defaults = {
     id: null, // null, 'yourIdHere'
     node: false,
@@ -529,16 +529,16 @@ Navigation.prototype.newTab = function(url, options) {
   if ($("#" + options.id).length) {
     console.log(
       'ERROR[electron-navigation][func "newTab();"]: The ID "' +
-        options.id +
-        '" already exists. Please use another one.'
+      options.id +
+      '" already exists. Please use another one.'
     );
     return false;
   }
   if (!/^[A-Za-z]+[\w\-\:\.]*$/.test(options.id)) {
     console.log(
       'ERROR[electron-navigation][func "newTab();"]: The ID "' +
-        options.id +
-        '" is not valid. Please use another one.'
+      options.id +
+      '" is not valid. Please use another one.'
     );
     return false;
   }
@@ -575,11 +575,11 @@ Navigation.prototype.newTab = function(url, options) {
   // add webview
   let composedWebviewTag = `<webview class="nav-views-view active" data-session="${
     this.SESSION_ID
-  }" src="${this._purifyUrl(url)}"`;
+    }" src="${this._purifyUrl(url)}"`;
 
   composedWebviewTag += ` data-readonly="${
     options.readonlyUrl ? "true" : "false"
-  }"`;
+    }"`;
   if (options.id) {
     composedWebviewTag += ` id=${options.id}`;
   }
@@ -601,13 +601,13 @@ Navigation.prototype.newTab = function(url, options) {
   if (typeof options.postTabOpenCallback === "function") {
     options.postTabOpenCallback(newWebview);
   }
-  (this.changeTabCallback || (() => {}))(newWebview);
+  (this.changeTabCallback || (() => { }))(newWebview);
   return newWebview;
 }; //:newTab()
 //
 // change current or specified tab and view
 //
-Navigation.prototype.changeTab = function(url, id) {
+Navigation.prototype.changeTab = function (url, id) {
   id = id || null;
   if (id == null) {
     $(".nav-views-view.active").attr("src", this._purifyUrl(url));
@@ -617,8 +617,8 @@ Navigation.prototype.changeTab = function(url, id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "changeTab();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -626,7 +626,7 @@ Navigation.prototype.changeTab = function(url, id) {
 //
 // close current or specified tab and view
 //
-Navigation.prototype.closeTab = function(id) {
+Navigation.prototype.closeTab = function (id) {
   id = id || null;
 
   var session;
@@ -641,18 +641,18 @@ Navigation.prototype.closeTab = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "closeTab();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
       return false;
     }
   }
   if (session.next(".nav-tabs-tab").length) {
     session.next().addClass("active");
-    (this.changeTabCallback || (() => {}))(session.next()[1]);
+    (this.changeTabCallback || (() => { }))(session.next()[1]);
   } else {
     session.prev().addClass("active");
-    (this.changeTabCallback || (() => {}))(session.prev()[1]);
+    (this.changeTabCallback || (() => { }))(session.prev()[1]);
   }
 
   session.remove();
@@ -662,7 +662,7 @@ Navigation.prototype.closeTab = function(id) {
 //
 // go back on current or specified view
 //
-Navigation.prototype.back = function(id) {
+Navigation.prototype.back = function (id) {
   id = id || null;
   if (id == null) {
     $(".nav-views-view.active")[0].goBack();
@@ -672,8 +672,8 @@ Navigation.prototype.back = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "back();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -681,7 +681,7 @@ Navigation.prototype.back = function(id) {
 //
 // go forward on current or specified view
 //
-Navigation.prototype.forward = function(id) {
+Navigation.prototype.forward = function (id) {
   id = id || null;
   if (id == null) {
     $(".nav-views-view.active")[0].goForward();
@@ -691,8 +691,8 @@ Navigation.prototype.forward = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "forward();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -700,7 +700,7 @@ Navigation.prototype.forward = function(id) {
 //
 // reload current or specified view
 //
-Navigation.prototype.reload = function(id) {
+Navigation.prototype.reload = function (id) {
   id = id || null;
   if (id == null) {
     $(".nav-views-view.active")[0].reload();
@@ -710,8 +710,8 @@ Navigation.prototype.reload = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "reload();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -719,7 +719,7 @@ Navigation.prototype.reload = function(id) {
 //
 // stop loading current or specified view
 //
-Navigation.prototype.stop = function(id) {
+Navigation.prototype.stop = function (id) {
   id = id || null;
   if (id == null) {
     $(".nav-views-view.active")[0].stop();
@@ -729,8 +729,8 @@ Navigation.prototype.stop = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "stop();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -738,7 +738,7 @@ Navigation.prototype.stop = function(id) {
 //
 // listen for a message from webview
 //
-Navigation.prototype.listen = function(id, callback) {
+Navigation.prototype.listen = function (id, callback) {
   let webview = null;
 
   //check id
@@ -747,8 +747,8 @@ Navigation.prototype.listen = function(id, callback) {
   } else {
     console.log(
       'ERROR[electron-navigation][func "listen();"]: Cannot find the ID "' +
-        id +
-        '"'
+      id +
+      '"'
     );
   }
 
@@ -759,7 +759,7 @@ Navigation.prototype.listen = function(id, callback) {
         callback(event.channel, event.args, webview);
       });
     } catch (e) {
-      webview.addEventListener("dom-ready", function(event) {
+      webview.addEventListener("dom-ready", function (event) {
         webview.addEventListener("ipc-message", event => {
           callback(event.channel, event.args, webview);
         });
@@ -770,7 +770,7 @@ Navigation.prototype.listen = function(id, callback) {
 //
 // send message to webview
 //
-Navigation.prototype.send = function(id, channel, args) {
+Navigation.prototype.send = function (id, channel, args) {
   let webview = null;
 
   // check id
@@ -779,8 +779,8 @@ Navigation.prototype.send = function(id, channel, args) {
   } else {
     console.log(
       'ERROR[electron-navigation][func "send();"]: Cannot find the ID "' +
-        id +
-        '"'
+      id +
+      '"'
     );
   }
 
@@ -789,7 +789,7 @@ Navigation.prototype.send = function(id, channel, args) {
     try {
       webview.send(channel, args);
     } catch (e) {
-      webview.addEventListener("dom-ready", function(event) {
+      webview.addEventListener("dom-ready", function (event) {
         webview.send(channel, args);
       });
     }
@@ -798,7 +798,7 @@ Navigation.prototype.send = function(id, channel, args) {
 //
 // open developer tools of current or ID'd webview
 //
-Navigation.prototype.openDevTools = function(id) {
+Navigation.prototype.openDevTools = function (id) {
   id = id || null;
   let webview = null;
 
@@ -811,8 +811,8 @@ Navigation.prototype.openDevTools = function(id) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "openDevTools();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -822,7 +822,7 @@ Navigation.prototype.openDevTools = function(id) {
     try {
       webview.openDevTools();
     } catch (e) {
-      webview.addEventListener("dom-ready", function(event) {
+      webview.addEventListener("dom-ready", function (event) {
         webview.openDevTools();
       });
     }
@@ -831,7 +831,7 @@ Navigation.prototype.openDevTools = function(id) {
 //
 // print current or specified tab and view
 //
-Navigation.prototype.printTab = function(id, opts) {
+Navigation.prototype.printTab = function (id, opts) {
   id = id || null;
   let webview = null;
 
@@ -844,8 +844,8 @@ Navigation.prototype.printTab = function(id, opts) {
     } else {
       console.log(
         'ERROR[electron-navigation][func "printTab();"]: Cannot find the ID "' +
-          id +
-          '"'
+        id +
+        '"'
       );
     }
   }
@@ -859,7 +859,7 @@ Navigation.prototype.printTab = function(id, opts) {
 //
 // toggle next available tab
 //
-Navigation.prototype.nextTab = function() {
+Navigation.prototype.nextTab = function () {
   var tabs = $(".nav-tabs-tab").toArray();
   var activeTabIndex = tabs.indexOf($(".nav-tabs-tab.active")[0]);
   var nexti = activeTabIndex + 1;
@@ -871,7 +871,7 @@ Navigation.prototype.nextTab = function() {
 //
 // toggle previous available tab
 //
-Navigation.prototype.prevTab = function() {
+Navigation.prototype.prevTab = function () {
   var tabs = $(".nav-tabs-tab").toArray();
   var activeTabIndex = tabs.indexOf($(".nav-tabs-tab.active")[0]);
   var nexti = activeTabIndex - 1;
@@ -881,7 +881,7 @@ Navigation.prototype.prevTab = function() {
 }; //:prevTab()
 // go to a tab by index or keyword
 //
-Navigation.prototype.goToTab = function(index) {
+Navigation.prototype.goToTab = function (index) {
   $activeTabAndView = $(
     "#nav-body-tabs .nav-tabs-tab.active, #nav-body-views .nav-views-view.active"
   );
@@ -901,10 +901,10 @@ Navigation.prototype.goToTab = function(index) {
   } else {
     $tabAndViewToActivate = $(
       "#nav-body-tabs .nav-tabs-tab:nth-of-type(" +
-        index +
-        "), #nav-body-views .nav-views-view:nth-of-type(" +
-        index +
-        ")"
+      index +
+      "), #nav-body-views .nav-views-view:nth-of-type(" +
+      index +
+      ")"
     );
   }
 
@@ -918,7 +918,7 @@ Navigation.prototype.goToTab = function(index) {
   }
 }; //:goToTab()
 // go to a tab by id of the webview tag
-Navigation.prototype.goToTabByWebviewId = function(id) {
+Navigation.prototype.goToTabByWebviewId = function (id) {
   const webviews = document.querySelectorAll("webview.nav-views-view");
   for (let index in webviews) {
     if (webviews[index].id == id) {

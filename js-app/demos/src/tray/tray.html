@@ -99,28 +99,44 @@
   <body>
     <div id="container">
       <div id="left-wrapper">
-         
-         <button id="lock_btn"  onclick="lock()" style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> 
+        <button
+          id="lock_btn"
+          onclick="lock()"
+          style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"
+        >
           <img
-          id="lock_img"
-          style="width:13px; height:13px;"
-          style="width:15px; height:15px;"
-          src="../../../img/lock.png">
+            id="lock_img"
+            style="width:13px; height:13px;"
+            style="width:15px; height:15px;"
+            src="../../../img/lock.png"
+          />
         </button>
-       </div>
-       <div>
-        <button id="over_btn" onclick="over()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> <img
-          id="over_img"
-          style="width:15px; height:15px;"
-          src="../../../img/layer.png"
-      /></button>
       </div>
       <div>
-        <button id="disable_sc" onclick="disable_sc()"    style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"> Заблокировать сочетания <img
-          id="over_im"
-          style="width:15px; height:15px;"
-          src="../../../img/layer.png"
-      /></button>
+        <button
+          id="over_btn"
+          onclick="over()"
+          style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"
+        >
+          <img
+            id="over_img"
+            style="width:15px; height:15px;"
+            src="../../../img/layer.png"
+          />
+        </button>
+      </div>
+      <div>
+        <button
+          id="disable_sc"
+          onclick="disable_sc()"
+          style="background-color: rgba(255, 255, 255, 0);  border: 0px solid;"
+        >
+          <img
+            id="sc_img"
+            style="width:15px; height:15px;"
+            src="../../../img/on_hotkey.png"
+          />
+        </button>
       </div>
       <div>
         <button id="exit_btn" onclick="exit()" title="exit"></button>
@@ -128,67 +144,88 @@
       <div>
         <p style="position: relative;" title="Window transparency (CTRL + 1-9)">
           &nbsp;&nbsp;&nbsp;
-          <input type="range"  value="1" min="0.05"  max="1"  step="0.05"  id="slider"  oninput="onChange()"/> 
+          <input
+            type="range"
+            value="1"
+            min="0.05"
+            max="1"
+            step="0.05"
+            id="slider"
+            oninput="onChange()"
+          />
           <label id="slider-label" for="slider">
-            <img id="eye" src="../../../img/layer.png"/>
+            <img id="eye" src="../../../img/layer.png" />
           </label>
-          </p>
+        </p>
       </div>
     </div>
     <script>
-    
-
-        const translation = require("../language/translate.js");
+      const translation = require("../language/translate.js");
       const { remote } = require("electron");
       const { ipcRenderer } = require("electron");
       const BrowserWindow = require("electron").remote.BrowserWindow;
-  
-   var win = BrowserWindow.getAllWindows();
- 
-   var over_btn = document.getElementById("over_btn");
-   var lock_btn = document.getElementById("lock_btn");
-   var lock_text = "LockWindow";
-   var unlock_text = "Unlock Window";
-   ipcRenderer.on("lock" , (event,data) =>{
+
+      var win = BrowserWindow.getAllWindows();
+
+      var over_btn = document.getElementById("over_btn");
+      var lock_btn = document.getElementById("lock_btn");
+      var sc_btn = document.getElementById("disable_sc");
+      var lock_text = "LockWindow";
+      var unlock_text = "Unlock Window";
+      ipcRenderer.on("lock", (event, data) => {
         var lock_img = document.getElementById("lock_img");
-        if(data == true){
-        
-      lock_img.src = "../../../img/unlock.png";
-    
-        }else{
+        if (data == true) {
+          lock_img.src = "../../../img/unlock.png";
+        } else {
           lock_img.src = "../../../img/lock.png";
         }
-       
       });
-      ipcRenderer.on("over_top" , (event,data) =>{
+      ipcRenderer.on("sc_tray", (event, data) => {
+        var sc_img = document.getElementById("sc_img");
+        if (data == true) {
+          sc_img.src = "../../../img/on_hotkey.png";
+        } else {
+          sc_img.src = "../../../img/off_hotkey.png";
+        }
+      });
+      ipcRenderer.on("over_top", (event, data) => {
         var over_img = document.getElementById("over_img");
-        if(data == true){
-        
-      over_img.src = "../../../img/layer.png";
-    
-        }else{
+        if (data == true) {
+          over_img.src = "../../../img/layer.png";
+        } else {
           over_img.src = "../../../img/layer_off.png";
         }
-       
       });
-   ipcRenderer.on("lang_data_event", (event, data) => {
-     
+      ipcRenderer.on("lang_data_event", (event, data) => {
         if (data != "err") {
           data = JSON.parse(data);
-          exit_btn.insertAdjacentHTML("beforeend", translation.translate_str("exit", data)); 
-          over_btn.insertAdjacentHTML("beforeend", translation.translate_str("over_top", data)); 
-          lock_btn.insertAdjacentHTML("beforeend", translation.translate_str("lock", data)); 
-        
-     console.log(data);
-        } else {
-          console.log("w");//UnlockWindow
-          lock_btn.insertAdjacentHTML("beforeend", "UnlockWindow"); 
-          exit_btn.insertAdjacentHTML("beforeend", "Exit Idaleon"); 
-          over_btn.insertAdjacentHTML("beforeend", "Over all windows"); 
+          exit_btn.insertAdjacentHTML(
+            "beforeend",
+            translation.translate_str("exit", data)
+          );
+          over_btn.insertAdjacentHTML(
+            "beforeend",
+            translation.translate_str("over_top", data)
+          );
+          lock_btn.insertAdjacentHTML(
+            "beforeend",
+            translation.translate_str("lock", data)
+          );
+          sc_btn.insertAdjacentHTML(
+            "beforeend",
+            translation.translate_str("short_cut", data)
+          );
 
+          console.log(data);
+        } else {
+          console.log("w"); //UnlockWindow
+          lock_btn.insertAdjacentHTML("beforeend", "UnlockWindow");
+          exit_btn.insertAdjacentHTML("beforeend", "Exit Idaleon");
+          over_btn.insertAdjacentHTML("beforeend", "Over all windows");
+          sc_btn.insertAdjacentHTML("beforeend", "Disable/enable shortcuts");
         }
       });
-    function onChange() {
+      function onChange() {
         var opacityValue = $("#slider").val();
         changeOpacity(opacityValue);
       }
@@ -198,24 +235,22 @@
       // });
 
       function changeOpacity(opacity) {
-       
-         win[0].webContents.send("opacity" , opacity);
+        win[0].webContents.send("opacity", opacity);
       }
-    
-    function exit(){
-      ipcRenderer.send("exit_ida" , "true");
-    }
-    function lock(){
-      ipcRenderer.send("lock" , "true");
-    }
-    function over(){
-      ipcRenderer.send("Over" , "true");
-    }
-    function disable_sc(){
-      ipcRenderer.send("disable_sc" , "true");
- 
-    }
-    ipcRenderer.send("tray_start", "true");
 
+      function exit() {
+        ipcRenderer.send("exit_ida", "true");
+      }
+      function lock() {
+        ipcRenderer.send("lock", "true");
+      }
+      function over() {
+        ipcRenderer.send("Over", "true");
+      }
+      function disable_sc() {
+        ipcRenderer.send("disable_sc", "true");
+      }
+      ipcRenderer.send("tray_start", "true");
     </script>
   </body>
+</html>
