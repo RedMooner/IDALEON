@@ -31,6 +31,7 @@ let trayWIN;
 //
 const Notification = require("@wuild/electron-notification");
 
+
 var shouldQuit = app.makeSingleInstance(function (
   commandLine,
   workingDirectory
@@ -48,6 +49,7 @@ if (shouldQuit) {
 }
 
 app.on("ready", () => {
+
   let path = require("path");
 
   let relreadpath_c = "\\native\\Checker\\ProcessChecker.exe";
@@ -188,14 +190,14 @@ app.on("ready", () => {
     if (ignore == false) {
       console.log("disable_skip");
       demo.setIgnoreMouseEvents(true);
-      ShowNoty(noty_info, noty_title_lock_true);
+      ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
       ignore = true;
       demo.webContents.send("add_class", "transition");
     } else {
       console.log("disable_skip");
       demo.webContents.send("disable_skip", "false");
       demo.setIgnoreMouseEvents(false);
-      ShowNoty(noty_info, noty_title_lock_false);
+      ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
       ignore = false;
       demo.webContents.send("remove_class", "transition");
     }
@@ -206,19 +208,21 @@ app.on("ready", () => {
     if (top == true) {
       demo.setAlwaysOnTop(false);
       top = false;
-      ShowNoty(noty_info, noty_title_top_false);
+      ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
       //  alert("не top");
     } else {
       demo.setAlwaysOnTop(true);
       top = true;
-      ShowNoty(noty_info, noty_title_top_true);
+      ShowNoty(noty_info, noty_title_top_true, "Notification_layer_on");
       // alert("top");
     }
     change_icon();
   });
   globalShortcut.register("CommandOrControl+Space", () => {
-    disable_sc();
-    console.log("O");
+    setTimeout(() => {
+      disable_sc();
+      console.log("O");
+    }, 100);
   });
   globalShortcut.register("Alt+-", () => {
     console.log("You pressed alt & ------");
@@ -229,63 +233,18 @@ app.on("window-all-closed", () => {
   app.hide();
 });
 
-function SetTray() {
-  tray = new Tray("img/tray.png"); //
 
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: "Unlock Window",
-      click: function () {
-        console.log("disable");
-
-        demo.setIgnoreMouseEvents(false);
-        demo.webContents.send("disable_skip_tray", "false");
-        demo.webContents.send("remove_class", "transition");
-        ignore = false;
-        ShowNoty(noty_info, noty_title_lock_false);
-        change_icon();
-      }
-    },
-    {
-      label: "Over all windows",
-      click: function () {
-        var top = demo.isAlwaysOnTop();
-        if (top == true) {
-          demo.setAlwaysOnTop(false);
-          top = false;
-          ShowNoty(noty_info, noty_title_top_false);
-          //  alert("не top");
-        } else {
-          demo.setAlwaysOnTop(true);
-          top = true;
-          ShowNoty(noty_info, noty_title_top_true);
-          // alert("top");
-        }
-        change_icon();
-      }
-    },
-    {
-      label: open,
-      click: function () {
-        demo.show();
-      }
-    },
-    { label: exit_tray, role: "quit" }
-  ]);
-  tray.setToolTip("This is my application.");
-  tray.setContextMenu(contextMenu);
-}
 function OverAll() {
   var top = demo.isAlwaysOnTop();
   if (top == true) {
     demo.setAlwaysOnTop(false);
     top = false;
-    ShowNoty(noty_info, noty_title_top_false);
+    ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
     //  alert("не top");
   } else {
     demo.setAlwaysOnTop(true);
     top = true;
-    ShowNoty(noty_info, noty_title_top_true);
+    ShowNoty(noty_info, noty_title_top_true, "Notification_layer_on");
     // alert("top");
   }
   change_icon();
@@ -295,21 +254,29 @@ function disable_sc() {
     short_cuts = false;
     console.log("false");
     globalShortcut.unregisterAll();
-
-    ShowNoty(noty_info, noty_title_sc_false);
+    globalShortcut.register("CommandOrControl+Space", () => {
+      setTimeout(() => {
+        disable_sc();
+        console.log("O");
+      }, 100);
+    });
+    ShowNoty(noty_info, noty_title_sc_false, "Notification_hotket_off");
 
     demo.webContents.send("hotkey", false);
-    trayWIN.webContents.send("sc_tray", false);
+    trayWIN.webContents.send("sc_tray", false)
+      ;
   } else {
     trayWIN.webContents.send("sc_tray", true);
     globalShortcut.unregisterAll();
     short_cuts = true;
-    ShowNoty(noty_info, noty_title_sc_true);
+    ShowNoty(noty_info, noty_title_sc_true, "Notification_hotket_on");
     demo.webContents.send("hotkey", true);
     console.log("true");
     globalShortcut.register("CommandOrControl+Space", () => {
-      disable_sc();
-      console.log("O");
+      setTimeout(() => {
+        disable_sc();
+        console.log("O");
+      }, 100);
     });
     globalShortcut.register("CommandOrControl+1", () => {
       demo.webContents.send("change_opacity", 0.2);
@@ -350,14 +317,14 @@ function disable_sc() {
       if (ignore == false) {
         console.log("disable_skip");
         demo.setIgnoreMouseEvents(true);
-        ShowNoty(noty_info, noty_title_lock_true);
+        ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
         ignore = true;
         demo.webContents.send("add_class", "transition");
       } else {
         console.log("disable_skip");
         demo.webContents.send("disable_skip", "false");
         demo.setIgnoreMouseEvents(false);
-        ShowNoty(noty_info, noty_title_lock_false);
+        ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
         ignore = false;
         demo.webContents.send("remove_class", "transition");
       }
@@ -369,12 +336,12 @@ function disable_sc() {
       if (top == true) {
         demo.setAlwaysOnTop(false);
         top = false;
-        ShowNoty(noty_info, noty_title_top_false);
+        ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
         //  alert("не top");
       } else {
         demo.setAlwaysOnTop(true);
         top = true;
-        ShowNoty(noty_info, noty_title_top_true);
+        ShowNoty(noty_info, noty_title_top_true, "Notification_lock_on");
         // alert("top");
       }
       change_icon();
@@ -394,7 +361,7 @@ function Unlock() {
     demo.webContents.send("disable_skip_tray", "false");
     demo.webContents.send("remove_class", "transition");
     ignore = false;
-    ShowNoty(noty_info, noty_title_lock_false);
+    ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
     change_icon();
   } else {
     console.log("disable");
@@ -403,7 +370,7 @@ function Unlock() {
     demo.webContents.send("disable_skip_tray", "true");
     demo.webContents.send("add_class", "transition");
     ignore = true;
-    ShowNoty(noty_info, noty_title_lock_true);
+    ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
     change_icon();
   }
 }
@@ -419,41 +386,67 @@ function createBrowser() {
     demo = null;
   });
 }
-function ShowNoty(value_title, value_body) {
-  let note = new Notification({
-    theme: "dark",
-    title: value_title,
-    sound: "absolute path to audio file",
-    body: value_body,
-    position: "bottom-right",
-    icon: "../img/icon_4.png"
-  });
+function ShowNoty(value_title, value_body, icon) {
+  if (icon == "null") {
+    let note = new Notification({
+      theme: "dark",
+      title: value_title,
+      sound: "absolute path to audio file",
+      body: value_body,
+      position: "bottom-right",
+      icon: Path.join(__dirname, '../img/Notification_hotket_off.png')
+    });
+    console.log(__dirname);
 
-  note.on("close", function () {
-    console.log("Notification has been closed");
-  });
+    note.on("close", function () {
+      console.log("Notification has been closed");
+    });
 
-  note.show();
-  setTimeout(() => {
-    note.close();
-  }, 5000);
+    note.show();
+    setTimeout(() => {
+      note.close();
+    }, 5000);
+
+  } else {
+    let note = new Notification({
+      theme: "dark",
+      title: value_title,
+      sound: "absolute path to audio file",
+      body: value_body,
+      position: "bottom-right",
+      icon: Path.join(__dirname, '../img/' + icon + '.png')
+    });
+    console.log(__dirname);
+
+    note.on("close", function () {
+      console.log("Notification has been closed");
+    });
+
+    note.show();
+    setTimeout(() => {
+      note.close();
+    }, 5000);
+
+  }
 }
 ipcMain.on("show_noty_lock_false", (event, arg) => {
-  ShowNoty(noty_info, noty_title_lock_false);
+  ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
 });
 ipcMain.on("show_noty_lock_true", (event, arg) => {
-  ShowNoty(noty_info, noty_title_lock_true);
+  ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
 });
 ipcMain.on("show_noty_top_true", (event, arg) => {
-  ShowNoty(noty_info, noty_title_top_true);
+  ShowNoty(noty_info, noty_title_top_true, "Notification_layer_on");
 });
 ipcMain.on("show_noty_top_false", (event, arg) => {
-  ShowNoty(noty_info, noty_title_top_false);
+  ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
 });
 ipcMain.on("ignore", (event, arg) => {
   ignore = arg;
   console.log(arg);
+
 });
+
 ipcMain.on("disable_sc", (event, args) => {
   disable_sc();
 });
