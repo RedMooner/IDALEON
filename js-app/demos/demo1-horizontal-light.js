@@ -120,13 +120,7 @@ app.on("ready", () => {
   createBrowser();
 
 
-  demo.setThumbarButtons([
-    {
-      tooltip: "Example",
 
-      click() { console.log('button1 clicked') }
-    }
-  ]);
   demo.webContents.send("lang_data_event", lang_data);
   demo.setAlwaysOnTop(false);
 
