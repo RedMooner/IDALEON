@@ -118,7 +118,17 @@ app.on("ready", () => {
     }
   });
   createBrowser();
+
+
+  demo.setThumbarButtons([
+    {
+      tooltip: "Example",
+
+      click() { console.log('button1 clicked') }
+    }
+  ]);
   demo.webContents.send("lang_data_event", lang_data);
+  demo.setAlwaysOnTop(false);
 
   //SetTray();
   tray = new Tray("img/tray.png"); //
@@ -127,7 +137,7 @@ app.on("ready", () => {
     height: 380,
 
     frame: false,
-    alwaysOnTop: true,
+
     transparent: true,
     skipTaskbar: true,
     resizable: false,
@@ -228,6 +238,7 @@ app.on("ready", () => {
     console.log("You pressed alt & ------");
     demo.webContents.send("web_view_range", "minus");
   });
+
 });
 app.on("window-all-closed", () => {
   app.hide();
@@ -486,6 +497,9 @@ ipcMain.on("hotkey", (e, a) => {
   }
   disable_sc();
 });
+ipcMain.on("demo_load", (e, a) => {
+  change_icon();
+});
 function change_icon() {
   var top = demo.isAlwaysOnTop();
   console.log("ignore=" + ignore + "___" + "top=" + top);
@@ -504,11 +518,12 @@ function change_icon() {
       trayWIN.webContents.send("over_top", false);
     }
     if (ignore == false && top == false) {
-      demo.setIcon("img/main.png");
+      demo.setIcon("img/icon_2.png");
       demo.webContents.send("lock", false);
       demo.webContents.send("over_top", false);
       trayWIN.webContents.send("lock", false);
       trayWIN.webContents.send("over_top", false);
+      console.log("false flase");
     } else {
       if (ignore == true) {
         demo.setIcon("img/icon_3.png");
@@ -516,7 +531,7 @@ function change_icon() {
         trayWIN.webContents.send("lock", true);
       }
       if (top == true) {
-        demo.setIcon("img/icon_2.png");
+        demo.setIcon("img/main.png");
         demo.webContents.send("over_top", true);
         trayWIN.webContents.send("over_top", true);
       }

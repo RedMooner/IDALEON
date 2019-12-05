@@ -356,6 +356,7 @@
       function change_input_value(value) {
         document.getElementById("slider").value = value;
       }
+      ipcRenderer.send("demo_load", true);
     </script>
   </body>
 </html>
