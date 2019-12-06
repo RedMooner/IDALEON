@@ -162,16 +162,19 @@
         var lock_btn = document.getElementById("lock_btn");
         var over_btn = document.getElementById("over_btn");
         var zoom_btn = document.getElementById("zoom_btn");
+        var disable_sc_btn = document.getElementById("hot_btn");
         if (data != "err") {
           data = JSON.parse(data);
           lock_btn.title = translation.translate_str("lock", data);
           over_btn.title = translation.translate_str("over_top", data);
           zoom_btn.title = translation.translate_str("zoom", data);
+          disable_sc_btn.title = translation.translate_str("short_cut", data);
           console.log(data);
         } else {
           lock_btn.title = "Lock Window";
           over_btn.title = "Over Windows (CTRL + D)";
           zoom_btn.title = "Zoom";
+          disable_sc_btn.title = "Off hotkeys (CTRL + SPACE)";
         }
       });
       function onZoomChange() {
@@ -299,7 +302,7 @@
         color: "rgb(220, 200, 200)",
         backgroundColor: "rgb(24,22,23)",
         draggable: true,
-        fullscreen: false
+        fullscreen: true
       });
       /**
        * DOM
@@ -311,20 +314,11 @@
         remote.getCurrentWindow().hide();
       });
       /** Event#fullscreen */
-      titlebar.on("fullscreen", () => {
-        console.info("fullscreen");
-        remote.getCurrentWindow().setFullScreen(true);
-      });
+
       /** Event#minimize */
       titlebar.on("minimize", () => {
         console.info("minimize");
         remote.getCurrentWindow().minimize();
-      });
-      /** Event#maximize */
-      titlebar.on("maximize", () => {
-        console.info("maximize");
-        remote.getCurrentWindow().setFullScreen(false);
-        remote.getCurrentWindow().maximize();
       });
     </script>
     <script>
