@@ -40,6 +40,7 @@ var shouldQuit = app.makeSingleInstance(function (
   if (demo) {
     if (demo.isMinimized()) myWindow.restore();
     demo.focus();
+
   }
 });
 
@@ -180,6 +181,9 @@ app.on("ready", () => {
   // для общих настроек
   globalShortcut.register("CommandOrControl+i", () => {
     demo.webContents.openDevTools({ mode: "detach" });
+  });
+  globalShortcut.register("F5", () => {
+    demo.webContents.send("Reload_Page", true);
   });
   function Debug_Text(value) {
     fs.writeFile("file.tmp", value, function (err) {

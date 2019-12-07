@@ -226,6 +226,10 @@
           lock_img.src = "../img/lock.png";
         }
       });
+      ipcRenderer.on("Reload_Page", (event, data) => {
+        const webview = document.querySelector("webview");
+        webview.reload();
+      });
       ipcRenderer.on("over_top", (event, data) => {
         var over_img = document.getElementById("over_img");
         if (data == true) {
