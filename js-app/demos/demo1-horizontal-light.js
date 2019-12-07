@@ -29,6 +29,19 @@ var noty_title_sc_false = "ShortCuts dinabled";
 var noty_info = "Info message";
 let trayWIN;
 //
+var hots = [];
+//
+function add(short_cut, calback) {
+  console.log("Short cut:" + short_cut + "  was added");
+  hots.push(short_cut);
+  globalShortcut.register(short_cut, calback);
+}
+function clear(short_cut) {
+  for (let i = 0; i < hots.length; i++) {
+    globalShortcut.unregister(hots[i]);
+  }
+  hots = [];
+}
 const Notification = require("@wuild/electron-notification");
 
 
@@ -151,98 +164,73 @@ app.on("ready", () => {
 
   // для прозрачности
 
-  globalShortcut.register("CommandOrControl+1", () => {
-    demo.webContents.send("change_opacity", 0.2);
-  });
-  globalShortcut.register("CommandOrControl+2", () => {
-    demo.webContents.send("change_opacity", 0.3);
-  });
-  globalShortcut.register("CommandOrControl+3", () => {
-    demo.webContents.send("change_opacity", 0.4);
-  });
-  globalShortcut.register("CommandOrControl+4", () => {
-    demo.webContents.send("change_opacity", 0.5);
-  });
-  globalShortcut.register("CommandOrControl+5", () => {
-    demo.webContents.send("change_opacity", 0.6);
-  });
-  globalShortcut.register("CommandOrControl+6", () => {
-    demo.webContents.send("change_opacity", 0.7);
-  });
-  globalShortcut.register("CommandOrControl+7", () => {
-    demo.webContents.send("change_opacity", 0.8);
-  });
-  globalShortcut.register("CommandOrControl+8", () => {
-    demo.webContents.send("change_opacity", 0.9);
-  });
-  globalShortcut.register("CommandOrControl+9", () => {
-    demo.webContents.send("change_opacity", 1);
-  });
-  // для общих настроек
-  globalShortcut.register("CommandOrControl+i", () => {
-    demo.webContents.openDevTools({ mode: "detach" });
-  });
-  globalShortcut.register("F5", () => {
-    demo.webContents.send("Reload_Page", true);
-  });
-  function Debug_Text(value) {
-    fs.writeFile("file.tmp", value, function (err) {
-      if (err) throw err;
-    });
-  }
-  globalShortcut.register("Alt+=", () => {
-    console.log("You pressed alt & + ++++");
-    demo.webContents.send("web_view_range", "plus");
-  });
-  globalShortcut.register("CommandOrControl+E", () => {
-    if (ignore == false) {
-      console.log("disable_skip");
-      demo.setIgnoreMouseEvents(true);
-      ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
-      ignore = true;
-      demo.webContents.send("add_class", "transition");
-    } else {
-      console.log("disable_skip");
-      demo.webContents.send("disable_skip", "false");
-      demo.setIgnoreMouseEvents(false);
-      ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
-      ignore = false;
-      demo.webContents.send("remove_class", "transition");
-    }
-    change_icon();
-  });
-  globalShortcut.register("CommandOrControl+D", () => {
-    var top = demo.isAlwaysOnTop();
-    if (top == true) {
-      demo.setAlwaysOnTop(false);
-      top = false;
-      ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
-      //  alert("не top");
-    } else {
-      demo.setAlwaysOnTop(true);
-      top = true;
-      ShowNoty(noty_info, noty_title_top_true, "Notification_layer_on");
-      // alert("top");
-    }
-    change_icon();
-  });
-  globalShortcut.register("CommandOrControl+Space", () => {
-    setTimeout(() => {
-      disable_sc();
-      console.log("O");
-    }, 100);
-  });
-  globalShortcut.register("Alt+-", () => {
-    console.log("You pressed alt & ------");
-    demo.webContents.send("web_view_range", "minus");
-  });
 
+  register();
 });
 app.on("window-all-closed", () => {
   app.hide();
 });
 
-
+var Disable_ShortCuts = function disable() {
+  console.log("Овывы");
+  setTimeout(() => {
+    disable_sc();
+    console.log("O");
+  }, 100);
+}
+var change_opacity_window = function (opacity) {
+  demo.webContents.send("change_opacity", opacity);
+}
+var reload_page = function () {
+  demo.webContents.send("Reload_Page", true);
+}
+var ignore_mouse = function () {
+  if (ignore == false) {
+    console.log("disable_skip");
+    demo.setIgnoreMouseEvents(true);
+    ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
+    ignore = true;
+    demo.webContents.send("add_class", "transition");
+  } else {
+    console.log("disable_skip");
+    demo.webContents.send("disable_skip", "false");
+    demo.setIgnoreMouseEvents(false);
+    ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
+    ignore = false;
+    demo.webContents.send("remove_class", "transition");
+  }
+  change_icon();
+}
+var always_top = function () {
+  var top = demo.isAlwaysOnTop();
+  if (top == true) {
+    demo.setAlwaysOnTop(false);
+    top = false;
+    ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
+    //  alert("не top");
+  } else {
+    demo.setAlwaysOnTop(true);
+    top = true;
+    ShowNoty(noty_info, noty_title_top_true, "Notification_layer_on");
+    // alert("top");
+  }
+  change_icon();
+}
+function register() {
+  add("CommandOrControl+Space", Disable_ShortCuts);
+  add("CommandOrControl+1", () => { change_opacity_window(0.2); });
+  add("CommandOrControl+2", () => { change_opacity_window(0.3); });
+  add("CommandOrControl+3", () => { change_opacity_window(0.4); });
+  add("CommandOrControl+4", () => { change_opacity_window(0.5); });
+  add("CommandOrControl+5", () => { change_opacity_window(0.6); });
+  add("CommandOrControl+6", () => { change_opacity_window(0.7); });
+  add("CommandOrControl+7", () => { change_opacity_window(0.8); });
+  add("CommandOrControl+8", () => { change_opacity_window(0.9); });
+  add("CommandOrControl+9", () => { change_opacity_window(1); });
+  add("F5", reload_page)
+  add("CommandOrControl+E", ignore_mouse)
+  add("CommandOrControl+D", always_top)
+}
 function OverAll() {
   var top = demo.isAlwaysOnTop();
   if (top == true) {
@@ -262,18 +250,11 @@ function disable_sc() {
   if (short_cuts == true) {
     short_cuts = false;
     console.log("false");
-    globalShortcut.unregisterAll();
-    globalShortcut.register("CommandOrControl+Space", () => {
-      setTimeout(() => {
-        disable_sc();
-        console.log("O");
-      }, 100);
-    });
+    clear();
+    add("CommandOrControl+Space", Disable_ShortCuts);
     ShowNoty(noty_info, noty_title_sc_false, "Notification_hotket_off");
-
     demo.webContents.send("hotkey", false);
-    trayWIN.webContents.send("sc_tray", false)
-      ;
+    trayWIN.webContents.send("sc_tray", false);
   } else {
     trayWIN.webContents.send("sc_tray", true);
     globalShortcut.unregisterAll();
@@ -281,85 +262,8 @@ function disable_sc() {
     ShowNoty(noty_info, noty_title_sc_true, "Notification_hotket_on");
     demo.webContents.send("hotkey", true);
     console.log("true");
-    globalShortcut.register("CommandOrControl+Space", () => {
-      setTimeout(() => {
-        disable_sc();
-        console.log("O");
-      }, 100);
-    });
-    globalShortcut.register("CommandOrControl+1", () => {
-      demo.webContents.send("change_opacity", 0.2);
-    });
-    globalShortcut.register("CommandOrControl+2", () => {
-      demo.webContents.send("change_opacity", 0.3);
-    });
-    globalShortcut.register("CommandOrControl+3", () => {
-      demo.webContents.send("change_opacity", 0.4);
-    });
-    globalShortcut.register("CommandOrControl+4", () => {
-      demo.webContents.send("change_opacity", 0.5);
-    });
-    globalShortcut.register("CommandOrControl+5", () => {
-      demo.webContents.send("change_opacity", 0.6);
-    });
-    globalShortcut.register("CommandOrControl+6", () => {
-      demo.webContents.send("change_opacity", 0.7);
-    });
-    globalShortcut.register("CommandOrControl+7", () => {
-      demo.webContents.send("change_opacity", 0.8);
-    });
-    globalShortcut.register("CommandOrControl+8", () => {
-      demo.webContents.send("change_opacity", 0.9);
-    });
-    globalShortcut.register("CommandOrControl+9", () => {
-      demo.webContents.send("change_opacity", 1);
-    });
-    // для общих настроек
-    globalShortcut.register("CommandOrControl+i", () => {
-      demo.webContents.openDevTools({ mode: "detach" });
-    });
-    globalShortcut.register("Alt+=", () => {
-      console.log("You pressed alt & + ++++");
-      demo.webContents.send("web_view_range", "plus");
-    });
-    globalShortcut.register("CommandOrControl+E", () => {
-      if (ignore == false) {
-        console.log("disable_skip");
-        demo.setIgnoreMouseEvents(true);
-        ShowNoty(noty_info, noty_title_lock_true, "Notification_lock_on");
-        ignore = true;
-        demo.webContents.send("add_class", "transition");
-      } else {
-        console.log("disable_skip");
-        demo.webContents.send("disable_skip", "false");
-        demo.setIgnoreMouseEvents(false);
-        ShowNoty(noty_info, noty_title_lock_false, "Notification_lock_off");
-        ignore = false;
-        demo.webContents.send("remove_class", "transition");
-      }
-      change_icon();
-    });
+    register();
 
-    globalShortcut.register("CommandOrControl+D", () => {
-      var top = demo.isAlwaysOnTop();
-      if (top == true) {
-        demo.setAlwaysOnTop(false);
-        top = false;
-        ShowNoty(noty_info, noty_title_top_false, "Notification_layer_off");
-        //  alert("не top");
-      } else {
-        demo.setAlwaysOnTop(true);
-        top = true;
-        ShowNoty(noty_info, noty_title_top_true, "Notification_lock_on");
-        // alert("top");
-      }
-      change_icon();
-    });
-
-    globalShortcut.register("Alt+-", () => {
-      console.log("You pressed alt & ------");
-      demo.webContents.send("web_view_range", "minus");
-    });
   }
 }
 function Unlock() {
