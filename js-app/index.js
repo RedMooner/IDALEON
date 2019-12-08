@@ -147,6 +147,7 @@ function Navigation(options) {
       //
     })
     .on("click", ".nav-tabs-close", function () {
+      $("#nav-tabs-add").show();
       var sessionID = $(this)
         .parent(".nav-tabs-tab")
         .data("session");
@@ -495,114 +496,126 @@ function Navigation(options) {
 // create a new tab and view with an url and optional id
 //
 Navigation.prototype.newTab = function (url, options) {
-  var defaults = {
-    id: null, // null, 'yourIdHere'
-    node: false,
-    webviewAttributes: {},
-    icon: "clean", // 'default', 'clean', 'c:\location\to\image.png'
-    title: "default", // 'default', 'your title here'
-    close: true,
-    readonlyUrl: false,
-    contextMenu: true,
-    newTabCallback: this.newTabCallback,
-    changeTabCallback: this.changeTabCallback
-  };
-  options = options ? Object.assign(defaults, options) : defaults;
-  if (typeof options.newTabCallback === "function") {
-    let result = options.newTabCallback(url, options);
-    if (!result) {
-      return null;
+  var tabs = $(".nav-tabs-tab").toArray();
+  if (tabs.length < 3) {
+    $("#nav-tabs-add").show();
+    var defaults = {
+      id: null, // null, 'yourIdHere'
+      node: false,
+      webviewAttributes: {},
+      icon: "clean", // 'default', 'clean', 'c:\location\to\image.png'
+      title: "default", // 'default', 'your title here'
+      close: true,
+      readonlyUrl: false,
+      contextMenu: true,
+      newTabCallback: this.newTabCallback,
+      changeTabCallback: this.changeTabCallback
+    };
+    options = options ? Object.assign(defaults, options) : defaults;
+    if (typeof options.newTabCallback === "function") {
+      let result = options.newTabCallback(url, options);
+      if (!result) {
+        return null;
+      }
+      if (result.url) {
+        url = result.url;
+      }
+      if (result.options) {
+        options = result.options;
+      }
+      if (typeof result.postTabOpenCallback === "function") {
+        options.postTabOpenCallback = result.postTabOpenCallback;
+      }
     }
-    if (result.url) {
-      url = result.url;
+
+    // validate options.id
+    $(".nav-tabs-tab, .nav-views-view").removeClass("active");
+    if ($("#" + options.id).length) {
+      console.log(
+        'ERROR[electron-navigation][func "newTab();"]: The ID "' +
+        options.id +
+        '" already exists. Please use another one.'
+      );
+      return false;
     }
-    if (result.options) {
-      options = result.options;
+    if (!/^[A-Za-z]+[\w\-\:\.]*$/.test(options.id)) {
+      console.log(
+        'ERROR[electron-navigation][func "newTab();"]: The ID "' +
+        options.id +
+        '" is not valid. Please use another one.'
+      );
+      return false;
     }
-    if (typeof result.postTabOpenCallback === "function") {
-      options.postTabOpenCallback = result.postTabOpenCallback;
+    // build tab
+    var tab =
+      '<span class="nav-tabs-tab active" data-session="' + this.SESSION_ID + '">';
+    // favicon
+    if (options.icon == "clean") {
+      tab += '<i class="nav-tabs-favicon nav-icons">' + this.SVG_FAVICON + "</i>";
+    } else if (options.icon === "default") {
+      tab += '<img class="nav-tabs-favicon nav-icons" src=""/>';
+    } else {
+      tab +=
+        '<img class="nav-tabs-favicon nav-icons" src="' + options.icon + '"/>';
     }
+    // title
+    if (options.title == "default") {
+      tab += '<i class="nav-tabs-title"> . . . </i>';
+    } else {
+      tab += '<i class="nav-tabs-title">' + options.title + "</i>";
+    }
+    // close
+    if (options.close && globalCloseableTabsOverride) {
+      tab += '<i class="nav-tabs-close nav-icons">' + this.SVG_CLEAR + "</i>";
+    }
+    // finish tab
+    tab += "</span>";
+    // add tab to correct position
+    if ($("#nav-body-tabs").has("#nav-tabs-add").length) {
+      $("#nav-tabs-add").before(tab);
+    } else {
+      $("#nav-body-tabs").append(tab);
+    }
+    // add webview
+    let composedWebviewTag = `<webview class="nav-views-view active" data-session="${
+      this.SESSION_ID
+      }" src="${this._purifyUrl(url)}"`;
+
+    composedWebviewTag += ` data-readonly="${
+      options.readonlyUrl ? "true" : "false"
+      }"`;
+    if (options.id) {
+      composedWebviewTag += ` id=${options.id}`;
+    }
+    if (options.node) {
+      composedWebviewTag += " nodeintegration";
+    }
+    if (options.webviewAttributes) {
+      Object.keys(options.webviewAttributes).forEach(key => {
+        composedWebviewTag += ` ${key}="${options.webviewAttributes[key]}"`;
+      });
+    }
+    $("#nav-body-views").append(`${composedWebviewTag}></webview>`);
+    // enable reload button
+    $("#nav-ctrls-reload").removeClass("disabled");
+
+    // update url and add events
+    this._updateUrl(this._purifyUrl(url));
+    let newWebview = this._addEvents(this.SESSION_ID++, options);
+    if (typeof options.postTabOpenCallback === "function") {
+      options.postTabOpenCallback(newWebview);
+    }
+    (this.changeTabCallback || (() => { }))(newWebview);
+    var tabs_ = $(".nav-tabs-tab").toArray();
+    if (tabs_.length > 2) {
+      $("#nav-tabs-add").hide();
+    }
+    return newWebview;
+  } else {
+    console.log("tabs already 3");
+    $("#nav-tabs-add").hide();
   }
 
-  // validate options.id
-  $(".nav-tabs-tab, .nav-views-view").removeClass("active");
-  if ($("#" + options.id).length) {
-    console.log(
-      'ERROR[electron-navigation][func "newTab();"]: The ID "' +
-      options.id +
-      '" already exists. Please use another one.'
-    );
-    return false;
-  }
-  if (!/^[A-Za-z]+[\w\-\:\.]*$/.test(options.id)) {
-    console.log(
-      'ERROR[electron-navigation][func "newTab();"]: The ID "' +
-      options.id +
-      '" is not valid. Please use another one.'
-    );
-    return false;
-  }
-  // build tab
-  var tab =
-    '<span class="nav-tabs-tab active" data-session="' + this.SESSION_ID + '">';
-  // favicon
-  if (options.icon == "clean") {
-    tab += '<i class="nav-tabs-favicon nav-icons">' + this.SVG_FAVICON + "</i>";
-  } else if (options.icon === "default") {
-    tab += '<img class="nav-tabs-favicon nav-icons" src=""/>';
-  } else {
-    tab +=
-      '<img class="nav-tabs-favicon nav-icons" src="' + options.icon + '"/>';
-  }
-  // title
-  if (options.title == "default") {
-    tab += '<i class="nav-tabs-title"> . . . </i>';
-  } else {
-    tab += '<i class="nav-tabs-title">' + options.title + "</i>";
-  }
-  // close
-  if (options.close && globalCloseableTabsOverride) {
-    tab += '<i class="nav-tabs-close nav-icons">' + this.SVG_CLEAR + "</i>";
-  }
-  // finish tab
-  tab += "</span>";
-  // add tab to correct position
-  if ($("#nav-body-tabs").has("#nav-tabs-add").length) {
-    $("#nav-tabs-add").before(tab);
-  } else {
-    $("#nav-body-tabs").append(tab);
-  }
-  // add webview
-  let composedWebviewTag = `<webview class="nav-views-view active" data-session="${
-    this.SESSION_ID
-    }" src="${this._purifyUrl(url)}"`;
-
-  composedWebviewTag += ` data-readonly="${
-    options.readonlyUrl ? "true" : "false"
-    }"`;
-  if (options.id) {
-    composedWebviewTag += ` id=${options.id}`;
-  }
-  if (options.node) {
-    composedWebviewTag += " nodeintegration";
-  }
-  if (options.webviewAttributes) {
-    Object.keys(options.webviewAttributes).forEach(key => {
-      composedWebviewTag += ` ${key}="${options.webviewAttributes[key]}"`;
-    });
-  }
-  $("#nav-body-views").append(`${composedWebviewTag}></webview>`);
-  // enable reload button
-  $("#nav-ctrls-reload").removeClass("disabled");
-
-  // update url and add events
-  this._updateUrl(this._purifyUrl(url));
-  let newWebview = this._addEvents(this.SESSION_ID++, options);
-  if (typeof options.postTabOpenCallback === "function") {
-    options.postTabOpenCallback(newWebview);
-  }
-  (this.changeTabCallback || (() => { }))(newWebview);
-  return newWebview;
 }; //:newTab()
 //
 // change current or specified tab and view
@@ -627,11 +640,13 @@ Navigation.prototype.changeTab = function (url, id) {
 // close current or specified tab and view
 //
 Navigation.prototype.closeTab = function (id) {
+  $("#nav-tabs-add").show();
   id = id || null;
-
+  console.log("close");
   var session;
   if (id == null) {
     session = $(".nav-tabs-tab.active, .nav-views-view.active");
+
   } else {
     if ($("#" + id).length) {
       var sessionID = $("#" + id).data("session");

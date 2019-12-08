@@ -129,12 +129,14 @@
           ipcRenderer.send("ignore", false);
           $(".animate").removeClass("transition");
           ipcRenderer.send("show_noty_lock_false");
+          $("webview").removeClass("stop-scrolling");
         } else {
           win.setIgnoreMouseEvents(true);
           ignore = true;
           ipcRenderer.send("show_noty_lock_true");
           ipcRenderer.send("ignore", true);
           $(".animate").addClass("transition");
+          $("webview").addClass("stop-scrolling");
         }
         ipcRenderer.send("change_icon");
       }
@@ -221,9 +223,9 @@
       ipcRenderer.on("lock", (event, data) => {
         var lock_img = document.getElementById("lock_img");
         if (data == true) {
-          lock_img.src = "../img/unlock.png";
-        } else {
           lock_img.src = "../img/lock.png";
+        } else {
+          lock_img.src = "../img/unlock.png";
         }
       });
       ipcRenderer.on("Reload_Page", (event, data) => {
@@ -355,6 +357,13 @@
       function change_input_value(value) {
         document.getElementById("slider").value = value;
       }
+      function setZoom(zoom) {
+        const webview_ = document.querySelector("webview");
+        webview_.setZoom(zoom);
+      }
+      ipcRenderer.on("zoom", (event, args) => {
+        setZoom(args);
+      });
       ipcRenderer.send("demo_load", true);
     </script>
   </body>

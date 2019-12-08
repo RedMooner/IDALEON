@@ -108,7 +108,7 @@
             id="lock_img"
             style="width:13px; height:13px;"
             style="width:15px; height:15px;"
-            src="../../../img/lock.png"
+            src="../../../img/unlock.png"
           />
         </button>
       </div>
@@ -175,9 +175,9 @@
       ipcRenderer.on("lock", (event, data) => {
         var lock_img = document.getElementById("lock_img");
         if (data == true) {
-          lock_img.src = "../../../img/unlock.png";
-        } else {
           lock_img.src = "../../../img/lock.png";
+        } else {
+          lock_img.src = "../../../img/unlock.png";
         }
       });
       ipcRenderer.on("sc_tray", (event, data) => {

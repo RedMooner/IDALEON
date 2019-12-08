@@ -13,6 +13,10 @@
 
   flex: 1;
 }
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
 .nav-icons {
   fill: #606060 !important;
 }
@@ -43,7 +47,7 @@
   background-color: #191718;
 }
 ::selection {
-background: #aaa; /* Safari */
+  background: #aaa; /* Safari */
 }
 #nav-ctrls-url:focus {
   color: #bbb;

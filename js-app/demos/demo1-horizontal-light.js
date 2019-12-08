@@ -172,7 +172,6 @@ app.on("ready", () => {
 
   // для прозрачности
 
-
   register();
 });
 app.on("window-all-closed", () => {
@@ -224,6 +223,9 @@ var always_top = function () {
   }
   change_icon();
 }
+var zoom = function (zoomlevel) {
+  demo.webContents.send("zoom", zoomlevel)
+}
 function register() {
   add("CommandOrControl+Space", Disable_ShortCuts);
   add("CommandOrControl+1", () => { change_opacity_window(0.2); });
@@ -238,6 +240,7 @@ function register() {
   add("F5", reload_page)
   add("CommandOrControl+E", ignore_mouse)
   add("CommandOrControl+D", always_top)
+  //add("F1", () => { zoom(1) });
 }
 function OverAll() {
   var top = demo.isAlwaysOnTop();
@@ -390,7 +393,7 @@ ipcMain.on("open", (event, arg) => {
   demo.show();
 });
 ipcMain.on("hide", (event, args) => {
-  ShowNoty("TRAY", "TARY", "");
+  ShowNoty("TRAY", "TARY", "Notification_add_tray");
 });
 ipcMain.on("tray-window-clicked", (e, a) => {
   console.log("clicked the tray icon");
@@ -426,6 +429,7 @@ function change_icon() {
     if (ignore == false) {
       demo.webContents.send("lock", false);
       trayWIN.webContents.send("lock", false);
+      tray.setImage("img/tray.png")
     }
     if (top == false) {
       trayWIN.webContents.send("over_top", false);
@@ -442,6 +446,7 @@ function change_icon() {
         demo.setIcon("img/icon_3.png");
         demo.webContents.send("lock", true);
         trayWIN.webContents.send("lock", true);
+        tray.setImage("img/tray_lock.png")
       }
       if (top == true) {
         demo.setIcon("img/main.png");
