@@ -89,6 +89,7 @@
         e.preventDefault();
       });
       var ignore = false;
+
       var el = document.getElementsByClassName("animate");
       el.onmousedown = function(e) {
         if (window.event.stopPropagation) window.event.stopPropagation();
@@ -394,6 +395,62 @@
         }
       );
       //
+      const Path = require("path");
+      var layer_img = document.getElementById("over_img");
+      var l_off = layer_img.src;
+
+      console.log(l_off);
+      $("#over_btn").hover(
+        function() {
+          var hb_img = document.getElementById("over_img");
+          const { BrowserWindow } = require("electron").remote;
+          var win = BrowserWindow.getFocusedWindow();
+          var top = win.isAlwaysOnTop();
+          //var off = hb_img.src;
+          if (top == false) {
+            hb_img.src = "../img/layer.png";
+            //  alert("навел");
+            // было layer -> off
+          } else {
+            hb_img.src = "../img/layer_off.png";
+            //alert("навел");
+            // было off -> layer
+          }
+        },
+        function() {
+          var hb_img = document.getElementById("over_img");
+          //     var off = hb_img.src;
+          const { BrowserWindow } = require("electron").remote;
+          var win = BrowserWindow.getFocusedWindow();
+          var top = win.isAlwaysOnTop();
+          if (top == true) {
+            hb_img.src = "../img/layer.png";
+            //  alert("отвел layer");
+          } else {
+            hb_img.src = "../img/layer_off.png";
+          }
+        }
+      );
+      $("#hot_btn").hover(
+        function() {
+          var hb_img = document.getElementById("hotkey_img");
+          if (hotkey_value == true) {
+            hb_img.src = "../img/off_hotkey.png";
+            //alert(hb_img.src);
+          } else {
+            hb_img.src = "../img/on_hotkey.png";
+            //  alert(hb_img.src);
+          }
+        },
+        function() {
+          var hb_img = document.getElementById("hotkey_img");
+          if (hotkey_value == true) {
+            hb_img.src = "../img/on_hotkey.png";
+          } else {
+            hb_img.src = "../img/off_hotkey.png";
+          }
+        }
+      );
     </script>
   </body>
 </html>
