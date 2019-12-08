@@ -223,8 +223,8 @@ var always_top = function () {
   }
   change_icon();
 }
-var zoom = function (zoomlevel) {
-  demo.webContents.send("zoom", zoomlevel)
+var zoom = function (args) {
+  demo.webContents.send("zoom", args)
 }
 function register() {
   add("CommandOrControl+Space", Disable_ShortCuts);
@@ -240,7 +240,8 @@ function register() {
   add("F5", reload_page)
   add("CommandOrControl+E", ignore_mouse)
   add("CommandOrControl+D", always_top)
-  //add("F1", () => { zoom(1) });
+  add("CommandOrControl+=", () => { zoom("+") });
+  add("CommandOrControl+-", () => { zoom("-") });
 }
 function OverAll() {
   var top = demo.isAlwaysOnTop();

@@ -196,8 +196,8 @@
         if (actualZoom == null) {
           actualZoom = 1;
         }
-        webview.setZoomFactor(actualZoom + 1);
-        zoom = actualZoom + 1;
+        webview.setZoomFactor(actualZoom + 0.1);
+        zoom = actualZoom + 0.1;
       }
 
       function zoomOut() {
@@ -206,8 +206,8 @@
         if (actualZoom == null) {
           actualZoom = 1;
         }
-        webview.setZoomFactor(actualZoom - 1);
-        zoom = actualZoom - 1;
+        webview.setZoomFactor(actualZoom - 0.1);
+        zoom = actualZoom - 0.1;
       }
       //disable_skip
       ipcRenderer.on("hotkey", (event, data) => {
@@ -357,12 +357,24 @@
       function change_input_value(value) {
         document.getElementById("slider").value = value;
       }
-      function setZoom(zoom) {
-        const webview_ = document.querySelector("webview");
-        webview_.setZoom(zoom);
+      function setZoom(args) {
+        if (args == "+") {
+          console.log("_______");
+          const webview_ = document.querySelector("webview");
+
+          webview_.setZoomFactor(factor++);
+        } else {
+          const webview_ = document.querySelector("webview");
+
+          webview_.setZoomFactor(factor--);
+        }
       }
       ipcRenderer.on("zoom", (event, args) => {
-        setZoom(args);
+        if (args == "+") {
+          zoomIn();
+        } else {
+          zoomOut();
+        }
       });
       ipcRenderer.send("demo_load", true);
     </script>
