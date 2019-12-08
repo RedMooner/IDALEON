@@ -36,12 +36,20 @@ function add(short_cut, calback) {
   hots.push(short_cut);
   globalShortcut.register(short_cut, calback);
 }
-function clear(short_cut) {
+function clear() {
   for (let i = 0; i < hots.length; i++) {
     globalShortcut.unregister(hots[i]);
   }
   hots = [];
 }
+function clear_hotkey(id) {
+  for (let i = 0; i < hots.length; i++) {
+
+
+  }
+  globalShortcut.unregister(hots[id]);
+}
+
 const Notification = require("@wuild/electron-notification");
 
 
@@ -380,6 +388,9 @@ ipcMain.on("Over", (event, arg) => {
 });
 ipcMain.on("open", (event, arg) => {
   demo.show();
+});
+ipcMain.on("hide", (event, args) => {
+  ShowNoty("TRAY", "TARY", "");
 });
 ipcMain.on("tray-window-clicked", (e, a) => {
   console.log("clicked the tray icon");

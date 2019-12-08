@@ -316,6 +316,7 @@
       titlebar.on("close", () => {
         console.info("close");
         remote.getCurrentWindow().hide();
+        ipcRenderer.send("hide");
       });
       /** Event#fullscreen */
 
