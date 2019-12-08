@@ -210,6 +210,12 @@
         zoom = actualZoom - 0.1;
       }
       //disable_skip
+
+      //  $("#lock_btn").hover(function() {
+      //    alert();
+      //   var hb_img = document.getElementById("lock_img");
+      //  hb_img.src = "../img/lock.png";
+      //  });
       ipcRenderer.on("hotkey", (event, data) => {
         var hb_img = document.getElementById("hotkey_img");
         if (data == true) {
@@ -377,6 +383,17 @@
         }
       });
       ipcRenderer.send("demo_load", true);
+      $("#lock_btn").hover(
+        function() {
+          var hb_img = document.getElementById("lock_img");
+          hb_img.src = "../img/lock.png";
+        },
+        function() {
+          var hb_img = document.getElementById("lock_img");
+          hb_img.src = "../img/unlock.png";
+        }
+      );
+      //
     </script>
   </body>
 </html>
