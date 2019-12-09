@@ -371,17 +371,20 @@
       }
       // $("#slider").change(function() {
       //  var opacityValue = $(this).val();
-      //  changeOpacity(opacityValue);
       // });
+
       window.addEventListener("wheel", ev => {
-        if (event.deltaY < 0) {
-          console.log("scrolling up");
-          //  document.getElementById("status").textContent = "scrolling up";
-          zoomIn();
-        } else if (event.deltaY > 0) {
-          console.log("scrolling down");
-          //  document.getElementById("status").textContent = "scrolling down";
-          zoomOut();
+        if (ev.altKey) {
+          console.log("wheel: ctrl key pressed", ev.ctrlKey);
+          if (event.deltaY < 0) {
+            console.log("scrolling up");
+            //  document.getElementById("status").textContent = "scrolling up";
+            zoomIn();
+          } else if (event.deltaY > 0) {
+            console.log("scrolling down");
+            //  document.getElementById("status").textContent = "scrolling down";
+            zoomOut();
+          }
         }
       });
       function changeOpacity(opacity) {
