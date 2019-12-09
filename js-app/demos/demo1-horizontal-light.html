@@ -373,7 +373,17 @@
       //  var opacityValue = $(this).val();
       //  changeOpacity(opacityValue);
       // });
-
+      window.addEventListener("wheel", ev => {
+        if (event.deltaY < 0) {
+          console.log("scrolling up");
+          //  document.getElementById("status").textContent = "scrolling up";
+          zoomIn();
+        } else if (event.deltaY > 0) {
+          console.log("scrolling down");
+          //  document.getElementById("status").textContent = "scrolling down";
+          zoomOut();
+        }
+      });
       function changeOpacity(opacity) {
         $("#nav-body-views").css("opacity", opacity);
       }
