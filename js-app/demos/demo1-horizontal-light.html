@@ -180,7 +180,15 @@
           disable_sc_btn.title = "Off hotkeys (CTRL + SPACE)";
         }
       });
-
+      function default_zoom() {
+        const webview = document.querySelector("webview");
+        let actualZoom = zoom;
+        if (actualZoom == null) {
+          actualZoom = 1;
+        }
+        webview.setZoomFactor(1);
+        zoom = 1;
+      }
       function change(value) {
         const webview = document.querySelector("webview");
         webview.setZoomFactor(value);
