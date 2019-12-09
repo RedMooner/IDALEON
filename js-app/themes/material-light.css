@@ -14,7 +14,6 @@
   flex: 1;
 }
 .stop-scrolling {
-  height: 100%;
   overflow: hidden;
 }
 .nav-icons {

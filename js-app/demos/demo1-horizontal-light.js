@@ -168,6 +168,7 @@ app.on("ready", () => {
   });
   tray.on("click", function () {
     demo.show();
+    tray.setImage("img/tray.png");
   });
 
   // для прозрачности
@@ -392,9 +393,11 @@ ipcMain.on("Over", (event, arg) => {
 });
 ipcMain.on("open", (event, arg) => {
   demo.show();
+
 });
 ipcMain.on("hide", (event, args) => {
   ShowNoty("TRAY", "TARY", "Notification_add_tray");
+  tray.setImage("img/tray_add.png");
 });
 ipcMain.on("tray-window-clicked", (e, a) => {
   console.log("clicked the tray icon");
