@@ -180,11 +180,6 @@
           disable_sc_btn.title = "Off hotkeys (CTRL + SPACE)";
         }
       });
-      function onZoomChange() {
-        var Value = $("#zoom_slider").val();
-        console.log(Value);
-        change(Value);
-      }
 
       function change(value) {
         const webview = document.querySelector("webview");
@@ -210,6 +205,19 @@
         webview.setZoomFactor(actualZoom - 0.1);
         zoom = actualZoom - 0.1;
       }
+      function zoom_slider() {
+        $("#zoom_slider").show();
+      }
+      function onZoomChange() {
+        var Value = $("#zoom_slider").val();
+        f = Value / 100;
+        const webview = document.querySelector("webview");
+
+        webview.setZoomFactor(f);
+        zoom = f;
+        //  change(Value);
+      }
+
       //disable_skip
 
       //  $("#lock_btn").hover(function() {
