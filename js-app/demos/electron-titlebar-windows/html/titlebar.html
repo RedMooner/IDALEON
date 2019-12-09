@@ -5,12 +5,15 @@
                 onclick="zoom_slider()">
                 <img style="width:13px; height:13px;" src="../img/zoopP.png" />
             </button>
-            <div id="zoom_block" style="display: none; position: absolute; background-color: #ffffff;">
+            <div id="zoom_block" style="display: none; position: absolute; background-color: #ffffff; border-radius: 3px;">
                 <div style="display: inline-block">
-                        <button onclick="default_zoom()" style="background-color: #A6A8AA;  border: 0px solid;" > <img style="width:13px; height:13px;" style="width:15px; height:15px;" src="../img/zoopP.png" /></button>
-                        <button onclick="zoomIn()" style="background-color: #A6A8AA;  border: 0px solid;"> <img style="width:13px; height:13px;" style="width:15px; height:15px;" src="../img/zoopP.png" /></button>
-                        <button onclick="zoomOut()" style="background-color: #A6A8AA;  border: 0px solid;"> <img  style="width:13px; height:13px;" style="width:15px; height:15px;" src="../img/zoopP.png" /></button>
-                        <input style="position: relative;" id="zoom_slider" type="range" min="0" max="500"
+                        <button onclick="default_zoom()" style="background-color: #A6A8AA;  border: 0px solid; width: 23px;
+height: 23px; border-radius: 3px;" > <img style="width:15px; height:15px;" style="width:15px; height:15px;" src="../img/Z_Zoom.png" /></button>
+                        <button onclick="zoomIn()" style="background-color: #A6A8AA;  border: 0px solid; width: 23px;
+height: 23px; border-radius: 3px;"> <img style="width:15px; height:15px;" style="width:15px; height:15px;" src="../img/Z_Plus.png" /></button>
+                        <button onclick="zoomOut()" style="background-color: #A6A8AA;  border: 0px solid; width: 23px;
+height: 23px; border-radius: 3px;"> <img  style="width:15px; height:15px;" style="width:15px; height:15px;" src="../img/Z_Minus.png" /></button>
+                        <input style=" position: relative;" id="zoom_slider" type="range" min="0" max="500"
                         oninput="onZoomChange()"> </input>
                 </div>
        
