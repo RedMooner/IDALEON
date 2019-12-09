@@ -183,20 +183,27 @@
       var sc_btn = document.getElementById("disable_sc");
       var lock_text = "LockWindow";
       var unlock_text = "Unlock Window";
+      var lock_stat;
+      var hotkey_value = true;
       ipcRenderer.on("lock", (event, data) => {
         var lock_img = document.getElementById("lock_img");
+
         if (data == true) {
           lock_img.src = "../../../img/lock.png";
+          lock_stat = true;
         } else {
           lock_img.src = "../../../img/unlock.png";
+          lock_stat = false;
         }
       });
       ipcRenderer.on("sc_tray", (event, data) => {
         var sc_img = document.getElementById("sc_img");
         if (data == true) {
           sc_img.src = "../../../img/on_hotkey.png";
+          hotkey_value = true;
         } else {
           sc_img.src = "../../../img/off_hotkey.png";
+          hotkey_value = false;
         }
       });
       ipcRenderer.on("over_top", (event, data) => {
@@ -262,6 +269,77 @@
         ipcRenderer.send("disable_sc", "true");
       }
       ipcRenderer.send("tray_start", "true");
+      $("#lock_btn").hover(
+        function() {
+          if (lock_stat == true) {
+            var hb_img = document.getElementById("lock_img");
+            hb_img.src = "../../../img/unlock.png";
+          } else {
+            var hb_img = document.getElementById("lock_img");
+            hb_img.src = "../../../img/lock.png";
+          }
+        },
+        function() {
+          if (lock_stat == true) {
+            var hb_img = document.getElementById("lock_img");
+            hb_img.src = "../../../img/lock.png";
+          } else {
+            var hb_img = document.getElementById("lock_img");
+            hb_img.src = "../../../img/unlock.png";
+          }
+        }
+      );
+      $("#over_btn").hover(
+        function() {
+          var hb_img = document.getElementById("over_img");
+          const { BrowserWindow } = require("electron").remote;
+          var win = BrowserWindow.getFocusedWindow();
+          var top = win.isAlwaysOnTop();
+          //var off = hb_img.src;
+          if (top == false) {
+            hb_img.src = "../../../img/layer.png";
+            //  alert("навел");
+            // было layer -> off
+          } else {
+            hb_img.src = "../../../img/layer_off.png";
+            //alert("навел");
+            // было off -> layer
+          }
+        },
+        function() {
+          var hb_img = document.getElementById("over_img");
+          //     var off = hb_img.src;
+          const { BrowserWindow } = require("electron").remote;
+          var win = BrowserWindow.getFocusedWindow();
+          var top = win.isAlwaysOnTop();
+          if (top == true) {
+            hb_img.src = "../../../img/layer.png";
+            //  alert("отвел layer");
+          } else {
+            hb_img.src = "../../../img/layer_off.png";
+          }
+        }
+      );
+      $("#disable_sc").hover(
+        function() {
+          var hb_img = document.getElementById("sc_img");
+          if (hotkey_value == true) {
+            hb_img.src = "../../../img/off_hotkey.png";
+            //alert(hb_img.src);
+          } else {
+            hb_img.src = "../../../img/on_hotkey.png";
+            //  alert(hb_img.src);
+          }
+        },
+        function() {
+          var hb_img = document.getElementById("sc_img");
+          if (hotkey_value == true) {
+            hb_img.src = "../../../img/on_hotkey.png";
+          } else {
+            hb_img.src = "../../../img/off_hotkey.png";
+          }
+        }
+      );
     </script>
   </body>
 </html>
