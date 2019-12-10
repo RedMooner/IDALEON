@@ -73,17 +73,6 @@
     <script>
       //TEST
 
-      $("#nav-body-views").mouseenter(function() {
-        $("#nav-body-views").css("opacity", 0.1);
-
-        $("#nav-body-views").css(
-          "opacity",
-          document.getElementById("slider").value
-        );
-        document.getElementById("slider").value = document.getElementById(
-          "slider"
-        ).value;
-      });
       //TEST
       $(document).bind("drop dragover", function(e) {
         e.preventDefault();
